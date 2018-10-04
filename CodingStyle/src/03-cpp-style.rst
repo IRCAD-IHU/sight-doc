@@ -378,13 +378,33 @@ Class declaration
         #include <namespaceA/file.hpp>
         #include <namespaceA/file.hxx>
 
-Initializer list
+In-class member initialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. rule :: One initializer per line
+.. rule :: Always initialize member variables in-class at declaration.
+    
+    you should always initialize your member variables in-class as shown below.
+    
+    .. code-block :: cpp
 
-    In a class constructor, use the initialization list as much as possible. Place one initializer per line. Constructors of base classes should be placed first, followed by member variables. Do not specify an initializer if it is the default one (empty std::string for instance).
+        class SampleClass
+        {
+        
+            SampleClass();
+            ~SampleClass();
+            
+            int m_value {0};
+            
+            bool m_condition {true};
+            
+            std::string m_string {""};
+        
+        };
 
+.. rule :: Avoid constructor initialization
+
+    Pre-C++11 Constructor initialization should be avoided
+    
     .. code-block :: cpp
 
         SampleClass::SampleClass( const std::string& name, const int value ) :
@@ -394,18 +414,6 @@ Initializer list
             m_misc( 10 )
         {}
 
-.. recommendation :: Align everything that improves readability
-
-    To improve readability, you may align members on one hand and argument lists on the other hand.
-
-    .. code-block :: cpp
-
-        SampleClass::SampleClass( const std::string& name, const int value ) :
-            BaseClassOne  ( name ),
-            BaseClassTwo  ( name ),
-            m_value       ( value ),
-            m_misc        ( 10 )
-        {}
 
 Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
