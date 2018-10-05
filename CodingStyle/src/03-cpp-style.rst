@@ -397,21 +397,21 @@ In-class member initialization
             
             bool m_condition {true};
             
-            std::string m_string {""};
+            std::string m_string {"Hello World!"};
         
         };
 
 .. rule :: Avoid constructor initialization
 
-    Pre-C++11 Constructor initialization should be avoided
+    Pre-C++11 Constructor initialization should be avoided, only constructor parameters should be initialized here.
+    It is possible however to override default in-class initializations on your constructor.
     
     .. code-block :: cpp
 
         SampleClass::SampleClass( const std::string& name, const int value ) :
             BaseClassOne( name ),
             BaseClassTwo( name ),
-            m_value( value ),
-            m_misc( 10 )
+            m_string( "Goodbye World!" )
         {}
 
 
