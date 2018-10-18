@@ -4,7 +4,7 @@
 [*TutoQml*] Create an application with Qml
 ********************************************
 
-This page explain how to create an application using qml.  
+This page explain how to create an application using qml.
 
 Launch the UI
 ===============
@@ -187,7 +187,7 @@ Add the class `TutoQml::AppManager`.
         m_mesher      = this->addService("::opVTKMesh::SVTKMesher", "", true);
         m_modelWriter = this->addService("::uiIO::editor::SIOSelector", "", true);
 
-        // associate the oject to the services
+        // associate the object to the services
         m_imageLoader->setObjectId("data", s_IMAGE_SERIES_ID);
         m_mesher->setObjectId("imageSeries", s_IMAGE_SERIES_ID);
         m_mesher->setObjectId("modelSeries", s_MODELSERIES_ID);
@@ -328,8 +328,8 @@ VTK scene
 ============
 
 Now, we will explain how to display our objects with a VTK scene (::fwRenderVTK::SRender) into a qml interface. We
-render the scene into an offscreen frame buffer and then render it into a Qml widget. We use the
-`::fwVTKQml::FrameBufferItem` to render the scene.
+render the scene into an off-screen frame buffer and then render it into a Qml widget. We use the
+``::fwVTKQml::FrameBufferItem`` to render the scene.
 
 Example
 ---------------
@@ -404,7 +404,7 @@ Add the `FrameBufferItem` in the qml interface:
     }
 
 
-Then, we need to implement the slot `createVtkScene` in the AppManager to create the scene services and associte the
+Then, we need to implement the slot `createVtkScene` in the AppManager to create the scene services and associate the
 FrameBuffer.
 
 **AppManager.hpp:**
@@ -489,7 +489,7 @@ This editor should be declared as qml type in the `Plugin::start()` of the bundl
     }
 
 
-To be used as a services, the AppManager must be notified that the service is created. We usualy add a signal in the qml
+To be used as a services, the AppManager must be notified that the service is created. We usually add a signal in the qml
 file to notify the service creation like:
 
 .. code-block:: qml
@@ -596,8 +596,8 @@ In the AppManager, we implement the slot `onServiceCreated(const QVariant& obj, 
 Example
 ------------
 
-In our example, we will use the `uiReconstructionQml` bundle containing two qml files (`organMaterialEditorqml` and
-`representationEditor.qml`) in the *rc/* directory and the classes `SOrganMaterialEditor` and `SRepresentationEditor`.
+In our example, we will use the ``uiReconstructionQml`` bundle containing two qml files (``organMaterialEditorqml`` and
+``representationEditor.qml``) in the *rc/* directory and the classes ``SOrganMaterialEditor`` and ``SRepresentationEditor``.
 
 These two editors allows to change the color and the representation of a Reconstruction.
 
@@ -638,8 +638,8 @@ First, we add the two editors in our main qml file:
     }
 
 
-Then, we implement the method `onServiceCreated()` in the AppManager to register the service and its required object.
-This editor required a `Reconstruction`, we will use the first `Reconstruction` from the generated `ModelSeries`.
+Then, we implement the method ``onServiceCreated()`` in the AppManager to register the service and its required object.
+This editor required a ``Reconstruction``, we will use the first ``Reconstruction`` from the generated ``ModelSeries``.
 
 .. code-block:: cpp
 
@@ -671,7 +671,7 @@ This editor required a `Reconstruction`, we will use the first `Reconstruction` 
     }
 
 
-To register the `Reconstruction`, we retrieve the ModelSeries when it is meshed and get the first Reconstruction to
+To register the ``Reconstruction``, we retrieve the ModelSeries when it is meshed and get the first Reconstruction to
 add it in the AppManager.
 
 .. code-block:: cpp
