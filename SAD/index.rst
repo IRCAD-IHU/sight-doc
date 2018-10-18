@@ -9,6 +9,7 @@ Software Architecture Description (SAD)
    src/SDM-SAD-ObjService
    src/SDM-SAD-SigSlot
    src/SDM-SAD-App-config
+   src/SDM-SAD-AppManager
    src/SDM-SAD-Activities
    src/SDM-SAD-Thread
    src/SDM-SAD-Serialization
