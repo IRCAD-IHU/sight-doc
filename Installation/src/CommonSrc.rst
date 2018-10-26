@@ -134,3 +134,11 @@ Example:
 
     $ cd /Dev/Build/Debug
     $ ./bin/fwlauncher share/VRRender_0-9/profile.xml
+
+If you can't launch it, try it to launch it with your ``LD_LIBRARY_PATH``. 
+
+
+.. code:: bash
+
+    $ cd /Dev/Build/Debug
+    $ LD_LIBRARY_PATH=/home/login/Dev2/BinPkgs/Install/Debug/lib/ ./bin/fwlauncher share/sight/OgreViewer-0.2/profile.xml

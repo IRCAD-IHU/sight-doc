@@ -1,7 +1,7 @@
 Source tree layout
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Good practices in FW4SPL recommend to separate source files, build and install folders. 
+Good practices in Sight recommend to separate source files, build and install folders. 
 So to prepare the development environment, we propose to follow this layout:
 
 * Create a development folder (Dev)
@@ -74,7 +74,7 @@ In this case, you give all the necessary variables on the command-line in one sh
 .. code:: bash
 
     $ cd Dev/BinPkgs/Build/Debug
-    $ cmake ../../Src/fw4spl-deps -DCMAKE_INSTALL_PREFIX=Dev/BinPkgs/Install/Debug -DCMAKE_BUILD_TYPE=Debug 
+    $ cmake ../../Src/fw4spl-deps -DCMAKE_INSTALL_PREFIX=/home/login/Dev/BinPkgs/Install/Debug -DCMAKE_BUILD_TYPE=Debug 
 
 2. NCurses based editor
 *************************
