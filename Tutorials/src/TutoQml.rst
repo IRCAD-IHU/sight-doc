@@ -67,13 +67,14 @@ Create the file `ui.qml`:
 Then in the ``Plugin.cpp``, implement the `initialize()` method like:
 
 .. code-block:: cpp
+
     void Plugin::initialize()
     {
         // get the QmlApplicationEngine
         SPTR(::fwQml::QmlEngine) engine = ::fwQml::QmlEngine::getDefault();
 
         // get the path of the qml file in the 'rc' directory
-        auto path = ::fwRuntime::getBundleResourceFilePath("TutoQml", "ui.qml");
+        const auto path = ::fwRuntime::getBundleResourceFilePath("TutoQml", "ui.qml");
 
         // launch the qml component
         engine->loadMainComponent(path);
@@ -84,7 +85,7 @@ Manage F4S servicesReg
 ============================
 
 To manage your services in your application, you can use a `::fwServices::AppManager`. This class helps to create, start
-and stop the services according to their associated the data. It also allows to manage the connections.
+and stop the services according to their associated data. It also allows to manage the connections.
 
 The easiest way is to add a class in your App that inherits from the AppManager and inherits from QObject to be
 instantiated in Qml.
@@ -477,7 +478,7 @@ Use editors in Qml
 =====================
 
 To make the connection between qml and our cpp data, we created the `::fwQml::IQmlEditor` service type. This class should
-be inherited (like the `::fwGui::editor::IEditor` and be associated to a qml file.
+be inherited (like the `::fwGui::editor::IEditor`) and be associated to a qml file.
 
 This editor should be declared as qml type in the `Plugin::start()` of the bundle like:
 
@@ -489,7 +490,7 @@ This editor should be declared as qml type in the `Plugin::start()` of the bundl
     }
 
 
-To be used as a services, the AppManager must be notified that the service is created. We usually add a signal in the qml
+To be used as a service, the AppManager must be notified that the service is created. We usually add a signal in the qml
 file to notify the service creation like:
 
 .. code-block:: qml
@@ -580,7 +581,7 @@ In the AppManager, we implement the slot `onServiceCreated(const QVariant& obj, 
         if (srv)
         {
             // check if it is the desired editor
-            if (srv->isA("::muyBundle::MyEditor") && id == "myEditor1")
+            if (srv->isA("::myBundle::MyEditor") && id == "myEditor1")
             {
                 // eventually associate the objects
                 srv->setObjectId("obj", s_OBJ_ID);
