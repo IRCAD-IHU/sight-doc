@@ -381,9 +381,9 @@ Class declaration
 In-class member initialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. rule :: Always initialize member variables in-class at declaration.
+.. rule :: Favor initializion of member variables in-class at declaration.
     
-    you should always initialize your member variables in-class as shown below.
+    You should favor in-class initialization for your member variables as shown below.
     
     .. code-block :: cpp
 
@@ -403,7 +403,7 @@ In-class member initialization
 
 .. rule :: Avoid constructor initialization
 
-    Pre-C++11 Constructor initialization should be avoided, only constructor parameters should be initialized here.
+    Constructor initialization should be avoided, only constructor parameters should be initialized here.
     It is possible however to override default in-class initializations on your constructor.
     
     .. code-block :: cpp
