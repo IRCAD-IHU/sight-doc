@@ -25,6 +25,7 @@ First, you need to install `Python <https://www.python.org/downloads/>`_
 	- Add Python to your PATH	: SET PATH=%PATH%;C:\Python27
 	- Add Python Script    : SET PATH=%PATH%;C:\Python27\Scripts
 	- Use pip to install Sphinx    : pip install sphinx
+    - Use pip to install Sphinx rtd-theme   : pip install sphinx_rtd_theme
 
 Once sphinx is installed, launch the following command at the root of your local copy to generate html documentation:
 ```
