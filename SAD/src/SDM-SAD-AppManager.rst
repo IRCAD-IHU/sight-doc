@@ -3,8 +3,9 @@
 AppManager
 =======================
 
-This class allows to manage the service used by an application. We can easily manage its inputs/inouts and the
-connections. It connects/disconnects the signals and slots when the service is started/stopped and when an object is added/removed.
+This class allows to manage the services used by an application. We can easily manage inputs/inouts/ouputs and the
+connections between them. It connects/disconnects the signals and slots when the service is
+started/stopped and when an object is added/removed.
 
 Manage services
 -----------------
@@ -18,8 +19,9 @@ a new object, the services will be started.
 Manage objects
 ---------------
 
-The service can know their required object, it should be define in the constructor with
-``registerObject(key, access, autoConnect, optional)``:
+
+In order to specified the required objects for your service, you can define it in the constructor as follows :
+``registerObject(key, access, autoConnect, optional)``.
 
 .. code-block:: cpp
 
