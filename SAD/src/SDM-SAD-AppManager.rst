@@ -40,7 +40,7 @@ Then, you can associate an object with its identifier used in the AppManager usi
     appManager->addObject(image, "objectId");
 
 
-You can also register an object that is not define in the constructor (or change the autoConnect/optional attributes)
+You can also register an object that is not defined in the constructor (or change the autoConnect/optional attributes)
 using ``registerObject(objecId, objectKey, access, autoConnect, optional)``.
 
 .. code-block:: cpp
