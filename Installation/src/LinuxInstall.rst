@@ -11,6 +11,7 @@ If not already installed:
 #. Install `Python 2.7 <https://www.python.org/downloads/>`_
 #. Install `CMake <http://www.cmake.org/download/>`_. The minimal version required is **3.7** if you want to compile with precompiled headers (build twice faster, enabled by default). Otherwise you can use a 3.1 version.
 #. Install `Ninja <https://ninja-build.org/>`_
+#. Install packages `libx264-dev <https://packages.debian.org/sid/libx264-dev/>`_ and `libx265-dev <https://packages.debian.org/sid/libx265-dev/>`_
 
 Depending on which linux distribution you use, for example on **Debian/Ubuntu/Mint** you can run the following command to download and install these tools:
 
