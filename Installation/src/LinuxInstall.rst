@@ -11,7 +11,6 @@ If not already installed:
 #. Install `Python 2.7 <https://www.python.org/downloads/>`_
 #. Install `CMake <http://www.cmake.org/download/>`_. The minimal version required is **3.7** if you want to compile with precompiled headers (build twice faster, enabled by default). Otherwise you can use a 3.1 version.
 #. Install `Ninja <https://ninja-build.org/>`_
-#. Install packages `libx264-dev <https://packages.debian.org/sid/libx264-dev/>`_ and `libx265-dev <https://packages.debian.org/sid/libx265-dev/>`_
 
 Depending on which linux distribution you use, for example on **Debian/Ubuntu/Mint** you can run the following command to download and install these tools:
 
@@ -27,13 +26,13 @@ Depending on which linux distribution you use, for example on **Debian/Ubuntu/Mi
         # ~/.bashrc
         export PATH=/home/login/software/cmake/bin:$PATH
 
-Few basic development libraries need to be installed first: ``zlib``, ``iconv``, ``jpeg``, ``png``, ``tiff``, ``freetype``, ``fontconfig``, ``libxml``, ``expat``, and ``icu``. On **Mint 18.x** for instance, you can install them using the following command :
+A few basic development libraries need to be installed first: ``libx264-dev``, ``libx265-dev``, ``zlib``, ``iconv``, ``jpeg``, ``png``, ``tiff``, ``freetype``, ``fontconfig``, ``libxml``, ``expat``, and ``icu``. On **Mint 18.x** for instance, you can install them using the following command :
 
 .. code:: bash
 
     $ sudo apt-get install libz3-dev libiconv-hook-dev libpng12-dev \
       libjpeg-turbo8-dev libtiff5-dev libfreetype6-dev libxml2-dev \
-      libexpat1-dev libicu-dev libfontconfig1-dev
+      libexpat1-dev libicu-dev libfontconfig1-dev libx264-dev libx265-dev
 
 Next, we also need to install specific development libraries for **Qt**. These requirements are detailed here:
 
