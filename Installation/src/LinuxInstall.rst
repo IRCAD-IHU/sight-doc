@@ -26,7 +26,7 @@ Depending on which linux distribution you use, for example on **Debian/Ubuntu/Mi
         # ~/.bashrc
         export PATH=/home/login/software/cmake/bin:$PATH
 
-A few basic development libraries need to be installed first: ``libx264-dev``, ``libx265-dev``, ``zlib``, ``iconv``, ``jpeg``, ``png``, ``tiff``, ``freetype``, ``fontconfig``, ``libxml``, ``expat``, and ``icu``. On **Mint 18.x** for instance, you can install them using the following command :
+A few basic development libraries need to be installed first: ``x264``, ``x265``, ``zlib``, ``iconv``, ``jpeg``, ``png``, ``tiff``, ``freetype``, ``fontconfig``, ``libxml``, ``expat``, and ``icu``. On **Mint 18.x** for instance, you can install them using the following command :
 
 .. code:: bash
 
