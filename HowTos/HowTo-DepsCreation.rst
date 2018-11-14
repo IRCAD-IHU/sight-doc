@@ -2,18 +2,18 @@
 How to add a new Dependency ?
 ******************************
 
-fw4spl dependencies are based on the `ExternalProject <http://www.cmake.org/cmake/help/v3.0/module/ExternalProject.html>`_ concept.
+Sight dependencies are based on the `ExternalProject <http://www.cmake.org/cmake/help/v3.0/module/ExternalProject.html>`_ concept.
 
 The concept is to create custom targets to build projects in external trees.
 Each project has custom steps for download, update/patch, configure, build and install.
 
-You may want to add a new dependency into fw4spl-deps or you may want to add your own folder of dependencies.
+You may want to add a new dependency into sight-deps or you may want to add your own folder of dependencies.
 
 .. tip::
-    You need to know that the main CMakeLists.txt is in fw4spl-deps, and you can add as many additional folders as you want.
+    You need to know that the main CMakeLists.txt is in sight-deps, and you can add as many additional folders as you want.
     Use the ``ADDITONNAL_DEPS`` option in cmake to set the path of your custom dependency.
 
-Add a new dependency in fw4spl-deps
+Add a new dependency in sight-deps
 ------------------------------------
 
 Adding a new dependency is quite easy, the only things to do is to add a new folder *myNewDeps* and put a CMakeLists.txt
@@ -74,7 +74,7 @@ The important parts are in the *ExternalProject_Add* function:
 Add a custom dependency repository
 ------------------------------------
 
-You may want to add your own folder of dependencies (as fw4spl-ext-deps). In this case your main need to create a
+You may want to add your own folder of dependencies. In this case your main need to create a
 CMakeLists.txt in the root of your folder (myDepsFolder/CMakeLists.txt) in order to list the subdirectories of your dependencies.
 
 .. code-block:: cmake

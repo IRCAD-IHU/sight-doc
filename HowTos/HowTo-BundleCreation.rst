@@ -2,7 +2,7 @@
 How to create a bundle, a lib, an executable or an application ?
 *******************************************************************
 
-In fw4spl, the bundles, libraries, applications and executables are folders containing:
+In sight, the bundles, libraries, applications and executables are folders containing:
 
 - [required] two files to generate the *CMake* target: ``CMakeLists.txt`` and ``Properties.cmake`` (see :ref:`HowCMake`).
 - [optional] *include* and *src* folder to contain the header and source files.
@@ -14,7 +14,7 @@ In fw4spl, the bundles, libraries, applications and executables are folders cont
 How to create a bundle ?
 ==========================
 
-In fw4spl, you will encounter two types of bundles:
+In sight, you will encounter two types of bundles:
 
 - the bundles containing only XML configurations
 - the bundles containing services or other cpp code
