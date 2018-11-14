@@ -1,5 +1,5 @@
 *********************
-FW4SPL documentation
+Sight documentation
 *********************
 
 .. toctree::
@@ -12,6 +12,5 @@ FW4SPL documentation
    FAQ/index
    Testing/index
    CodingStyle/index
-   Doxygen <http://fw4spl-org.github.io/fw4spl-dox/>
    SAD/index
 
