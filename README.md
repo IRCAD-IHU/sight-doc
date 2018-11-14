@@ -20,7 +20,7 @@ Building the documentation with Windows
 =======================================
 
 In order to build this documentation, you will need to install Sphinx (especially the sphinx-build command).
-First, you need to install `Python <https://www.python.org/downloads/>`_
+First, you need to install [Python](https://www.python.org/downloads/)
 
 - Add Python to your PATH
 ```
