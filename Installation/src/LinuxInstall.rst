@@ -44,14 +44,12 @@ Since we build Qt with openssl support you also need to install ``libssl-dev`` (
 
 If you plan to build extra dependencies, the VLC libraries are also needed, regarding to streaming capabilities, and thus the packages: ``libvlc-dev``, ``libvlccore-dev`` and ``vlc-nox``, are required.
 
-Finally, please note that we provide Dockerfile at this `link <https://github.com/fw4spl-org/docker-fw4spl-deps>`_. You can have a look at the Dockerfile to get the precise list of commands needed to install dependencies.
-
 .. include:: CommonDeps.rst
 
 Build
 ~~~~~~~~~
 
-Now you can compile the FW4SPL dependencies with make in the console, it will automatically download, build and install each dependency.
+Now you can compile the Sight dependencies with make in the console, it will automatically download, build and install each dependency.
 
 .. code:: bash
 
