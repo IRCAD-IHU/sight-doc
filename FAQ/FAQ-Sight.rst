@@ -1,25 +1,24 @@
-
-What is fw4spl?
+What is sight?
 ===============
 
-The framework FW4SPL (FrameWork for Software Production) is an open-source 
+The framework Sight (Surgical Image Guidance and Health-care Toolkit) is an open-source 
 framework, developed by IRCAD (research institute against cancer and disease). 
-The purpose of FW4SPL is to ease the creation of applications in the medical imaging field.
+The purpose of Sight is to ease the creation of applications in the medical imaging field.
 Therefore it provides features like digital image
 processing in 2D and 3D, visualization or simulation of medical interactions.
 
-Building an application with FW4SPL only requires to write one or several XML files. 
+Building an application with Sight only requires to write one or several XML files. 
 Its functionalities can be also extended by writing new components in C++, which is the coding language of the framework.
 
-What does fw4spl mean?
+What does sight mean?
 ======================
 
-FW4SPL means FrameWork for Software Production Line. It is also called F4S ("forces").
+Sight means Surgical Image Guidance and Health-care Toolkit.
 
-What are the features of fw4spl?
+What are the features of sight?
 =======================================
 
-FW4SPL is based on a component architecture composed of C++ libraries. 
+Sight is based on a component architecture composed of C++ libraries. 
 The three main concepts of the architecture, explained in the following sections, are:
 
 -  object-service concept
@@ -27,22 +26,21 @@ The three main concepts of the architecture, explained in the following sections
 -  signal-slot communication
 
 The framework is multi-platform and runs under Windows, Linux, and MacOS. 
-Building an application with FW4SPL only requires to write one or several XML files. 
+Building an application with Sight only requires to write one or several XML files. 
 Its functionalities can be also extended by writing new components in C++, which is the coding language of the framework.
 
 
-Which platforms does fw4spl run on?
+Which platforms does sight run on?
 ===================================
 
 This framework can run under Windows, Linux and MacOS.
 
-Where can I find applications developed with fw4spl ?
+Where can I find applications developed with sight ?
 ======================================================
 
-Some tutorials are provided with the framework and you can also build :ref:`VRRender<fw4spl>`, a free visualization software. With :ref:`fw4spl-ar<fw4spl-ar>` repository, you can
-also get ARCalibration, a user-friendly camera calibration tool.
+Some tutorials are provided with the framework and you can also build :ref:`VRRender<sight>`, a free visualization software or ARCalibration, a user-friendly camera calibration tool.
 
-Which prerequistes do I need to develop new services and bundles ?
+Which prerequisites do I need to develop new services and bundles ?
 =====================================================================
 
 You must have a good knowledge in C++. Concerning the configuration files, they are written in XML.
@@ -50,14 +48,15 @@ You must have a good knowledge in C++. Concerning the configuration files, they 
 What are the BinPkgs?
 ======================
 
-The BinPkgs (binary packages) contain all the extern libraries needed by fw4spl. For each BinPkg, a CMakeLists provides the OS specific instructions to build it . They can be downloaded on https://github.com/fw4spl-org/fw4spl-deps.
+The BinPkgs (binary packages) contain all the extern libraries needed by sight. For each BinPkg, a CMakeLists provides the OS specific instructions to build it.
+They can be downloaded on https://git.ircad.fr/sight/sight-deps.
 
-Is it difficult to compile an application with fw4spl?
+Is it difficult to compile an application with sight?
 ======================================================
 
 No, it isn't. You just have to compile all the bundles and libraries used by the application. Please follow the :ref:`installation instructions<Installation>` for your platform.
 
-Why does fw4spl provide a launcher?
+Why does sight provide a launcher?
 ===================================
 
 The launcher is used to create the entry point of the application. It parses the profile and configuration xml file to build it.
