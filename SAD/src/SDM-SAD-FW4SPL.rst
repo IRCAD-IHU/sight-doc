@@ -17,7 +17,7 @@ The three main concepts of the architecture, explained in the following sections
 -  component approach
 -  signal-slot communication
 
-The framework is multi-platform and runs under Windows, Linux, MacOS and Android. 
+The framework is multi-platform and runs under Windows, Linux and MacOS. 
 Building an application with FW4SPL only requires to write one or several XML files. 
 Its functionalities can be also extended by writing new components in C++, which is the coding language of the framework.
 
