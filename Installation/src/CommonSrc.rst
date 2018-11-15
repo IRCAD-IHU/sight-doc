@@ -50,7 +50,7 @@ To use ninja :
     $ cd Dev/Build/Debug
     $ ccmake -G Ninja ../../Src/sight
     
-.. image:: ../media/cmake_fw4spl.png
+.. image:: ../media/cmake_sight.png
 
 * Change the following cmake arguments
     - ``CMAKE_INSTALL_PREFIX``: set the install location, here ``~/Dev/Install/Debug``
