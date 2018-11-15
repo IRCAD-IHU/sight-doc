@@ -1,7 +1,7 @@
 Description
 ===========
 
-This repository contains the documentation of FW4SPL. The main repository is available [here](https://github.com/fw4spl-org/fw4spl).
+This repository contains the documentation of Sight. The main repository is available [here](https://git.ircad.fr/Sight/sight).
 
 Building the documentation with Linux/MacOS
 ===========================================
