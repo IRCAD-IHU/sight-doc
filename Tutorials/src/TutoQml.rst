@@ -9,7 +9,7 @@ This page explain how to create an application using qml.
 Launch the UI
 ===============
 
-The application is declare in a bundle of type `APP` (see https://fw4spl.readthedocs.io/en/dev/HowTos/HowTo-BundleCreation.html).
+The application is declare in a bundle of type `APP` (see :ref:`BundleCreation<bundleCreation>`).
 The base of the application is located in the `Plugin` class.
 
 To launch an qml interface, write your qml document in the *rc/* directory of your App. And then launch it from the
@@ -81,8 +81,8 @@ Then in the ``Plugin.cpp``, implement the `initialize()` method like:
     }
 
 
-Manage F4S servicesReg
-============================
+Manage servicesReg
+===================
 
 To manage your services in your application, you can use a `::fwServices::AppManager`. This class helps to create, start
 and stop the services according to their associated data. It also allows to manage the connections.

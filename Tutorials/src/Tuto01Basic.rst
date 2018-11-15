@@ -16,13 +16,13 @@ application configuration and CMake generation.
 Prerequisites
 --------------
 
-You should have properly installed your fw4spl environment (see :ref:`Installation`).
+You should have properly installed your sight environment (see :ref:`Installation`).
  
 
 Structure
 ----------
 
-fw4spl is organized around four elements: the ``application``, the ``bundle``, the ``library`` and the ``utility``.
+Sight is organized around four elements: the ``application``, the ``bundle``, the ``library`` and the ``utility``.
 
 The ``applications`` contain the configuration of the ``bundles`` (and its services) to launch. The ``bundles`` contain
 the cpp implementation of the services, it may also contain some application sub-configuration. The ``libraries`` 
@@ -32,7 +32,7 @@ the ``libraries``.
 In this example, we will only explain how to create a basic application with the existing bundles. Further Tutorials 
 will explain how to use and create services and bundles.
 
-A fw4spl application is organized around three main files : 
+A sight application is organized around three main files : 
  * CMakeLists.txt
  * Properties.cmake
  * plugin.xml
