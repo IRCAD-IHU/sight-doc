@@ -248,7 +248,9 @@ De façon générale, les erreurs sont remontées de façon plus explicite en es
 2.10. Versions
 ----------------
 
-**AppXml2** est une évolution majeure sur la branche *fw4spl_0.11.0*. La compatibilité avec **appXml** restera assurée tout au long du cyle sur *fw4spl_0.11*. Nous prévoyons de supprimer appXml à partir de la branche *fw4spl_0.12.0*.
+**AppXml2** est une évolution majeure sur *Sight 11.0*. 
+La compatibilité avec **appXml** restera assurée tout au long du cyle sur *Sight 11*. 
+Nous prévoyons de supprimer appXml à partir de la branche *Sight 12.0*.
 
 3. Guide de migration
 ===========================
