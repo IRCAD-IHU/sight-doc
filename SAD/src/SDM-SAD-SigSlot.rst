@@ -15,10 +15,10 @@ The concept is that objects and services(explained in 2.3) can send signals cont
 received by other services using special functions known as slots.
 
 
-FW4SPL implementation
+Sight implementation
 ---------------------
 
-In the FW4SPL architecture, the library ``fwCom`` provides a set of tools
+In the Sight architecture, the library ``fwCom`` provides a set of tools
 dedicated to communication. These communications are based on the signal and
 slot concept.
 
@@ -364,7 +364,7 @@ The base class ``::fwData::Object`` has the following signals available.
 Object                          {``modified``, ``addedFields``, ``changedFields``, ``removedFields``}
 =============================== =====================================================================================================
 
-Thus all objects in FW4SPL can use the previous signals. Some object classes define extra signals.
+Thus all objects in Sight can use the previous signals. Some object classes define extra signals.
 
 =============================== =====================================================================================================
   Objects                       Available messages

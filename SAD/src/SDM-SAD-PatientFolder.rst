@@ -14,7 +14,7 @@ Roni Z. 2011. Introduction to DICOM [#]_:
 
 |
 
-The objects representing the medical patient data In FW4SPL are aligned with the DICOM standard. In the library ``fwMedData`` several structures and values have been retrieved:
+The objects representing the medical patient data In Sight are aligned with the DICOM standard. In the library ``fwMedData`` several structures and values have been retrieved:
 
 - ``Patient``: name, primary hospital identification number, birth date and sex.
 - ``Study``: unique identifier of the study, study date and time, referring
@@ -25,7 +25,7 @@ The objects representing the medical patient data In FW4SPL are aligned with the
   originally acquired the data used to create this series, series date and
   time, series description, name of the physician(s) administering the series.
 
-In FW4SPL, the class ``Series`` is the main structure and contains pointers
+In Sight, the class ``Series`` is the main structure and contains pointers
 to Patient, Study and Equipment structure. The class ``SeriesDB`` is a
 container holding several instances of the ``Series`` class.
 
