@@ -74,7 +74,7 @@ A bundle could contain several configurations, they are in the ``plugin.xml`` fi
 
 The ``@PROJECT_VERSION@`` will be automatically replaced by the version defined in the Properties.cmake.
 
-The ``<requirement>`` tags contain the bundles that must be started before to start your bundle (see https://rawgit.com/fw4spl-org/fw4spl-dox/dev/group__requirement.html).
+The ``<requirement>`` tags contain the bundles that must be started before to start your bundle (see https://sight.pages.ircad.fr/sight/group__requirement.html).
 
 Then the extensions are defined. There are different types of extensions, the most common are:
 

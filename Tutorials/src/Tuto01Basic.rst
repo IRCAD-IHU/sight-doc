@@ -136,7 +136,7 @@ The ``::fwServices::registry::AppConfig`` extension defines the configuration of
     For this tutorial, we have no object and only one service ``::gui::frame::SDefaultFrame``.    
     There are few others tags that will be described in the next tutorials.
 
-.. _Requirements: https://rawgit.com/fw4spl-org/fw4spl-dox/dev/group__requirement.html
+.. _Requirements: https://sight.pages.ircad.fr/sight/group__requirement.html
 
 Run
 ----
