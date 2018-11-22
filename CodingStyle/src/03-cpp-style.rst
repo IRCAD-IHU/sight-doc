@@ -411,8 +411,26 @@ In-class member initialization
         SampleClass::SampleClass( const std::string& name, const int value ) :
             BaseClassOne( name ),
             BaseClassTwo( name ),
-            m_string( "Goodbye World!" )
+            m_string    ( "Goodbye World!" )
         {}
+
+.. rule :: One initializer per line in constructor initialization
+
+In a class constructor, place one initializer per line. Constructors of base classes should be placed first, do not specify an initializer if it is the default one (empty std::string for instance).
+
+.. recommendation :: Align everything that improves readability
+
+To improve readability, you may align members on one hand and argument lists on the other hand.
+
+    .. code-block :: cpp
+
+        SampleClass::SampleClass( const std::string& name, const int value ) :
+            BaseClassOne  ( name ),
+            BaseClassTwo  ( name ),
+            m_value       ( value ),
+            m_misc        ( 10 )
+         {}
+
 
 
 Functions
