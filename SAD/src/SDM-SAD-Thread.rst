@@ -51,7 +51,7 @@ Michael K. Gschwind, et al. [#]_
 Worker and Timer
 ----------------
 
-In the FW4SPL architecture, the library ``fwThread`` provides few tools to execute
+In the Sight architecture, the library ``fwThread`` provides few tools to execute
 asynchronous tasks on different threads.
 
 In this library, the class ``Worker`` creates and manages a task loop. The default
@@ -98,7 +98,7 @@ Mutex
 -----
 
 The namespace ``fwCore::mt`` provides common foundations for multithreading in
-FW4SPL, especially tools to manage mutual exclusions. In computer science,
+Sight, especially tools to manage mutual exclusions. In computer science,
 mutual exclusion refers to the requirement of ensuring that two concurrent
 threads are not in a critical section at the same time, it is a basic
 requirement in concurrency control, to prevent race conditions. Here, a
@@ -106,7 +106,7 @@ critical section refers to a period when the process accesses a shared
 resource, such as shared memory. A lock system is designed to enforce a mutual
 exclusion concurrency control policy.
 
-Currently, FW4SPL uses Boost Thread library which allows the use of multiple
+Currently, Sight uses Boost Thread library which allows the use of multiple
 execution threads with shared data, keeping the C++ code portable.
 ``fwCore::mt`` defines a few typedef over Boost:
 

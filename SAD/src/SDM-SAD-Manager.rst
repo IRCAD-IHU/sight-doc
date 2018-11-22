@@ -1,7 +1,7 @@
 Manager and updater services
 ==================================
 
-In the FW4SPL architecture, there are container objects like ``::fwData::Composite``, ``::fwData::Vector`` and 
+In the Sight architecture, there are container objects like ``::fwData::Composite``, ``::fwData::Vector`` and 
 ``::fwMedData::SeriesDB``. The ``::fwData::Composite`` is also an Object and represents a map
 which associates a string with an Object. The architecture provides a service to manage these objects ``::ctrlSelection::SManage``.
 

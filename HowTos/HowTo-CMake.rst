@@ -1,12 +1,12 @@
 .. _HowCMake:
 
-How to use CMake with fw4spl ?
+How to use CMake with sight ?
 ===============================
 
 Introduction
 -------------
 
-Fw4spl and its dependencies are built with `CMake <http://www.cmake.org/>`_ .
+Sight and its dependencies are built with `CMake <http://www.cmake.org/>`_ .
 Note that the minimal version of cmake to have is 3.9.
 
 
@@ -48,7 +48,7 @@ Here is an example of CMakeLists.txt from guiQt Bundle :
 
 The first line *fwLoadProperties()* will load the *Properties.cmake* (see explanation in the next section).
 
-The next lines allows to compile with the support of some external libraries (fw4spl-deps), in this example this is Qt. 
+The next lines allows to compile with the support of some external libraries (sight-deps), in this example this is Qt. 
 The first thing to do is to discover where Qt is installed. This is done with the regular CMake command ``find_package(The_lib COMPONENTS The_component)``.
 Then we use ``fwInclude`` to add includes directories to the target, and ``fwLink`` to link the libraries with your target. 
 Actually if you're accustomed to CMake these two macros are strictly equivalent to: 

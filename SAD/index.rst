@@ -5,7 +5,7 @@ Software Architecture Description (SAD)
 .. toctree::
    :maxdepth: 2
 
-   src/SDM-SAD-FW4SPL
+   src/SDM-SAD-Sight
    src/SDM-SAD-ObjService
    src/SDM-SAD-SigSlot
    src/SDM-SAD-App-config
