@@ -9,7 +9,7 @@ If not already installed:
 #. Install `git <https://git-scm.com/>`_
 #. Install `gcc <https://gcc.gnu.org/>`_ The minimal version required is 4.8 or `clang <http://clang.llvm.org/>`_ The minimal version required is 3.5
 #. Install `Python 2.7 <https://www.python.org/downloads/>`_
-#. Install `CMake <http://www.cmake.org/download/>`_. The minimal version required is **3.7** if you want to compile with precompiled headers (build twice faster, enabled by default). Otherwise you can use a 3.13 version.
+#. Install `CMake <http://www.cmake.org/download/>`_. Use 3.13 version.
 #. Install `Ninja <https://ninja-build.org/>`_
 
 Depending on which linux distribution you use, for example on **Debian/Ubuntu/Mint** you can run the following command to download and install these tools:
@@ -34,8 +34,7 @@ A few basic development libraries need to be installed first: ``x264``, ``x265``
       libjpeg-turbo8-dev libtiff5-dev libfreetype6-dev libxml2-dev \
       libexpat1-dev libicu-dev libfontconfig1-dev libx264-dev libx265-dev
 
-On **Mint 19**, you don't need to install the libpng.
-Next, we also need to install specific development libraries for **Qt**. Please before doing the requirements, you must read the next paragraph. These requirements are detailed here:
+Next, we also need to install specific development libraries for **Qt**. Please before following the requirements, you must read the next paragraph. These requirements are detailed here:
 
 - http://wiki.qt.io/Building_Qt_5_from_Git
 
@@ -45,16 +44,13 @@ Since we build Qt with openssl support you also need to install ``libssl-dev`` (
 
 If you plan to build extra dependencies, the VLC libraries are also needed, regarding to streaming capabilities, and thus the packages: ``libvlc-dev``, ``libvlccore-dev`` and ``vlc-nox``, are required.
 
-Finally, please note that we provide Dockerfile at this `link <https://github.com/fw4spl-org/docker-fw4spl-deps>`_. You can have a look at the Dockerfile to get the precise list of commands needed to install dependencies. 
-You need to downgrade your openssl version. Install the ``libssl1.0-dev`` library.
-
 .. include:: CommonDeps.rst
 
 
 Build
 ~~~~~~~~~
 
-Now you can compile the Sight dependencies with make in the console, it will automatically download, build and install each dependency. If there are any errors, simply remake the command. You will correct them when you have the same error.
+Now you can compile the Sight dependencies with make in the console, it will automatically download, build and install each dependency.
 When you're done with the build, don't forget to **make install** in your Build directory.
 
 .. code:: bash

@@ -122,7 +122,7 @@ Example:
     $ cd /Dev/Build/Debug
     $ ./bin/fwlauncher share/VRRender_0-9/profile.xml
 
-If you can't launch it, try it to launch it with your ``LD_LIBRARY_PATH``. 
+[LINUX]: If you can't launch it, try to launch it by using ``LD_LIBRARY_PATH``. 
 
 
 .. code:: bash
