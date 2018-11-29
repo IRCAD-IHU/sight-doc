@@ -21,7 +21,7 @@ Please remove this notice if you're confident your issue isn't a duplicate.
 * Compiler: (gcc/clang/... & version)
 * Build type: (debug/release)
 * Commit: (current commit or tag)
-  * (Any related repository commit/tag e.g fw4spl-deps, fw4spl, fw4spl-ar ...)
+  * (Any related repository commit/tag e.g sight-deps, sight...)
 
 
 ### What is the current *bug* behavior?

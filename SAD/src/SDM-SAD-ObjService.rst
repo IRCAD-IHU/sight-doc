@@ -9,7 +9,7 @@ which contains the data and the algorithms. For instance, a class Image contains
 
 This design works well, but has some drawbacks. First the code of the class implementation can become very big if you put everything in it, making collaborative work harder. Then if you use different third-party libraries in your methods (for instance DCMTK for I/O, VTK for visualization, OpenCV or ITK for the filtering methods), your class becomes dependent of all of these libraries even if you only need one or two functionalities. If we want something modular, that does not work. Last, because of the two previous points, the maintenance of source code is quite tough.
 
-Instead, FW4SPL proposes an *Object-Service* paradigm where data and algorithms are separated into different code units.
+Instead, Sight proposes an *Object-Service* paradigm where data and algorithms are separated into different code units.
 
 Object
 -------
@@ -27,7 +27,7 @@ For instance, the ``Image`` object:
 - does not have methods such as reading or writing a buffer
 
 The ``fwData`` library contains the standard simple and advanced data.
-It is the main data library of FW4SPL. There is also the ``fwMedData`` library which
+It is the main data library of Sight. There is also the ``fwMedData`` library which
 contains several structures to store medical data.
 A data list with a brief description is available in the appendixes.
 
@@ -81,7 +81,7 @@ or a service working on a image and a mesh, a mesher.
 Service type
 ~~~~~~~~~~~~
 
-Some service categories exist in FW4SPL. These categories are called *service
+Some service categories exist in Sight. These categories are called *service
 types* and are represented by an abstract class. The basic service types are:
 
 - ``::fwIO::IReader``: base interface for reader services.
@@ -145,7 +145,7 @@ The calling sequence to manage a service is:
     ::fwServices::ORS::unregisterService(mySrv); // destroy the service
 
 .. note::
-    FW4SPL extensively uses `std::shared_ptr <http://en.cppreference.com/w/cpp/memory/shared_ptr>`_ to handle objects
+    Sight extensively uses `std::shared_ptr <http://en.cppreference.com/w/cpp/memory/shared_ptr>`_ to handle objects
     and services. The basic declaration macros of data and services define a typedef ``sptr`` as an alias to
     ``std::shared_ptr<this_class>`` and a typedef ``csptr`` as an alias to ``std::shared_ptr<const this_class>``.
 
@@ -277,7 +277,7 @@ The service must be created by the factory:
 Object-Service registry (OSR)
 ------------------------------
 
-The FW4SPL architecture is standardized thanks to:
+The Sight architecture is standardized thanks to:
 
 - Abstract classes ``::fwData::Object`` and ``::fwService::IService``.
 - The two factory systems.
@@ -444,5 +444,5 @@ and visualize it. You can easily transform this code to build an application
 which reads and displays a 3D mesh by changing object and services
 implementation strings only.
 
-However, most applications made with FW4SPL are not built this way. Instead, we use :ref:`AppConfig<App-config>`,
+However, most applications made with Sight are not built this way. Instead, we use :ref:`AppConfig<App-config>`,
 which allows to simplify the code above by a declarative approach based on XML files.

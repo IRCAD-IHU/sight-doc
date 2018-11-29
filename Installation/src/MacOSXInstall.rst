@@ -36,7 +36,7 @@ If you plan to build extra dependencies, the `VLC <https://www.videolan.org/vlc/
 Build
 ~~~~~~~~
 
-Now you can compile the FW4SPL dependencies with make in the console, it will automaticaly download, build and install each dependency.
+Now you can compile the Sight dependencies with make in the console, it will automaticaly download, build and install each dependency.
 
 .. code:: bash
 

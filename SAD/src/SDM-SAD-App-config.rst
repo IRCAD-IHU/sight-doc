@@ -11,7 +11,7 @@ behavior by simply changing the appropriate data and services. For example chang
 to a 3D model visualization application. Unfortunately, this is limited to applications based on one service and one data,
 and thus it would be impossible to apply to applications containing multiple services and objects.
 
-To overcome this, the FW4SPL architecture provides a dynamic management of configurations to allow the use of multiple objects and services.
+To overcome this, the Sight architecture provides a dynamic management of configurations to allow the use of multiple objects and services.
 
 The xml configuration for an application is defined with the extension ``::fwServices::registry::AppConfig``.
 

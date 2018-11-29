@@ -1,7 +1,7 @@
 Installation for Linux
 ======================
 
-Prerequisites 
+Prerequisites
 ---------------
 
 If not already installed:
@@ -26,13 +26,13 @@ Depending on which linux distribution you use, for example on **Debian/Ubuntu/Mi
         # ~/.bashrc
         export PATH=/home/login/software/cmake/bin:$PATH
 
-Few basic development libraries need to be installed first: ``zlib``, ``iconv``, ``jpeg``, ``png``, ``tiff``, ``freetype``, ``libxml``, ``expat``, and ``icu``. On **Mint 18.x** for instance, you can install them using the following command : 
+A few basic development libraries need to be installed first: ``x264``, ``x265``, ``zlib``, ``iconv``, ``jpeg``, ``png``, ``tiff``, ``freetype``, ``fontconfig``, ``libxml``, ``expat``, and ``icu``. On **Mint 18.x** for instance, you can install them using the following command :
 
 .. code:: bash
 
     $ sudo apt-get install libz3-dev libiconv-hook-dev libpng12-dev \
       libjpeg-turbo8-dev libtiff5-dev libfreetype6-dev libxml2-dev \
-      libexpat1-dev libicu-dev
+      libexpat1-dev libicu-dev libfontconfig1-dev libx264-dev libx265-dev
 
 On **Mint 19**, you don't need to install the libpng.
 Next, we also need to install specific development libraries for **Qt**. Please before doing the requirements, you must read the next paragraph. These requirements are detailed here:

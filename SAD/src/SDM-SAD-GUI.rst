@@ -7,7 +7,7 @@ Overview
 --------
 
 Graphical User Interface (GUI) is the process of displaying the graphical
-components of an application. In fw4spl, the ``fwGui`` library provides abstract
+components of an application. In Sight, the ``fwGui`` library provides abstract
 tools to display components like windows, buttons, textfield, aso.
 
 The software architecture provides a way of selecting different backends in order to manage the GUI components. As a result, the ``fwGuiQt`` library has been created to display components created using the Qt soup. Presently, this

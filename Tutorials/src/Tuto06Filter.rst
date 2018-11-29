@@ -196,7 +196,7 @@ Filter service
 
 Here, the filter service is inherited from ``::fwGui::IActionSrv``, which allows to use this service as an action, in this case
 as a button. The member function  ``updating()`` is called when clicking on the button. However you can inherit from another type (like 
-``::arServices::IOperator`` in fw4spl-ar repository) if you do not need this behavior.
+``::fwServices::IOperator``) if you do not need this behavior.
 
 This  ``updating()`` function retrieves the two images and applies the threshold algorithm.
 
