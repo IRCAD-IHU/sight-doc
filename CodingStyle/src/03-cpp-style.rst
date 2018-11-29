@@ -378,25 +378,49 @@ Class declaration
         #include <namespaceA/file.hpp>
         #include <namespaceA/file.hxx>
 
-Initializer list
+In-class member initialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. rule :: One initializer per line
+.. rule :: Favor initializion of member variables in-class at declaration.
+    
+    You should favor in-class initialization for your member variables as shown below.
+    
+    .. code-block :: cpp
 
-    In a class constructor, use the initialization list as much as possible. Place one initializer per line. Constructors of base classes should be placed first, followed by member variables. Do not specify an initializer if it is the default one (empty std::string for instance).
+        class SampleClass
+        {
+        
+            SampleClass();
+            ~SampleClass();
+            
+            int m_value {0};
+            
+            bool m_condition {true};
+            
+            std::string m_string {"Hello World!"};
+        
+        };
 
+.. rule :: Avoid constructor initialization
+
+    Constructor initialization should be avoided, only constructor parameters should be initialized here.
+    It is possible however to override default in-class initializations on your constructor.
+    
     .. code-block :: cpp
 
         SampleClass::SampleClass( const std::string& name, const int value ) :
             BaseClassOne( name ),
             BaseClassTwo( name ),
-            m_value( value ),
-            m_misc( 10 )
+            m_string    ( "Goodbye World!" )
         {}
+
+.. rule :: One initializer per line in constructor initialization
+
+In a class constructor, place one initializer per line. Constructors of base classes should be placed first, do not specify an initializer if it is the default one (empty std::string for instance).
 
 .. recommendation :: Align everything that improves readability
 
-    To improve readability, you may align members on one hand and argument lists on the other hand.
+To improve readability, you may align members on one hand and argument lists on the other hand.
 
     .. code-block :: cpp
 
@@ -405,7 +429,9 @@ Initializer list
             BaseClassTwo  ( name ),
             m_value       ( value ),
             m_misc        ( 10 )
-        {}
+         {}
+
+
 
 Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
