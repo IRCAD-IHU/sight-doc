@@ -1,13 +1,63 @@
-image: alpine
+stages:
+  - sheldon
+  - lint
+  - build
+  - deploy
+
+sheldon-mr:
+  image: ${DOCKER_ENVDEV_CLANG6}
+  stage: sheldon
+  script:
+    - export ORIG_BRANCH_COMMIT_SHA=$(git merge-base dev origin/${CI_COMMIT_REF_NAME})
+    - git -c http.sslVerify=false clone --depth 1 https://gitlab-ci-token:${CI_JOB_TOKEN}@git.ircad.fr/Sight/sight-git.git
+    # Execute sheldon, on all commits from the merge request
+    - sight-git/hooks/sheldon ${ORIG_BRANCH_COMMIT_SHA}..${CI_COMMIT_SHA}
+
+sheldon:
+  image: ${DOCKER_ENVDEV_CLANG6}
+  stage: sheldon
+  script:
+    - git -c http.sslVerify=false clone --depth 1 https://gitlab-ci-token:${CI_JOB_TOKEN}@git.ircad.fr/Sight/sight-git.git
+    - sight-git/hooks/sheldon HEAD^ HEAD
+  except:
+    - dev
+    - master
+
+rst-lint:
+  image: python:3
+  stage: lint
+  script:
+    - pip install doc8
+    - doc8 --max-line-length 120
+
+markdown-lint:
+  image: node:alpine
+  stage: lint
+  script:
+    - npm install -g markdownlint-cli
+    - echo {\"MD013\":{\"line_length\":120}} > .markdownlint.json
+    - markdownlint --config .markdownlint.json .
+
+doxygen:
+  image: python:3
+  stage: build
+  script:
+    - pip install sphinx sphinx_rtd_theme
+    - apt-get update && apt-get install -yqq make
+    - make html
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
+    paths:
+      - $CI_PROJECT_DIR/_build/html/
 
 pages:
+  stage: deploy
+  dependencies:
+    - doxygen
   script:
-  - apk --no-cache add py2-pip python-dev
-  - pip install sphinx sphinx_rtd_theme
-  - apk --no-cache add make
-  - make html
-  - mv _build/html/ public/
+    - mv _build/html/ public/
   artifacts:
     paths:
     - public
-
+  only:
+    - dev
