@@ -211,7 +211,7 @@ Menu (``::gui::aspect::SDefaultMenuSrv``)
     A menu displays actions and sub-menus.
 
 Action (inherited from ``::fwGui::IActionSrv`` )
-    An action is a service inherited from ``::fwGui::IActionSrv``. It is called when the user clicks on the associated 
+    An action is a service inherited from ``::fwGui::IActionSrv``. It is called when the user clicks on the associated
     tool bar or menu.
 
 Editors (inherited from ``::fwGui::editor::IEditor``)

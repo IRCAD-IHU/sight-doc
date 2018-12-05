@@ -28,7 +28,8 @@ Augmented reality features
 - mono and stereo camera calibration,
 - ArUco_ optical markers tracking,
 - openIGTLink_ support through clients and servers services,
-- TimeLine data, allowing to store buffers of various data (video, matrices, markers, etc...). These can be used to synchronize these data accross time.
+- TimeLine data, allowing to store buffers of various data (video, matrices, markers, etc...).
+  These can be used to synchronize these data accross time.
 
 .. _QtMultimedia: http://doc.qt.io/qt-5/qtmultimedia-index.html
 .. _ArUco: https://sourceforge.net/projects/aruco/
@@ -40,5 +41,6 @@ Ogre features
 
 - regular surfacic meshes rendering for reconstruction,
 - 2D and 3D negato medical image display with transfer function support,
-- Order-independent transparency (several techniques implemented such as Depth-peeling, Weighted-blended order independent transparency, and Hybrid Transparency),
-- customizable shaders and parameters edition. 
+- Order-independent transparency (several techniques implemented such as Depth-peeling,
+  Weighted-blended order independent transparency, and Hybrid Transparency),
+- customizable shaders and parameters edition.

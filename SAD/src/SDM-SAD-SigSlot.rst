@@ -139,23 +139,23 @@ to two different types of slot, void (int) and int (int, int).
 
 Here 2 points need to be highlighted :
 
--  A signal cannot return a value. Consequently their return type is void. 
+-  A signal cannot return a value. Consequently their return type is void.
    Thus, the return value of a slot, triggered by a signal, equally cannot be retrieved.
-   
--  To successfully trigger a slot using a signal, the minimum requirement as to the number of arguments or 
-   fitting argument types has to be given by the signal. In the last example the slot slot2 only 
-   requires one argument of type int, but the signal is emitting two arguments of type int. 
-   Because the signal signature fulfills the slot's argument number and argument type, the signal 
-   can successfully trigger the slot slot2. The slot slot2 takes the first emitted argument which 
+
+-  To successfully trigger a slot using a signal, the minimum requirement as to the number of arguments or
+   fitting argument types has to be given by the signal. In the last example the slot slot2 only
+   requires one argument of type int, but the signal is emitting two arguments of type int.
+   Because the signal signature fulfills the slot's argument number and argument type, the signal
+   can successfully trigger the slot slot2. The slot slot2 takes the first emitted argument which
    fits its parameter (here 21, the second argument is ignored).
 
 
 Disconnection
 ~~~~~~~~~~~~~
 
-The disconnect method is called between one signal and one slot, to stop their existing connection. 
-A disconnection assumes a signal slot connection. Once a signal slot connection is disconnected, it 
-cannot be triggered by this signal. Both connection and disconnection of a signal slot connection can be 
+The disconnect method is called between one signal and one slot, to stop their existing connection.
+A disconnection assumes a signal slot connection. Once a signal slot connection is disconnected, it
+cannot be triggered by this signal. Both connection and disconnection of a signal slot connection can be
 done at any time.
 
 .. code-block:: c++
@@ -163,7 +163,7 @@ done at any time.
     sig2->disconnect(slot1);
     sig2->emit(21, 42); // do not trigger slot1 anymore
 
-The instructions above will cause the execution of slot2. Due to the disconnection between sig2 and slot1, 
+The instructions above will cause the execution of slot2. Due to the disconnection between sig2 and slot1,
 the slot slot1 is not triggered by sig2.
 
 Connection handling
@@ -200,7 +200,7 @@ Auto-disconnection
 Slots and signals can handle an automatic disconnection :
 
 -  on slot destruction : every signal slot connection to this slot will be destroyed
-   
+
 -  on signal destruction : every slot connection to the signal will be destroyed
 
 All related connection handlers will be invalidated when an automatic
@@ -308,14 +308,17 @@ class ``fwData::Object`` inherits from the ``HasSignals`` class as a basis to us
       }
     }
 
-Moreover the abstract class ``fwService::IService`` inherits from the ``HasSlots`` class and the ``HasSignals`` class, as a basis to communicate through signals and slots. Actually, the methods ``start()``, ``stop()``, ``swap()`` and ``update()`` are all slots. Here is an extract with ``update()``: 
+Moreover the abstract class ``fwService::IService`` inherits from the ``HasSlots`` class and the ``HasSignals`` class,
+as a basis to communicate through signals and slots.
+Actually, the methods ``start()``, ``stop()``, ``swap()`` and ``update()`` are all slots.
+Here is an extract with ``update()``:
 
 .. code-block:: c++
 
-    class IService : public ::fwCom::HasSlots, public ::fwCom::HasSignals 
+    class IService : public ::fwCom::HasSlots, public ::fwCom::HasSignals
     {
       typedef ::boost::shared_future< void > SharedFutureType;
-      
+
       /// Key in m_slots map of slot m_slotUpdate
       static const ::fwCom::Slots::SlotKeyType s_UPDATE_SLOT;
 
@@ -331,15 +334,15 @@ Moreover the abstract class ``fwService::IService`` inherits from the ``HasSlots
           m_slotUpdate = newSlot( s_UPDATE_SLOT, &IService::update, this ) ;
           //...
       }
-      
+
       //...
     }
 
-      
+
 To automatically connect object signals and service slots, it is possible to override the method
-``IService::getAutoConnections()``. Please note that to be effective the attribute "autoConnect" 
+``IService::getAutoConnections()``. Please note that to be effective the attribute "autoConnect"
 of the service must be set to "yes" in the xml configuration (see :ref:`App-config`).
-The default implementation of this method connect the ``s_MODIFIED_SIG`` object signal to the 
+The default implementation of this method connect the ``s_MODIFIED_SIG`` object signal to the
 ``s_UPDATE_SLOT`` slot.
 
 .. code-block:: c++
@@ -358,21 +361,25 @@ Object signals
 Objects have signals that can be used to inform of modifications.
 The base class ``::fwData::Object`` has the following signals available.
 
-=============================== =====================================================================================================
+=============================== ======================================================================
   Objects                       Available messages
-=============================== =====================================================================================================
+=============================== ======================================================================
 Object                          {``modified``, ``addedFields``, ``changedFields``, ``removedFields``}
-=============================== =====================================================================================================
+=============================== ======================================================================
 
 Thus all objects in Sight can use the previous signals. Some object classes define extra signals.
 
-=============================== =====================================================================================================
+=============================== ======================================================================
   Objects                       Available messages
-=============================== =====================================================================================================
+=============================== ======================================================================
 Composite                       {``addedObjects``, ``changedObjects``, ``removedObjects``}
 Graph                           {``updated``}
-Image                           {``bufferModified``, ``landmarkAdded``, ``landmarkRemoved``, ``landmarkDisplayed``, ``distanceAdded``, ``distanceRemoved``, ``distanceDisplayed``, ``sliceIndexModified``, ``sliceTypeModified``, ``visibilityModified``, ``transparencyModified``}
-Mesh                            {``vertexModified``, ``pointColorsModified``, ``cellColorsModified``, ``pointNormalsModified``, ``cellNormalsModified``, ``pointTexCoordsModified``, ``cellTexCoordsModified``}
+Image                           {``bufferModified``, ``landmarkAdded``, ``landmarkRemoved``, ``landmarkDisplayed``,
+                                 ``distanceAdded``, ``distanceRemoved``, ``distanceDisplayed``, ``sliceIndexModified``,
+                                 ``sliceTypeModified``, ``visibilityModified``, ``transparencyModified``}
+Mesh                            {``vertexModified``, ``pointColorsModified``, ``cellColorsModified``,
+                                 ``pointNormalsModified``, ``cellNormalsModified``, ``pointTexCoordsModified``,
+                                 ``cellTexCoordsModified``}
 ModelSeries                     {``reconstructionsAdded``, ``reconstructionsRemoved``}
 PlaneList                       {``planeAdded``, ``planeRemoved``, ``visibilityModified``}
 Plane                           {``selected``}
@@ -382,17 +389,18 @@ ResectionDB                     {``resectionAdded``, ``safePartAdded``}
 Resection                       {``reconstructionAdded``, ``pointTexCoordsModified``}
 Vector                          {``addedObjects``, ``removedObjects``}
 ...                             ...
-=============================== =====================================================================================================
+=============================== ======================================================================
 
 Proxy
 -----
 
-The class ``::fwServices::registry::Proxy`` is a communication element and singleton in the architecture. 
+The class ``::fwServices::registry::Proxy`` is a communication element and singleton in the architecture.
 It defines a proxy for
 signal/slot connections. The proxy concept is used to declare
 communication channels: all signals registered in a proxy's channel are
-connected to all slots registered in the same channel. This concept is
-useful to create multiple connections or when the slots/signals have not yet been created (possible in dynamic programs).
+connected to all slots registered in the same channel.
+This concept is useful to create multiple connections
+or when the slots/signals have not yet been created (possible in dynamic programs).
 
 The following shows an example where one signal is connected to several slots:
 

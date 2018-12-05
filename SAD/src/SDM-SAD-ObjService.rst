@@ -5,9 +5,18 @@ Introduction
 ------------
 
 In the *Object Oriented Programming* (OOP) paradigm, an object is an instance of a class
-which contains the data and the algorithms. For instance, a class Image contains the image buffer, the size and format attributes, along with the methods to process the image, such as reading, writing, visualizing, analyzing, etc.
+which contains the data and the algorithms. For instance, a class Image contains the image buffer,
+the size and format attributes, along with the methods to process the image,
+such as reading, writing, visualizing, analyzing, etc.
 
-This design works well, but has some drawbacks. First the code of the class implementation can become very big if you put everything in it, making collaborative work harder. Then if you use different third-party libraries in your methods (for instance DCMTK for I/O, VTK for visualization, OpenCV or ITK for the filtering methods), your class becomes dependent of all of these libraries even if you only need one or two functionalities. If we want something modular, that does not work. Last, because of the two previous points, the maintenance of source code is quite tough.
+This design works well, but has some drawbacks.
+First the code of the class implementation can become very big
+if you put everything in it, making collaborative work harder.
+Then if you use different third-party libraries in your methods
+(for instance DCMTK for I/O, VTK for visualization, OpenCV or ITK for the filtering methods),
+your class becomes dependent of all of these libraries even if you only need one or two functionalities.
+If we want something modular, that does not work.
+Last, because of the two previous points, the maintenance of source code is quite tough.
 
 Instead, Sight proposes an *Object-Service* paradigm where data and algorithms are separated into different code units.
 
@@ -15,8 +24,10 @@ Object
 -------
 
 Objects represent data used in the framework.
-They can be simple (boolean, integer, string, etc.) or advanced structures
-(image, mesh, video, patient, etc.). They are generic, which means they do not depend on the original input format or the future output format. This way they can used with different third-party libraries, and we provide helper methods to convert them into the corresponding formats.
+They can be simple (boolean, integer, string, etc.) or advanced structures (image, mesh, video, patient, etc.).
+They are generic, which means they do not depend on the original input format or the future output format.
+This way they can used with different third-party libraries,
+and we provide helper methods to convert them into the corresponding formats.
 
 These object classes contain only data features and their corresponding getter/setter methods.
 
@@ -282,7 +293,8 @@ The Sight architecture is standardized thanks to:
 - Abstract classes ``::fwData::Object`` and ``::fwService::IService``.
 - The two factory systems.
 
-In an application, one of the problems is managing the life cycle of a large number of object instances and their services.
+In an application, one of the problems is managing the life cycle of
+a large number of object instances and their services.
 This problem is solved by the class ``::fwServices::registry::ObjectService`` which maintains the relationship
 between objects and services. This class concept is very simple :
 
@@ -314,9 +326,11 @@ between objects and services. This class concept is very simple :
       // ...
     }
 
-This registry manages the object-service relationships and guarantees the non-destruction of an object while some services are still working on it.
+This registry manages the object-service relationships and guarantees
+the non-destruction of an object while some services are still working on it.
 
-Each object associated with the service must provide a **key** and an **access type**. The **key** is used to retrieve the object in the service code, while the **access type**
+Each object associated with the service must provide a **key** and an **access type**.
+The **key** is used to retrieve the object in the service code, while the **access type**
 tells how the object can be accessed: read, read/write or write.
 
 Example:
@@ -369,7 +383,8 @@ Thus, to retrieve the registered objects of a service, there are two different m
       // ...
     };
 
-For instance, if we have a ``::fwData::Image`` registered as ``"image"`` key with ``INOUT`` access type, and a ``::fwData::Mesh`` registered as ``"mesh"`` key with ``IN`` access
+For instance, if we have a ``::fwData::Image`` registered as ``"image"`` key with ``INOUT`` access type,
+and a ``::fwData::Mesh`` registered as ``"mesh"`` key with ``IN`` access
 type we can retrieve them in a method of the service this way:
 
 .. code-block :: cpp
@@ -383,9 +398,13 @@ Object access type
 How to choose between the different access type for a given data ?
 
 1. Read-only (*IN*)
-    - If you don't modify the data and so that means you can deal with a const pointer on the data, then this is the right choice.
+    - If you don't modify the data and so that means you can deal with a const pointer on the data,
+      then this is the right choice.
 2. Write-only (*OUT*)
-    - This is a special case when the service will actually create the data. The data doesn't exist before the service creation. At some point, during ``start()``, or ``update()`` or elsewhere, the data is allocated, filled and registered in the OSR :
+    - This is a special case when the service will actually create the data.
+      The data doesn't exist before the service creation.
+      At some point, during ``start()``, or ``update()`` or elsewhere,
+      the data is allocated, filled and registered in the OSR:
 
 .. code-block :: cpp
 

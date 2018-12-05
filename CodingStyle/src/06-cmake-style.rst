@@ -45,7 +45,7 @@ CMakeLists coding
 
     This is no longer needed in latest CMake versions, and we recommend to use this possibility for the sake of simplicity.
 
-    .. code:: 
+    .. code::
 
         function(name arg1 arg2)
             ...

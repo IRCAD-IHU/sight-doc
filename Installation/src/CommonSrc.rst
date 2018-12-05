@@ -22,11 +22,13 @@ Source
 
     $ cd Dev/Build/Debug
 
-Now you have to configure the project. You can use one of the three tools explained above. 
+Now you have to configure the project. You can use one of the three tools explained above.
 
-Also, for Sight, we recommend to use the `Ninja <https://ninja-build.org/>`_ generator. 
-It builds faster, and is much better for everyday use because of how fast it is at figuring out which files need to be built.
-In other words, with Ninja the compilation starts instantly whereas Make spends a dozen of seconds to check what should be compiled before actually compiling something. 
+Also, for Sight, we recommend to use the `Ninja <https://ninja-build.org/>`_ generator.
+It builds faster, and is much better for everyday use because of how fast
+it is at figuring out which files need to be built.
+In other words, with Ninja the compilation starts instantly whereas Make spends
+a dozen of seconds to check what should be compiled before actually compiling something.
 So if you plan to develop with Sight, go with Ninja.
 If you only want to give a single try, you can live with the standard "Unix Makefiles" generator.
 
@@ -49,14 +51,16 @@ To use ninja :
 
     $ cd Dev/Build/Debug
     $ ccmake -G Ninja ../../Src/sight
-    
+
 .. image:: ../media/cmake_sight.png
 
 * Change the following cmake arguments
     - ``CMAKE_INSTALL_PREFIX``: set the install location, here ``~/Dev/Install/Debug``
     - ``CMAKE_BUILD_TYPE``: set the build type 'Debug', 'Release', 'RelWithDebInfo' or 'MinSizeRel'
-    - ``EXTERNAL_LIBRARIES``: set the install path of the third party libraries you compiled earlier.(ex : ~/Dev/Install/Debug)
-    - ``PROJECTS_TO_BUILD``: set the list of the projects you want to build (ex: VRRender, Tuto01Basic ...), each project should be separated by ";"
+    - ``EXTERNAL_LIBRARIES``: set the install path of the third party libraries
+      you compiled earlier.(ex : ~/Dev/Install/Debug)
+    - ``PROJECTS_TO_BUILD``: set the list of the projects
+      you want to build (ex: VRRender, Tuto01Basic ...), each project should be separated by ";"
 
 * Press *"c"* to configure and then *"g"* to generate the makefiles.
 
@@ -76,10 +80,10 @@ Click on "generate".
 
     $ cd Dev/Build/Debug
     $ cmake-gui ../../Src/sight
-    
+
 You can then edit the same options than with ``ccmake``.
 
-    
+
 Build
 ~~~~~~~~~~~~~~~
 
@@ -89,15 +93,15 @@ Then, according to the generator you chose, build Sight with make :
 
     $ cd Dev/Build/Debug
     # Adjust the number of cores depending of the CPU cores and the RAM available on your computer
-    $ make -j4 
-    
+    $ make -j4
+
 Or with ninja:
 
 .. code:: bash
 
     $ cd Dev/Build/Debug
     $ ninja
-    
+
 If you didn't specify anything in ``PROJECTS_TO_BUILD`` you may also build specific targets, for instance:
 
 .. code:: bash
@@ -108,7 +112,8 @@ Launch an application
 ----------------------
 
 After a successful compilation the application can be launched with the *fwlauncher* program from Sight.
-The profile.xml of the application in the build folder has to be passed as argument to the *fwlauncher* call in the console.
+The profile.xml of the application in the build folder has
+to be passed as argument to the *fwlauncher* call in the console.
 
 .. code:: bash
 

@@ -49,8 +49,8 @@ Ex03Registration                 Simple rigid image-mesh registration
 Ex04ImagesRegistration           Simple rigid image-image registration
 Ex05Activities                   Launch activities using a sequencer
 Ex06Dump                         Memory managment
-Ex07WheelWidget                  Wheel widget 
-Ex08SParameters                  Parameters widget 
+Ex07WheelWidget                  Wheel widget
+Ex08SParameters                  Parameters widget
 ==============================  ================================================================
 
 =========================
@@ -66,7 +66,7 @@ Ex03Igtl                         Example of some of the *openIGTLink* features
 Ex04SimpleARCV                   AR using a given transform matrix to register a mesh on a camera view
 Ex05FrameByFrame                 Play a video frame by frame
 Ex06RGBDStream                   Play a RGBD stream (from a RGBD camera or recorded images)
-Ex07RGBDManualAR                 
+Ex07RGBDManualAR
 ExSolvePnP                       Register a mesh on a video using SolvePnp (with user interaction)
 ExStereoARCV                     Stereo AR using a given transform matrix to register a mesh on a camera view
 ExVideoRecorder                  Record a video
@@ -80,7 +80,8 @@ Ogre samples
  Name                           Concept
 ==============================  ================================================================
 TutoOgreGenericScene             Simple rendering of image, mesh and texture
-ExSimpleARCVOgre                 AR using a given transform matrix to register a mesh on a camera view with Ogre rendering
+ExSimpleARCVOgre                 AR using a given transform matrix to register
+                                 a mesh on a camera view with Ogre rendering
 ExOgreRGBDStream
 PoCStereo
 ==============================  ================================================================

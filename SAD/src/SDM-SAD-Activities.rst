@@ -13,7 +13,8 @@ There is two way to launch an activity:
 
 The service ``::activities::action::SActivityLauncher`` allows to launch an activity from a selection of Series. Its
 role is to create the specific Activity associated with the selected data. The Series are contained in a
-``::fwData::Vector`` that can be filled by the user on clicking on the Series selection widget (``::uiMedDataQt::editor::SSelector``)
+``::fwData::Vector`` that can be filled by the user
+on clicking on the Series selection widget (``::uiMedDataQt::editor::SSelector``)
 
 This action should be followed by the service ``guiQt::editor::SDynamicView`` : this service listens the action
 signals and launchs the activity in a new tab.
@@ -21,8 +22,10 @@ signals and launchs the activity in a new tab.
 **from the activity wizard**:
 
 The editor ``::activities::editor::SCreateActivity`` and the action ``::activities::action::SCreateActivity`` propose
-the list of the available activity for the application, and when the user select one of them it sends a signal with the activity identifier.
-The activity wizard (``::uiMedDataQt::editor::SActivityWizard``) listen this signal and display a widget to set the required data.
+the list of the available activity for the application,
+and when the user select one of them it sends a signal with the activity identifier.
+The activity wizard (``::uiMedDataQt::editor::SActivityWizard``) listen
+this signal and display a widget to set the required data.
 The ``::fwMedData::ActivitySeries`` is created and can be launched by the ``guiQt::editor::SDynamicView``.
 
 The process to create the activity with the different services works with signals and slots.
@@ -180,7 +183,8 @@ to create data when minOccurs == 0 and maxOccurs == 0.
 
 validators (optional)
 **********************
-It defines the list of validators. If you need only one validator, you don't need the "validators" tag (only "validator").
+It defines the list of validators. If you need only one validator,
+you don't need the "validators" tag (only "validator").
 
 validator (optional):
     It allows to validate if the selected required objects are correct for the activity.
@@ -274,7 +278,8 @@ SCreateActivity
 *****************
 
 There is an action or an editor (``::activities::action::SCreateActivity`` or
-``::activities::editor::SCreateActivity``). This services display the available activities according to the configuration.
+``::activities::editor::SCreateActivity``).
+This services display the available activities according to the configuration.
 
 When the activity is selected, the service sends a signal with the activity identifier. It should works with the
 ::uiMedData::editor::SActivityWizard that creates or updates the activitySeries.

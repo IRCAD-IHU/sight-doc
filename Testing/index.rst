@@ -5,7 +5,7 @@ Testing
 .. toctree::
     :maxdepth: 2
 
-   
+
 
 .. _CTest: http://cmake.org/
 .. _CMake: http://cmake.org/
@@ -17,7 +17,8 @@ sight_ uses CTest_ and CppUnit_ for unit testing.
 Building
 --------
 
-When building sight_ with CMake_, you will need to enable the ``BUILD_TESTS`` option, e.g. with the ``-DBUILD_TESTS=ON`` command line option.
+When building sight_ with CMake_, you will need to enable the ``BUILD_TESTS`` option,
+e.g. with the ``-DBUILD_TESTS=ON`` command line option.
 
 Launching unit tests
 --------------------
@@ -40,10 +41,10 @@ In you build directory, you can launch the unit tests with the ``ctest`` command
 Additional data
 ---------------
 
-Additional data need to be download to run all the unit tests. 
-They are available on the repository `sight-data <https://git.ircad.fr/Sight/sight-data>`_. 
-You can download the data on this repository with this `URL <https://git.ircad.fr/Sight/sight-data/-/archive/master/sight-data-master.tar.gz>`_ 
-or with this git command 
+Additional data need to be download to run all the unit tests.
+They are available on the repository `sight-data <https://git.ircad.fr/Sight/sight-data>`_.
+You can download the data on this repository with this `URL <https://git.ircad.fr/Sight/sight-data/-/archive/master/sight-data-master.tar.gz>`_
+or with this git command
 
 .. code:: bash
 

@@ -48,17 +48,22 @@ Here is an example of CMakeLists.txt from guiQt Bundle :
 
 The first line *fwLoadProperties()* will load the *Properties.cmake* (see explanation in the next section).
 
-The next lines allows to compile with the support of some external libraries (sight-deps), in this example this is Qt. 
+The next lines allows to compile with the support of some external libraries (sight-deps), in this example this is Qt.
 The first thing to do is to discover where Qt is installed. This is done with the regular CMake command ``find_package(The_lib COMPONENTS The_component)``.
-Then we use ``fwInclude`` to add includes directories to the target, and ``fwLink`` to link the libraries with your target. 
-Actually if you're accustomed to CMake these two macros are strictly equivalent to: 
+Then we use ``fwInclude`` to add includes directories to the target, and ``fwLink`` to link the libraries with your target.
+Actually if you're accustomed to CMake these two macros are strictly equivalent to:
 
 .. code-block:: cmake
 
     target_include_directories( ${FWPROJECT_NAME} SYSTEM PRIVATE ${Qt5Core_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} )
     target_link_libraries( ${FWPROJECT_NAME} PRIVATE ${Qt5Core_LIBRARIES} ${Qt5Gui_LIBRARIES} ${Qt5Widgets_LIBRARIES} )
 
-They are proposed as a convenience so people won't forget for instance to specify `SYSTEM`, which prevents compilation warnings from third-part libraries to be displayed. If the rare case where your bundle may be a dependency of an another one, you can forward the include directories and the libraries with ``fwForwardInclude`` and ``fwForwardLink``, which are still equivalent to ``target_include_directories`` and ``target_link_libraries`` CMake commands but with ``PUBLIC`` set instead of ``PRIVATE``.
+They are proposed as a convenience so people won't forget for instance to specify `SYSTEM`,
+which prevents compilation warnings from third-part libraries to be displayed.
+If the rare case where your bundle may be a dependency of an another one,
+you can forward the include directories and the libraries with ``fwForwardInclude`` and ``fwForwardLink``,
+which are still equivalent to ``target_include_directories``
+and ``target_link_libraries`` CMake commands but with ``PUBLIC`` set instead of ``PRIVATE``.
 
 Eventually, you can also add custom properties to your target with ``set_target_properties``.
 
