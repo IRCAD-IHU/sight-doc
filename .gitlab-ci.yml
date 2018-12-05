@@ -27,7 +27,7 @@ rst-lint:
   image: python:3
   stage: lint
   script:
-    - pip install doc8
+    - pip install doc8 Pygments
     - doc8 --max-line-length 120
 
 markdown-lint:
