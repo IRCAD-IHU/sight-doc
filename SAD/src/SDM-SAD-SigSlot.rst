@@ -369,27 +369,27 @@ Object                          {``modified``, ``addedFields``, ``changedFields`
 
 Thus all objects in Sight can use the previous signals. Some object classes define extra signals.
 
-=============================== ======================================================================
-  Objects                       Available messages
-=============================== ======================================================================
-Composite                       {``addedObjects``, ``changedObjects``, ``removedObjects``}
-Graph                           {``updated``}
-Image                           {``bufferModified``, ``landmarkAdded``, ``landmarkRemoved``, ``landmarkDisplayed``,
-                                 ``distanceAdded``, ``distanceRemoved``, ``distanceDisplayed``, ``sliceIndexModified``,
-                                 ``sliceTypeModified``, ``visibilityModified``, ``transparencyModified``}
-Mesh                            {``vertexModified``, ``pointColorsModified``, ``cellColorsModified``,
-                                 ``pointNormalsModified``, ``cellNormalsModified``, ``pointTexCoordsModified``,
-                                 ``cellTexCoordsModified``}
-ModelSeries                     {``reconstructionsAdded``, ``reconstructionsRemoved``}
-PlaneList                       {``planeAdded``, ``planeRemoved``, ``visibilityModified``}
-Plane                           {``selected``}
-PointList                       {``pointAdded``, ``pointRemoved``}
-Reconstruction                  {``meshModified``, ``visibilityModified``}
-ResectionDB                     {``resectionAdded``, ``safePartAdded``}
-Resection                       {``reconstructionAdded``, ``pointTexCoordsModified``}
-Vector                          {``addedObjects``, ``removedObjects``}
-...                             ...
-=============================== ======================================================================
+=============================== ===========================================================================
+  Objects                       | Available messages
+=============================== ===========================================================================
+Composite                       | {``addedObjects``, ``changedObjects``, ``removedObjects``}
+Graph                           | {``updated``}
+Image                           | {``bufferModified``, ``landmarkAdded``, ``landmarkRemoved``, ``landmarkDisplayed``,
+                                | ``distanceAdded``, ``distanceRemoved``, ``distanceDisplayed``, ``sliceIndexModified``,
+                                | ``sliceTypeModified``, ``visibilityModified``, ``transparencyModified``}
+Mesh                            | {``vertexModified``, ``pointColorsModified``, ``cellColorsModified``,
+                                | ``pointNormalsModified``, ``cellNormalsModified``, ``pointTexCoordsModified``,
+                                | ``cellTexCoordsModified``}
+ModelSeries                     | {``reconstructionsAdded``, ``reconstructionsRemoved``}
+PlaneList                       | {``planeAdded``, ``planeRemoved``, ``visibilityModified``}
+Plane                           | {``selected``}
+PointList                       | {``pointAdded``, ``pointRemoved``}
+Reconstruction                  | {``meshModified``, ``visibilityModified``}
+ResectionDB                     | {``resectionAdded``, ``safePartAdded``}
+Resection                       | {``reconstructionAdded``, ``pointTexCoordsModified``}
+Vector                          | {``addedObjects``, ``removedObjects``}
+...                             | ...
+=============================== ===========================================================================
 
 Proxy
 -----
@@ -424,4 +424,3 @@ The following shows an example where one signal is connected to several slots:
     proxy->connect(CHANNEL, slot3);
 
     sig->emit(); // All slots are called
-

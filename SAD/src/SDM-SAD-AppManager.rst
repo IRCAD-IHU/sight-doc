@@ -1,4 +1,4 @@
-.. _App-config:
+.. _App-manager:
 
 AppManager
 =======================

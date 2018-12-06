@@ -40,7 +40,7 @@ This framework can run under Windows, Linux and MacOS.
 Where can I find applications developed with sight ?
 ======================================================
 
-Some tutorials are provided with the framework and you can also build :ref:`VRRender<sight>`,
+Some tutorials are provided with the framework and you can also build VRRender,
 a free visualization software or ARCalibration, a user-friendly camera calibration tool.
 
 Which prerequisites do I need to develop new services and bundles ?
