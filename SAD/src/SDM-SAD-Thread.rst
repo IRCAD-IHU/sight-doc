@@ -42,7 +42,7 @@ Some criticisms of multithreading include:
   than multiprocessing.
 - Thread scheduling is also a major problem in multithreading.
 
-Michael K. Gschwind, et al. [#]_ 
+Michael K. Gschwind, et al. [#]_
 
 .. [#]  Michael K. Gschwind, Valentina Salapura. 2011. Using Register Last Use Infomation to Perform Decode-Time Computer Instruction Optimization US 20130086368 A1 [Patent]. http://www.google.com/patents/US20130086368
 

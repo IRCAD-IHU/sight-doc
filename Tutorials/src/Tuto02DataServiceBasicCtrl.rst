@@ -4,8 +4,9 @@
 [*Tuto02DataServiceBasicCtrl*] Tuto02 without XML
 ********************************************************
 
-This tutorial shows the same application as :ref:`tuto02` but without using the XML configurations. The services declaration and configuration
-are written in C++. When looking side-by-side you should see the benefit of using the XML descrption format.
+This tutorial shows the same application as :ref:`tuto02` but without using the XML configurations.
+The services declaration and configuration are written in C++.
+When looking side-by-side you should see the benefit of using the XML descrption format.
 
 .. figure:: ../media/tuto02DataServiceBasic.png
     :scale: 50
@@ -23,8 +24,9 @@ Before reading this tutorial, you should have seen :
 Structure
 ----------
 
-A C++ application does not need a configuration in the plugin.xml. Here we have chosen to write our application configuration in the first entry point we have in hand, that is, the ``initialize`` method of the 
-``Plugin`` class.
+A C++ application does not need a configuration in the plugin.xml.
+Here we have chosen to write our application configuration in the first entry point we have in hand,
+that is, the ``initialize`` method of the ``Plugin`` class.
 
 Plugin
 ~~~~~~~~

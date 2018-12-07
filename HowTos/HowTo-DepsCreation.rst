@@ -75,7 +75,8 @@ Add a custom dependency repository
 ------------------------------------
 
 You may want to add your own folder of dependencies. In this case your main need to create a
-CMakeLists.txt in the root of your folder (myDepsFolder/CMakeLists.txt) in order to list the subdirectories of your dependencies.
+CMakeLists.txt in the root of your folder (myDepsFolder/CMakeLists.txt)
+in order to list the subdirectories of your dependencies.
 
 .. code-block:: cmake
 

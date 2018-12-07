@@ -1,10 +1,10 @@
-XML coding 
+XML coding
 ==========
 
 .. rule :: uid name
 
     ``uid`` should have a semantic name. They must be written in lower camel case. Don't prefix the uid by `UID` (like `imageUID`). Moreover, avoid ``uid`` like ``myXXXXX`` or ``customXXXXX``.
-    
+
     .. code-block :: xml
 
         <object uid="image" type="::fwData::Image" />
@@ -12,7 +12,7 @@ XML coding
         <service uid="imageReader" type="::ioVTK::SImageReader">
             <inout key="image" uid="image" />
         </service>
-        
+
 Parameters
 ----------
 
@@ -22,11 +22,11 @@ Parameters
 
     * ``WID_PARENT``
     * ``AS_UID``
-    
+
 .. rule :: Data parameters (object)
 
     Objects ``uid`` should be written in lower camel case.
-    
+
 .. rule :: Other parameters
 
     Non-object parameters: channel, icon path, title, ...
@@ -38,9 +38,9 @@ Configuration
 .. rule :: Configuration documentation
 
     The configuration must be documented.
-    
+
     .. code-block :: xml
-    
+
         <!--
         This config opens a window containing the editors managing the ModelSeries: show/hide reconstructions, change the color, ...
 
@@ -65,7 +65,7 @@ Configuration
 .. rule :: Order
 
     The configuration file must be written following this order:
-    
+
     #. objects
     #. GUI (frame, view, toolbar, menu, menubar)
     #. actions
@@ -79,20 +79,20 @@ Configuration
     #. connections
     #. start
     #. update
-    
+
     Each section should begin with an XML comment.
-    
+
     .. code-block :: xml
-    
+
         <!-- *************************************************** begin GUI ************************************************* -->
         <!-- ... frame, view, toolbar, menu and menubar services ... -->
 
 .. rule :: Align the xml attributes
 
     The XML attributes should be aligned.
-    
+
     .. code-block :: xml
-    
+
         <service uid="cfgNegato1" type="::fwServices::SConfigController">
             <appConfig id="3DNegatoWithAcq" />
             <inout key="imageComposite" uid="${imageComposite}" />
@@ -107,13 +107,13 @@ Configuration
             <parameter replace="setFrontalCameraChannel"  by="setFrontalCameraChannel" />
             <parameter replace="setAxialCameraChannel"    by="setAxialCameraChannel" />
         </service>
-        
+
 .. rule :: Order the objects
 
     The objects should be ordered by type (ref, new and deferred), and by class.
-    
+
     .. code-block :: xml
-    
+
         <object uid="seriesDB"        type="::fwMedData::SeriesDB" src="ref" />
         <object uid="loadingSeriesDB" type="::fwMedData::SeriesDB" src="ref" />
         <object uid="imageRef"        type="::fwData::Image"       src="ref" />
@@ -124,13 +124,13 @@ Configuration
 
         <object uid="currentActivity" type="::fwMedData::ActivitySeries" src="deferred" />
         <object uid="computedImage"   type="::fwData::Image"             src="deferred" />
-        
+
 .. rule :: Comment renderers
 
     Each scene and its adaptors must begin with an XML comment.
-    
+
     .. code-block :: xml
-    
+
         <!-- ************************************************ begin 3Dscene ************************************************ -->
 
         <service uid="3Dscene" type="::fwRenderVTK::SRender">
@@ -139,11 +139,11 @@ Configuration
 
         <service uid="adaptor1" type="::visuVTKAdaptor::SMesh" />
         <service uid="adaptor2" type="::visuVTKAdaptor::SMesh" />
-        
+
     The starts of these adaptors must be preceded by a comment with the scene name
-    
+
     .. code-block :: xml
-    
+
         <!-- ************************************************* begin start ************************************************* -->
 
         <start uid="frame" />
@@ -213,14 +213,14 @@ Example
         </service>
 
         <service uid="snapshotEditor" type="::uiVisuQt::SnapshotEditor" />
-        
+
         <!-- ************************************************ begin 3Dscene ************************************************ -->
 
         <service uid="3Dscene" type="::fwRenderVTK::SRender">
             <scene>
                 <picker   id="myPicker" vtkclass="fwVtkCellPicker" />
                 <renderer id="default"  background="0.0" />
-        
+
                 <adaptor uid="imageAdaptor" />
                 <adaptor uid="snapshotAdaptor" />
             </scene>

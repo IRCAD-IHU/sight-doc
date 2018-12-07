@@ -43,7 +43,7 @@ Example 1 : Bad documentation block
         * @exception
         *********************************************
         * @todo
-        *********************************************
+        *********************************************/
 
 Example 2 : Good documentation block
 
@@ -100,6 +100,7 @@ Example 3 : Function documentation
          *
          * This is the long description.
          *
+         */
 
     After that the signals and slots must be documented in two distinct sections.
 

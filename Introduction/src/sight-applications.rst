@@ -17,17 +17,17 @@ VRRender
     :align: center
 
     MPR view of a medical 3D image.
-    
+
 .. figure:: ../media/3D.png
     :align: center
 
     3D view of surfacic meshes.
-    
+
 .. figure:: ../media/VR.png
         :align: center
 
         Volume rendering
-    
+
 .. figure:: ../media/VR-3D.png
     :align: center
 
@@ -37,7 +37,8 @@ VRRender
 ARCalibration
 -------------
 
-**ARCalibration**  is a user-friendly application to calibrate mono and stereo cameras. This software is a must-have since camera calibration is a mandatory step in any AR application.
+**ARCalibration**  is a user-friendly application to calibrate mono and stereo cameras.
+This software is a must-have since camera calibration is a mandatory step in any AR application.
 
 .. figure:: ../media/calibration.png
     :align: center

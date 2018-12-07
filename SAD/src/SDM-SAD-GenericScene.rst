@@ -13,8 +13,10 @@ It can be seen as fusion of a negatoscope and the 3D model visualization.
 Manager
 ------------------------
 
-The ``SRender`` is the manager service of the VTK scene. Its main task is to instantiate a VTK context (``vtkRender`` and ``vtkRenderWindow``).
-In addition, it configures the rendering properties and describes a list of *adaptors*, which are dedicated services that render Sight data into this rendering context.
+The ``SRender`` is the manager service of the VTK scene.
+Its main task is to instantiate a VTK context (``vtkRender`` and ``vtkRenderWindow``).
+In addition, it configures the rendering properties and describes a list of *adaptors*,
+which are dedicated services that render Sight data into this rendering context.
 
 .. code-block:: xml
 
@@ -54,7 +56,8 @@ renderer
     - **layer** (optional): defines the layer of the vtkRenderer. This is only used if there are layered renderers.
     - **background** (optional): the background color of the rendering screen.
 
-    The color value can be defined as a grey level value (ex . 1.0 for white) or as a hexadecimal value (ex : \#ffffff for white).
+    The color value can be defined as a grey level value (ex . 1.0 for white)
+    or as a hexadecimal value (ex : \#ffffff for white).
 
 vtkObject
     Represents a vtk object. It is usually used for vtkTransform or vtkImageBlend.
