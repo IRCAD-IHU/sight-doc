@@ -9,13 +9,13 @@ This tutorial explains how to use the generic scene.
 .. figure:: ../media/tuto08GenericScene1.png
     :scale: 80
     :align: center
-    
+
     Image and mesh
-    
+
 .. figure:: ../media/tuto08GenericScene2.png
     :scale: 80
     :align: center
-    
+
     Mesh with texture
 
 
@@ -368,12 +368,12 @@ This file is in the ``rc/`` directory of the application. It defines the service
             </config>
         </extension>
     </plugin>
-    
+
 
 GUI
 ------
 
-This tutorials use multiple editors to manage the image rendering: 
+This tutorials use multiple editors to manage the image rendering:
 
 - show/hide image slices
 - navigate between the image slices
@@ -386,7 +386,7 @@ This tutorials use multiple editors to manage the image rendering:
 The two editors (``SSelectionMenuButton`` and ``SSignalButton``) are generic, so we need to configure their behaviour in
 the xml file.
 
-The editor aspect is defined in the service configuration. They emit signals that must be manually connected to the 
+The editor aspect is defined in the service configuration. They emit signals that must be manually connected to the
 scene adaptor.
 
 SSelectionMenuButton
@@ -409,31 +409,31 @@ This editor displays a menu when the user click on the button. Then the user can
         </items>
         <selected>2</selected>
     </service>
-    
+
 text (optional, default ">")
     Text displayed on the button
-    
+
 toolTip (optional)
     Button tool tip
-    
+
 items
     List of the menu items
 
 item
     One item
-    
+
     text
         The text displayed in the menu
     value
         The value emitted when the item is selected
-        
+
 selected
-    The value of the item selected by default 
+    The value of the item selected by default
 
 
-When the user selects an item, a signal is emitted: the signal is ``selected(int selection)``. It sends the value of 
+When the user selects an item, a signal is emitted: the signal is ``selected(int selection)``. It sends the value of
 the selected item.
-    
+
 In our case, we want to change the number of image slices displayed in the scene. So, we need to connect this signal to
 the image adaptor slot ``updateSliceMode(int nbSlice)``.
 
@@ -467,22 +467,22 @@ This editor shows a simple button.
 
 text (optional)
     Text displayed on the button
-    
+
 icon (optional)
     Icon displayed on the button
 
 checkable (optional, default: false)
     If true, the button is checkable
-    
-text2 (optional) 
+
+text2 (optional)
     Text displayed if the button is checked
-    
+
 icon2 (optional)
     Icon displayed if the button is checked
-    
+
 checked (optional, default: false)
     If true, the button is checked at start
-    
+
 iconWidth (optional)
     Icon width
 
@@ -497,8 +497,8 @@ clicked()
 
 toggled(bool checked)
     Emitted when the button is checked or unchecked.
-    
-In our case, we want to show (or hide) the image slices when the button is checked (or unckecked). So, we need to 
+
+In our case, we want to show (or hide) the image slices when the button is checked (or unckecked). So, we need to
 connect the ``toogled`` signal to the image adaptor slot ``showSlice(bool show)``.
 
 .. code-block:: xml

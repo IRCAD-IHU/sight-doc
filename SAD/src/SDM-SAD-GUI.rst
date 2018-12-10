@@ -10,8 +10,9 @@ Graphical User Interface (GUI) is the process of displaying the graphical
 components of an application. In Sight, the ``fwGui`` library provides abstract
 tools to display components like windows, buttons, textfield, aso.
 
-The software architecture provides a way of selecting different backends in order to manage the GUI components. As a result, the ``fwGuiQt`` library has been created to display components created using the Qt soup. Presently, this
-backend is the only one supported by the applications.
+The software architecture provides a way of selecting different backends in order to manage the GUI components.
+As a result, the ``fwGuiQt`` library has been created to display components created using the Qt soup.
+Presently, this backend is the only one supported by the applications.
 
 
 Backend
@@ -40,7 +41,10 @@ Configuration
 Frames
 ~~~~~~
 
-The frame is the main component of a GUI. The main service used to represent a general frame is ``::fwGui::IFrameSrv``. The service ``::gui::frame::DefaultFrame`` is the default implementation for the main application frame. Every backend must provide its own implementation of this service.
+The frame is the main component of a GUI.
+The main service used to represent a general frame is ``::fwGui::IFrameSrv``.
+The service ``::gui::frame::DefaultFrame`` is the default implementation for the main application frame.
+Every backend must provide its own implementation of this service.
 
 The DefaultFrame service is configurable with different parameters :
 
@@ -75,7 +79,10 @@ The DefaultFrame service is configurable with different parameters :
 Menus and actions
 ~~~~~~~~~~~~~~~~~
 
-The menu bar is used to organize application action groups. The main service used to display that kind of bar is ``::fwGui::IMenuBarSrv``. The service ``::gui::aspect::SDefaultMenuBar`` is the default implementation. Every backend must provide its own implementation of this service.
+The menu bar is used to organize application action groups.
+The main service used to display that kind of bar is ``::fwGui::IMenuBarSrv``.
+The service ``::gui::aspect::SDefaultMenuBar`` is the default implementation.
+Every backend must provide its own implementation of this service.
 
 The configuration is used to associate a menu label with the service representing the menu.
 
@@ -95,10 +102,13 @@ The configuration is used to associate a menu label with the service representin
     </service>
 
 
-The main service used to display a menu is ``::fwGui::IMenuSrv``. The service ``::gui::aspect::SDefaultMenu`` is the default implementation. Every backend must provide its own implementation of this service.
+The main service used to display a menu is ``::fwGui::IMenuSrv``.
+The service ``::gui::aspect::SDefaultMenu`` is the default implementation.
+Every backend must provide its own implementation of this service.
 
-The configuration is used to associate an action name and the service performing the action. An action can be configured with a shortcut, a style (default, check, radio) and/or an icon. Several special actions can also be
-specified (QUIT, ABOUT, aso.).
+The configuration is used to associate an action name and the service performing the action.
+An action can be configured with a shortcut, a style (default, check, radio) and/or an icon.
+Several special actions can also be specified (QUIT, ABOUT, aso.).
 
 .. code-block:: xml
 
@@ -119,7 +129,10 @@ specified (QUIT, ABOUT, aso.).
     </service>
 
 
-A menu can also be displayed using a tool bar. The main service used to display a tool bar is ``::fwGui::IToolBarSrv``. The service ``::gui::aspect::SDefaultToolBar`` is the default implementation. Every backend must provide its own implementation of this service.
+A menu can also be displayed using a tool bar.
+The main service used to display a tool bar is ``::fwGui::IToolBarSrv``.
+The service ``::gui::aspect::SDefaultToolBar`` is the default implementation.
+Every backend must provide its own implementation of this service.
 
 The configuration of a tool bar is the same as the one used to describe a menu.
 
@@ -127,7 +140,10 @@ The configuration of a tool bar is the same as the one used to describe a menu.
 Layouts
 ~~~~~~~
 
-The layouts are used to organize the different parts of a GUI. The main service used to manage layouts is ``::fwGui::IGuiContainerSrv``. The service ``::gui::view::SDefaultView`` is the default implementation. Every backend must provide its own implementation of this service.
+The layouts are used to organize the different parts of a GUI.
+The main service used to manage layouts is ``::fwGui::IGuiContainerSrv``.
+The service ``::gui::view::SDefaultView`` is the default implementation.
+Every backend must provide its own implementation of this service.
 
 Several types of layout can be used :
 
@@ -158,7 +174,9 @@ Every layout can be configured with a set of parameters (orientation, alignment,
 Multi-threading
 ---------------
 
-The ``fwGui`` library has been designed to support multi-thread application. When a GUI component needs to be accessed, the function call must be encapsulated in a lambda declaration as shown in this example:
+The ``fwGui`` library has been designed to support multi-thread application.
+When a GUI component needs to be accessed,
+the function call must be encapsulated in a lambda declaration as shown in this example:
 
 .. code-block:: cpp
 
@@ -168,4 +186,5 @@ The ``fwGui`` library has been designed to support multi-thread application. Whe
         }
         ).wait();
 
-This encapsulation is required because all access to GUI components must be performed in the thread containing the GUI. It moves the function calls from the current thread, to the GUI thread.
+This encapsulation is required because all access to GUI components must be performed in the thread containing the GUI.
+It moves the function calls from the current thread, to the GUI thread.

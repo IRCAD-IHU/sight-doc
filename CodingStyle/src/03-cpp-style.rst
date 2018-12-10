@@ -9,11 +9,11 @@ Source and files
     Source files must be placed in a folder ``src/``. Public header files must be placed in a folder ``include/``. Private headers may be placed in a different location.
 
 .. rule :: Files hierarchy
-    
+
     The file hierarchy should follow the namespace hierarchy. For instance, the implementation of a class ``::ns1::ns2::SService`` should be put in ``src/ns1/ns2/SService.cpp``.
 
 .. rule :: Files extensions
-    
+
     Header files use the extension ``.hpp``.
 
     Implementation files use the extension ``.cpp``.
@@ -25,7 +25,7 @@ Source and files
     It is recommended to declare (or to implement) only one class per file. However tiny classes may be declared inside the same file.
 
 .. rule :: Includes
-    
+
     Use the right include directive depending on the context. ``#include "..."`` must be used to import headers from the same module, whereas ``#include <...>`` must be used to import headers from other modules.
 
 .. rule :: Include path
@@ -35,7 +35,7 @@ Source and files
 .. rule :: Protection against multiple inclusions
 
     You must protect your files against multiple inclusions. To this end, use ``#pragma once`` .
-    
+
     .. code-block :: cpp
 
         #pragma once
@@ -50,7 +50,7 @@ Source and files
 
         class Foo
         {
-        public:    
+        public:
             std::string m_string;
         }
 
@@ -74,7 +74,7 @@ Source and files
         // Header.hpp
         class Foo
         {
-        public:    
+        public:
             std::string m_string;
         }
 
@@ -157,7 +157,7 @@ Naming conventions
 
 .. rule :: Function and method names
 
-    Functions and methods names must be written in camel case. 
+    Functions and methods names must be written in camel case.
 
 .. recommendation :: Correct naming of functions
 
@@ -183,17 +183,17 @@ Naming conventions
         static int s_staticVar;
 
 .. rule :: Constant
-    
+
     Static constant variables must be written in snake_case but in capitals, and follow the previous rule.
 
     .. code-block :: cpp
 
         class SampleClass
         {
-            static const int s_AAA_BBB_CCC_VALUE = 1;           
+            static const int s_AAA_BBB_CCC_VALUE = 1;
         };
 
-        
+
 .. rule :: Type
 
     Type names, like classes, must be written in upper camel case.
@@ -215,7 +215,7 @@ Naming conventions
         };
 
 .. rule :: Macro
-    
+
     Macros without parameters must be written in capitals. On the contrary, there is no specific rule on macros with parameters.
 
     .. code-block :: cpp
@@ -317,7 +317,7 @@ Blocks
     The keywords ``public``, ``protected`` and ``private`` are not indented, they should be aligned with the keyword ``class``.
 
     .. code-block :: cpp
-        
+
         class Sample
         {
         public:
@@ -368,7 +368,7 @@ Class declaration
         {
             ...
         }
-        
+
 .. recommendation :: Separate template class function definition
 
     In addition of the previous rule, you may put the definition of the function in a ``.hxx`` file. This file will be included in the implementation file right after the header file (the compile time will be reduced comparing with an inclusion of the ``.hxx`` in the header file itself).
@@ -378,25 +378,49 @@ Class declaration
         #include <namespaceA/file.hpp>
         #include <namespaceA/file.hxx>
 
-Initializer list
-~~~~~~~~~~~~~~~~~~~~~~~~~
+In-class member initialization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. rule :: One initializer per line
+.. rule :: Favor initializion of member variables in-class at declaration.
 
-    In a class constructor, use the initialization list as much as possible. Place one initializer per line. Constructors of base classes should be placed first, followed by member variables. Do not specify an initializer if it is the default one (empty std::string for instance).
+    You should favor in-class initialization for your member variables as shown below.
+
+    .. code-block :: cpp
+
+        class SampleClass
+        {
+
+            SampleClass();
+            ~SampleClass();
+
+            int m_value {0};
+
+            bool m_condition {true};
+
+            std::string m_string {"Hello World!"};
+
+        };
+
+.. rule :: Avoid constructor initialization
+
+    Constructor initialization should be avoided, only constructor parameters should be initialized here.
+    It is possible however to override default in-class initializations on your constructor.
 
     .. code-block :: cpp
 
         SampleClass::SampleClass( const std::string& name, const int value ) :
             BaseClassOne( name ),
             BaseClassTwo( name ),
-            m_value( value ),
-            m_misc( 10 )
+            m_string    ( "Goodbye World!" )
         {}
+
+.. rule :: One initializer per line in constructor initialization
+
+In a class constructor, place one initializer per line. Constructors of base classes should be placed first, do not specify an initializer if it is the default one (empty std::string for instance).
 
 .. recommendation :: Align everything that improves readability
 
-    To improve readability, you may align members on one hand and argument lists on the other hand.
+To improve readability, you may align members on one hand and argument lists on the other hand.
 
     .. code-block :: cpp
 
@@ -405,7 +429,9 @@ Initializer list
             BaseClassTwo  ( name ),
             m_value       ( value ),
             m_misc        ( 10 )
-        {}
+         {}
+
+
 
 Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -415,7 +441,7 @@ Functions
     Whenever possible, use constant references to pass arguments of non-primitive types. This avoids useless and expensive copies.
 
     .. code-block :: cpp
-        
+
         void badFunction( std::vector<int> array )
         {
             ...
@@ -428,7 +454,7 @@ Functions
 
 .. recommendation :: Constant reference for shared pointers
 
-    For performance sake, it is preferable to use ``const&`` to pass arguments of type ``::boost::shared_ptr``. It is only useful to pass the pointer by copy if the pointer can be invalidated by an another thread during the function call. If you have any doubt, it is safer to pass the argument by copy.        
+    For performance sake, it is preferable to use ``const&`` to pass arguments of type ``::boost::shared_ptr``. It is only useful to pass the pointer by copy if the pointer can be invalidated by an another thread during the function call. If you have any doubt, it is safer to pass the argument by copy.
 
 .. rule :: Constant functions
 
@@ -449,7 +475,7 @@ Functions
 
         // This is bad
         function( fn1(val1 + val2 / 4 ), fn2( fn3( val3 ), val4) );
-    
+
         // This is better
         const float res0 = val1 + val2 / 4;
 
@@ -484,7 +510,7 @@ Miscellaneous
     .. code-block :: cpp
 
         namespace bf = ::boost::filesystem;
-        
+
 
 .. rule :: Keyword const
 
@@ -497,7 +523,7 @@ Miscellaneous
         std::vector< const Object* > objectsList;
 
         void func(const Object& param);
-        
+
 
 .. recommendation :: Keyword auto
 
@@ -526,7 +552,7 @@ Miscellaneous
 .. rule :: Explicit integer types
 
     When you do need a specific integer size, use type definitions declared in `<cstdint> <http://www.cplusplus.com/reference/cstdint/>`_, for example :
-    
+
     ======  =========  ==========
      Bits    Signed     Unsigned
     ======  =========  ==========

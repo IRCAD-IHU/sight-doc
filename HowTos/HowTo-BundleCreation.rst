@@ -4,7 +4,8 @@ How to create a bundle, a lib, an executable or an application ?
 
 In sight, the bundles, libraries, applications and executables are folders containing:
 
-- [required] two files to generate the *CMake* target: ``CMakeLists.txt`` and ``Properties.cmake`` (see :ref:`HowCMake`).
+- [required] two files to generate the *CMake* target: ``CMakeLists.txt``
+  and ``Properties.cmake`` (see :ref:`HowCMake`).
 - [optional] *include* and *src* folder to contain the header and source files.
 - [optional] *rc* folder to contain resources and XML configuration files
 - [optional] *test* folder to contain the unit tests
@@ -19,7 +20,7 @@ In sight, you will encounter two types of bundles:
 - the bundles containing only XML configurations
 - the bundles containing services or other cpp code
 
-It is possible to contain at the same time configurations and services (or C++ code), but for the sake of clarity and 
+It is possible to contain at the same time configurations and services (or C++ code), but for the sake of clarity and
 reusability we recommend to separate the two.
 
 .. _configBundle:
@@ -94,8 +95,10 @@ Then the extensions are defined. There are different types of extensions, the mo
 Service bundles
 ----------------
 
-You don't need to create the ``plugin.xml`` file for the bundle that contains only services, it will be automatically generated.
-A ``CMake`` script parses the services macro and doxygen to generate the ``::fwServices::registry::ServiceFactory`` extension
+You don't need to create the ``plugin.xml`` file for the bundle that contains only services,
+it will be automatically generated.
+A ``CMake`` script parses the services macro and doxygen
+to generate the ``::fwServices::registry::ServiceFactory`` extension
 (see :ref:`serviceCreation` and :ref:`serviceNotFound`)
 
 The bundle contains the service header files in the `include` folder and the `source` files in the `src` folder.

@@ -8,10 +8,12 @@ Dynamic program with factories
 
 As shown in the :ref:`Object-Service concept example<Object-Service_example>`, it is easy to change an application's
 behavior by simply changing the appropriate data and services. For example changing an image visualization application
-to a 3D model visualization application. Unfortunately, this is limited to applications based on one service and one data,
+to a 3D model visualization application.
+Unfortunately, this is limited to applications based on one service and one data,
 and thus it would be impossible to apply to applications containing multiple services and objects.
 
-To overcome this, the Sight architecture provides a dynamic management of configurations to allow the use of multiple objects and services.
+To overcome this, the Sight architecture provides a dynamic management of configurations
+to allow the use of multiple objects and services.
 
 The xml configuration for an application is defined with the extension ``::fwServices::registry::AppConfig``.
 
@@ -194,7 +196,8 @@ the <object> tags define the objects of the AppConfig.
      possible values: "new", "ref", "deferred"
 
      - **"new"** : defines that the object should be created
-     - **"ref"** : defines that the object already exists in the application. The uid must be the same as the first declaration of this object (with "new").
+     - **"ref"** : defines that the object already exists in the application.
+       The uid must be the same as the first declaration of this object (with "new").
      - **"deferred"** : defines that the object will be created later (by a service).
 
 Specific object configuration
@@ -256,7 +259,8 @@ Specific object configuration
 
 Service
 ~~~~~~~~~
-The <service> tags represent a service working on the object(s). Services list the data the use and how they access them.
+The <service> tags represent a service working on the object(s).
+Services list the data the use and how they access them.
 Some services needs a specific configuration, it is usually described in the doxygen.
 
 - uid (optional):
@@ -287,7 +291,9 @@ Some services needs a specific configuration, it is usually described in the dox
 
     - **key** : object key used to retrieve the object into the service
     - **uid** : unique identifier of the object declared in the <object> tag
-    - **optional** : (optional, default "no", values: "yes" or "no") If "yes", the service can be started even if the object is not present. By definition, the output objects are always optional.
+    - **optional** : (optional, default "no", values: "yes" or "no") If "yes",
+      the service can be started even if the object is not present.
+      By definition, the output objects are always optional.
 
 
 .. code-block:: cpp

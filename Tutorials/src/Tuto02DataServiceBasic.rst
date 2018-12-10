@@ -4,19 +4,19 @@
 [*Tuto02DataServiceBasic*] Display an image
 *********************************************
 
-The second tutorial represents a basic application that displays a medical 3D image. 
+The second tutorial represents a basic application that displays a medical 3D image.
 
 .. figure:: ../media/tuto02DataServiceBasic.png
     :scale: 50
     :align: center
-    
+
 
 Prerequisites
 --------------
 
 Before reading this tutorial, you should have seen :
  * :ref:`tuto01`
- 
+
 
 Structure
 ----------
@@ -49,20 +49,20 @@ This file describes the project information and requirements :
 
 .. note::
 
-    The Properties.cmake file of the application is used by CMake_ to compile the application but also to generate the
-    ``profile.xml``, the input file used to launch the application (see :ref:`profile.xml`). 
-    
+    The Properties.cmake file of the application is used by CMake to compile the application but also to generate the
+    ``profile.xml``, the input file used to launch the application (see :ref:`profile.xml`).
+
 
 plugin.xml
 ~~~~~~~~~~~
 
 This file is located in the ``rc/`` directory of the application. It defines the services to run.
- 
+
 .. code-block:: xml
 
     <plugin id="Tuto02DataServiceBasic" version="@PROJECT_VERSION@">
 
-        <!-- The bundles in requirements are automatically started when this 
+        <!-- The bundles in requirements are automatically started when this
              application is launched. -->
         <requirement id="dataReg" />
         <requirement id="servicesReg" />
@@ -134,24 +134,24 @@ This file is located in the ``rc/`` directory of the application. It defines the
         </extension>
 
     </plugin>
-    
+
 
 
 For this tutorial, we have only one object ``::fwData::Image`` and three services:
  * ``::gui::frame::SDefaultFrame``: frame service
  * ``::ioVTK::SImageReader``: reader for 3D VTK image
  * ``::vtkSimpleNegato::SRenderer``: renderer for 3D image
- 
-The following order of the configuration elements must be respected: 
+
+The following order of the configuration elements must be respected:
   #. ``<object>``
   #. ``<service>``
   #. ``<connect>`` (see :ref:`tuto04`)
   #. ``<start>``
   #. ``<update>``
- 
+
 .. note::
-    To avoid the ``<start uid="myRendering" />``, the frame service can automatically start the rendering service: you 
-    just need to add the attribute ``start="yes"`` in the ``<view>`` tag. 
+    To avoid the ``<start uid="myRendering" />``, the frame service can automatically start the rendering service: you
+    just need to add the attribute ``start="yes"`` in the ``<view>`` tag.
 
 Run
 ----

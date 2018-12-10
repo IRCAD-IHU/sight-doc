@@ -7,7 +7,9 @@ Data file migration
 Overview
 -----------
 
-The data migration system consists on converting the data to another version. It allows us to adapt any version of data to any version of software, and thus ensuring compatibility between data and software independently of their version.
+The data migration system consists on converting the data to another version.
+It allows us to adapt any version of data to any version of software,
+and thus ensuring compatibility between data and software independently of their version.
 
 
 Migration process is applied on two independent steps :
@@ -20,10 +22,13 @@ Definitions
 ------------
 
 Context
-    It represents a complex chunk of data. For example, the `medical patient folder`_, the software preference file, etc. Hereafter we will consider a medical patient folder which is called **MedicalData**.
+    It represents a complex chunk of data. For example, the `medical patient folder`_,
+    the software preference file, etc.
+    Hereafter we will consider a medical patient folder which is called **MedicalData**.
 
 Structural patch
-    This sort of patch affects only one object of the serialized data regardless of the context (ex: add or remove attribute, type, ...), see :ref:`StructuralPatch`.
+    This sort of patch affects only one object of the serialized data
+    regardless of the context (ex: add or remove attribute, type, ...), see :ref:`StructuralPatch`.
 
 Semantic patch
     This sort of patch is applied on a context to migrate to a given version without changing the data structure.
@@ -40,7 +45,10 @@ Patcher
 Data Version
 -------------
 
-After the conversion from ``::fwData::Object`` to ``::fwAtoms::Object``, each data is assigned a version number. Said number is defined in the camp serialization source files (see Serialization_). Each data structure modification causes an incrementation of the data version.
+After the conversion from ``::fwData::Object`` to ``::fwAtoms::Object``,
+each data is assigned a version number.
+Said number is defined in the camp serialization source files (see Serialization_).
+Each data structure modification causes an incrementation of the data version.
 
 .. _Serialization: SDM-SAD-Serialization.html
 
@@ -71,8 +79,8 @@ The context version must be incremented after a data version modification.
 
 .. note::
 
-	- If several data versions are modified simultaneously, only one incrementation of the context version is necessary.
-	- A single context version can contain data with different versions (see the example below).
+    - If several data versions are modified simultaneously, only one incrementation of the context version is necessary.
+    - A single context version can contain data with different versions (see the example below).
 
 The ``.versions`` file contains a detailed description of the context version, and the version of each data.
 
@@ -119,7 +127,9 @@ Example of ``V2.versions``:
 Migration
 ----------
 
-The migration is applied on a given context. It is described in the ``.graphlink`` file. It defines how to migrate from a context version to another.
+The migration is applied on a given context.
+It is described in the ``.graphlink`` file.
+It defines how to migrate from a context version to another.
 
 
 Example of ``V1ToV2.graphlink``:
@@ -151,7 +161,8 @@ The ``links`` tag represents the data version modifications, by doing so, associ
 
 .. note::
 
-	It is not necessary to specify a simple data version incrementation on the ``links`` tag, the patching system establishes this information from the data version defined in the ``.versions`` files.
+    It is not necessary to specify a simple data version incrementation on the ``links`` tag,
+    the patching system establishes this information from the data version defined in the ``.versions`` files.
 
 
 .. _Graph:
@@ -159,7 +170,9 @@ The ``links`` tag represents the data version modifications, by doing so, associ
 Graph
 --------
 
-The ``.graphlink`` and ``.versions`` files are parsed and the information is stored in the ``::fwAtoms::VersionsManager``. Each context defines a graph.
+The ``.graphlink`` and ``.versions`` files are parsed and
+the information is stored in the ``::fwAtoms::VersionsManager``.
+Each context defines a graph.
 
 Example of graph:
 
@@ -460,9 +473,12 @@ To register the semantic patch:
 Patcher
 ~~~~~~~~
 
-The patcher defines the methods to parse the data and applies the structural and semantic patches. It must inherit from ``fwAtomsPatch::patcher::IPatcher`` and implements the ``transformObject()`` method.
+The patcher defines the methods to parse the data and applies the structural and semantic patches.
+It must inherit from ``fwAtomsPatch::patcher::IPatcher`` and implements the ``transformObject()`` method.
 
-We usually use the ``DefaultPatcher``. The conversion is processed in two steps: first it applies the structural patches recursively on each sub-objects, then it applies the semantic patches recursively on each sub-objects.
+We usually use the ``DefaultPatcher``.
+The conversion is processed in two steps: first it applies the structural patches recursively on each sub-objects,
+then it applies the semantic patches recursively on each sub-objects.
 
 
 Rules
