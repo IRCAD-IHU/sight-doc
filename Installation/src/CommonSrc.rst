@@ -1,4 +1,3 @@
-
 .. warning::
     Do NOT use ninja to compile the dependencies, it causes conflict with qt compilation.
 
@@ -120,17 +119,12 @@ to be passed as argument to the *fwlauncher* call in the console.
     > cd Dev/Build/Debug
     > ./bin/fwlauncher share/MyApplication/profile.xml
 
+A launcher script is also generated for each application. The script has the same name as the application
+in lowercase. This is the preferred way for starting applications.
+
 Example:
 
 .. code:: bash
 
     $ cd /Dev/Build/Debug
-    $ ./bin/fwlauncher share/VRRender_0-9/profile.xml
-
-[LINUX]: If you can't launch it, try to launch it by using ``LD_LIBRARY_PATH``.
-
-
-.. code:: bash
-
-    $ cd /Dev/Build/Debug
-    $ LD_LIBRARY_PATH=/home/login/Dev2/BinPkgs/Install/Debug/lib/ ./bin/fwlauncher share/sight/OgreViewer-0.2/profile.xml
+    $ ./bin/vrrender
