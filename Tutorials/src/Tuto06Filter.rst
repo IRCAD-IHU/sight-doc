@@ -194,15 +194,16 @@ This file is in the ``rc/`` directory of the application. It defines the service
 Filter service
 ---------------
 
-Here, the filter service is inherited from ``::fwGui::IActionSrv``, which allows to use this service as an action, in this case
-as a button. The member function  ``updating()`` is called when clicking on the button. However you can inherit from another type (like 
-``::arServices::IOperator`` in fw4spl-ar repository) if you do not need this behavior.
+Here, the filter service is inherited from ``::fwGui::IActionSrv``,
+which allows to use this service as an action, in this case as a button.
+The member function  ``updating()`` is called when clicking on the button.
+However you can inherit from another type (like ``::fwServices::IOperator``) if you do not need this behavior.
 
 This  ``updating()`` function retrieves the two images and applies the threshold algorithm.
 
-The ``::fwData::Image`` contains a buffer for pixel values, it is stored as a ``void *`` to allows several types of 
-pixel (uint8, int8, uint16, int16, double, float ...). To use the image buffer, we need to cast it to the image pixel type. 
-For that, we use the ``::fwTools::Dispatcher`` class which it allows to invoke a template functor according to the image type. This is 
+The ``::fwData::Image`` contains a buffer for pixel values, it is stored as a ``void *`` to allows several types of
+pixel (uint8, int8, uint16, int16, double, float ...). To use the image buffer, we need to cast it to the image pixel type.
+For that, we use the ``::fwTools::Dispatcher`` class which it allows to invoke a template functor according to the image type. This is
 particularly useful when using template based libraries like `ITK <https://itk.org/>`_.
 
 .. code-block:: cpp
@@ -246,7 +247,7 @@ particularly useful when using template based libraries like `ITK <https://itk.o
 
 
 The functor is a *structure* containing a *sub-structure* for the parameters (inputs and outputs) and a template
-method ``operator(parameters)``. 
+method ``operator(parameters)``.
 
 .. code-block:: cpp
 
@@ -298,7 +299,7 @@ method ``operator(parameters)``.
             }
         }
     };
-    
+
 
 Run
 =========

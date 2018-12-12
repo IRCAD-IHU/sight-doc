@@ -7,7 +7,7 @@ Overview
 --------
 
 Serialization is the process to save plain C++ structures from memory to hard
-drive.  In fw4spl, ``fwAtoms`` library provides tools to serialize all data (and
+drive.  In Sight, ``fwAtoms`` library provides tools to serialize all data (and
 especially Object that extend ``::fwData::Object``) to a JSON format [#]_.  Of
 course, this process is also available for loading data from JSON format to
 plain C++ structures.
@@ -104,7 +104,7 @@ plain C++ object using this set of restricted types.
 Convert a ``fwData::Object``
 ----------------------------
 
-As explained earlier, all objects in fw4spl inherit from the ``::fwData::Object``
+As explained earlier, all objects in Sight inherit from the ``::fwData::Object``
 class.  To convert a C++ object in Atom, it must inherit from this class.  To
 allow this conversion, some work must be done.
 
@@ -201,13 +201,16 @@ describe the object to bind.
     "base<BaseClass>()","Identify the base class of the bound object"
     "property(arg1, arg2)","Set property of the object and how to access it"
 
-Most of the work is completed when the header file of the relevant class has been updated and a binding class created.  The last step is to register the binding class in the conversion system using the following line in the library containing binding classes:
+Most of the work is completed when the header file of the relevant class has been updated and a binding class created.
+The last step is to register the binding class in the conversion system using
+the following line in the library containing binding classes:
 
 .. code-block:: cpp
 
     localDeclarefwDataComplexClass();
 
-In fw4spl, data are located in ``fwData`` library whereas data binding classes are located in ``fwDataCamp`` library. The above line registering a binding class can be found in ``fwDataCamp`` autoload.hpp files.
+In Sight, data are located in ``fwData`` library whereas data binding classes are located in ``fwDataCamp`` library.
+The above line registering a binding class can be found in ``fwDataCamp`` autoload.hpp files.
 
 
 Serialization file example
@@ -219,7 +222,7 @@ For more information about serialization see:
     :header: "location", "brief"
 
     "Srclib/core/fwData/include/","fwData header files with serialization macros"
-    "Srclib/core/fwDataCamp","Serialization description of all fw4spl data"
+    "Srclib/core/fwDataCamp","Serialization description of all Sight data"
     "Srclib/core/fwDataCamp/include/fwDataCamp/autoload.hpp","Auto loading data bindings in the system"
 
 
@@ -243,8 +246,9 @@ Two functions are necessary to achieve this conversion:
 Serialize an Atoms object to JSON format
 ----------------------------------------
 
-When a fw4spl data is converted into Atoms, it can be saved in JSON format. Both an Atom reader and Atom writer are available in the ``fwAtomsBoostIO``
-fw4spl library: simply instantiate one of these classes with an Atom object
+When a Sight data is converted into Atoms, it can be saved in JSON format.
+Both an Atom reader and Atom writer are available in the ``fwAtomsBoostIO``
+Sight library: simply instantiate one of these classes with an Atom object
 and call the read or write method.
 
 To serialize atoms into JSON, a visitor pattern is used. An example can be
@@ -254,6 +258,8 @@ found in the ``fwAtomsBoostIO/Reader.cpp`` file.
 Conclusion
 ----------
 
-Accordingly, you have now the requirements to serialize data in the framework and a basic knowledge about the mechanism behind it. To conclude, this is a diagram of the serialization mechanism:
+Accordingly, you have now the requirements to serialize data in the framework
+and a basic knowledge about the mechanism behind it.
+To conclude, this is a diagram of the serialization mechanism:
 
 .. image:: ../media/serialization.png

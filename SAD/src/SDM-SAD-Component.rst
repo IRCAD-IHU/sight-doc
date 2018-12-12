@@ -3,8 +3,8 @@
 Component-based software
 ==============================
 
-The FW4SPL is also a component-based architecture.
- 
+The Sight is also a component-based architecture.
+
 Component-based software engineering (CBSE) (also known as component-based development (CBD)) is a
 branch of software engineering that emphasizes the separation of concerns in
 respect of the wide-ranging functionality available throughout a given software
@@ -12,9 +12,9 @@ system. It is a reuse-based approach to defining, implementing and composing
 loosely coupled independent components into systems. This practice aims to
 bring about an equally wide-ranging degree of benefits in both the short-term
 and the long-term for the software itself and for organizations that sponsor
-such software. Excerpt from "Component-based software engineering" [#]_ on Wikipedia 
+such software. Excerpt from "Component-based software engineering" [#]_ on Wikipedia
 
-.. [#] Component-based software engineering http://en.wikipedia.org/wiki/Component-based_software_engineering  
+.. [#] Component-based software engineering http://en.wikipedia.org/wiki/Component-based_software_engineering
 
 Definitions and characteristics
 -------------------------------
@@ -40,7 +40,7 @@ Component-based implementation
 ------------------------------
 
 Implementation requires a dynamic structure which represents the component
-and a software launcher which loads and manages these components. 
+and a software launcher which loads and manages these components.
 A component, called a bundle, is just a simple folder that contains :
 
 - the component description file (plugin.xml) to describe the content of the

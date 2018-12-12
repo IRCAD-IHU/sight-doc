@@ -5,19 +5,20 @@ Testing
 .. toctree::
     :maxdepth: 2
 
-   
+
 
 .. _CTest: http://cmake.org/
 .. _CMake: http://cmake.org/
 .. _CppUnit: https://sourceforge.net/projects/cppunit
-.. _fw4spl: https://github.com/fw4spl-org/fw4spl
+.. _sight: https://git.ircad.fr/Sight/sight
 
-fw4spl_ uses CTest_ and CppUnit_ for unit testing.
+sight_ uses CTest_ and CppUnit_ for unit testing.
 
 Building
 --------
 
-When building fw4spl_ with CMake_, you will need to enable the ``BUILD_TESTS`` option, e.g. with the ``-DBUILD_TESTS=ON`` command line option.
+When building sight_ with CMake_, you will need to enable the ``BUILD_TESTS`` option,
+e.g. with the ``-DBUILD_TESTS=ON`` command line option.
 
 Launching unit tests
 --------------------
@@ -40,6 +41,14 @@ In you build directory, you can launch the unit tests with the ``ctest`` command
 Additional data
 ---------------
 
-Additional data need to be download to run all the unit tests. They are available at the following `link <https://owncloud.ircad.fr/index.php/s/zT2FzoTCJiMZdGo/download>`_.
+Additional data need to be download to run all the unit tests.
+They are available on the repository `sight-data <https://git.ircad.fr/Sight/sight-data>`_.
+You can download the data on this repository with this `URL <https://git.ircad.fr/Sight/sight-data/-/archive/master/sight-data-master.tar.gz>`_
+or with this git command
+
+.. code:: bash
+
+    git clone --depth 1 https://git.ircad.fr/Sight/sight-data.git
+
 You can then specify the directory, where the data are located, with the ``FWTEST_DATA_DIR`` environment variable.
 

@@ -6,15 +6,17 @@ Generic Scene
 Overview
 ------------------------
 
-A generic scene in FW4SPL is a feature to visualize elements like meshes or images in a scene.
+A generic scene in Sight is a feature to visualize elements like meshes or images in a scene.
 The scene is based on VTK. The generic scene is universal and therefore applicable for diverse visualization tasks.
 It can be seen as fusion of a negatoscope and the 3D model visualization.
 
 Manager
 ------------------------
 
-The ``SRender`` is the manager service of the VTK scene. Its main task is to instantiate a VTK context (``vtkRender`` and ``vtkRenderWindow``).
-In addition, it configures the rendering properties and describes a list of *adaptors*, which are dedicated services that render FW4SPL data into this rendering context.
+The ``SRender`` is the manager service of the VTK scene.
+Its main task is to instantiate a VTK context (``vtkRender`` and ``vtkRenderWindow``).
+In addition, it configures the rendering properties and describes a list of *adaptors*,
+which are dedicated services that render Sight data into this rendering context.
 
 .. code-block:: xml
 
@@ -54,7 +56,8 @@ renderer
     - **layer** (optional): defines the layer of the vtkRenderer. This is only used if there are layered renderers.
     - **background** (optional): the background color of the rendering screen.
 
-    The color value can be defined as a grey level value (ex . 1.0 for white) or as a hexadecimal value (ex : \#ffffff for white).
+    The color value can be defined as a grey level value (ex . 1.0 for white)
+    or as a hexadecimal value (ex : \#ffffff for white).
 
 vtkObject
     Represents a vtk object. It is usually used for vtkTransform or vtkImageBlend.
@@ -76,9 +79,9 @@ adaptor
 Adaptor
 -------------
 
-An adaptor (inherited from ``::fwRenderVTK::IAdaptor``) is a service to manipulate or display a FW4SPL data.
+An adaptor (inherited from ``::fwRenderVTK::IAdaptor``) is a service to manipulate or display a sight data.
 Services representing an adaptor are managed by a generic scene (``::fwRenderVTK::SRender``).
-The adaptors are the gateway between FW4SPL objects and VTK objects.
+The adaptors are the gateway between Sight objects and VTK objects.
 To respect the principles of the framework, adaptors are kept as generic as possible.
 Therefore they are reusable in other applications or even adaptors as sub-services.
 
@@ -131,7 +134,7 @@ should contain this minimal code:
     }
 
 
-Adaptors are configured and started like other services in the xml since **FW4SPL 12.0.0**.
+Adaptors are configured and started like other services in the xml since **Sight 12.0.0**.
 
 .. code-block:: xml
 
