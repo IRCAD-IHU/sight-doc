@@ -15,7 +15,7 @@ If not already installed:
    Doing so will ensure that Visual Studio is correctly registered, because otherwise,
    the build of some dependencies may fail.
 
-4. Install `Python 2.7 <https://www.python.org/downloads/>`_
+4. Install `Python 3.5 or greater <https://www.python.org/downloads/>`_
 
 5. Install `CMake <http://www.cmake.org/download/>`_
 
