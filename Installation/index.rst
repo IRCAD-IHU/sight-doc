@@ -10,5 +10,6 @@ Installation
    src/WindowsInstall
    src/LinuxInstall
    src/MacOSXInstall
-   src/WindowsInstallConan
+   src/InstallationWithConan
+   src/QtCreatorSetup
 
