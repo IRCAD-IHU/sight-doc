@@ -1,9 +1,9 @@
 .. _qtcreatorsetup:
 
-Setting up QtCreator
-====================
+Setting up QtCreator on windows
+================================
 
-Sight contains a substantial amount of code, with numerous nested inclusion, type redefinitions and other advanced
+Sight contains a substantial amount of code, with numerous nested inclusions, type redefinitions and other advanced
 architecture webbings. This makes finding the right IDE and configuring it correctly a bit of a hassle. Below you will
 find a guideline to setup QtCreator.
 
@@ -21,10 +21,10 @@ by default)
 Managing your kits
 ------------------
 
-First and foremost, make sure you open a clean instance of QtCreator (a.k.a. not from a console with a modified PATH
-variable. a.k.a from the start menu).
+First and foremost, make sure you open a clean instance of QtCreator (i.e. from a console with a modified PATH
+variable. e.g. from the start menu).
 
-Kits are, in QtCreator, a combination of the used compiler, qt version, ``CMake`` versions and Debuggers this is
+Kits are, in QtCreator, a combination of the used compiler, qt version, ``CMake`` versions and Debuggers. This is
 specially important if you have installed multiple instances of ``C++`` compilers or other.
 
 For now, just make sure all the paths look correct, and that compilers, as well as the debuggers are found with the
