@@ -48,8 +48,8 @@ Install a c++ compiler and other development libraries.
 
    .. group-tab:: Linux
 
-        Install `gcc 7 <https://gcc.gnu.org/>`_  or `clang 6.0 <http://clang.llvm.org/>`_ (As pre-built packages are 
-        only compiled with this versions). 
+        Install `gcc 7 <https://gcc.gnu.org/>`_  or `clang 6.0 <http://clang.llvm.org/>`_ (As pre-built packages are
+        only compiled with this versions).
 
         Depending on which linux distribution you use,
         for example on **Mint**, you can run the following command to download and install these tools:
