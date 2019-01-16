@@ -41,7 +41,7 @@ SET PATH=%PATH%;C:\Python\Scripts
 pip install sphinx
 ```
 
-- Use pip to install Sphinx rtd-theme
+- Use pip to install Sphinx rtd-theme sphinx-tab
 
 ```bash
 pip install sphinx_rtd_theme

@@ -15,7 +15,7 @@ If not already installed:
    Doing so will ensure that Visual Studio is correctly registered, because otherwise,
    the build of some dependencies may fail.
 
-4. Install `Python 2.7 <https://www.python.org/downloads/>`_
+4. Install `Python 3.5 or greater <https://www.python.org/downloads/>`_
 
 5. Install `CMake <http://www.cmake.org/download/>`_
 
@@ -42,7 +42,7 @@ So to prepare the development environment:
 
 * Create a source folder (Dev\\Src)
 
-* Create a install folder (Dev\\Install)
+* Create an install folder (Dev\\Install)
 
     * Add a sub folder for Debug and Release.
 
@@ -150,7 +150,7 @@ Build
 
 * Compile the Sight dependencies using jom in the console:
 
-    * go to the build directory (e.g. Dev\\BinPkgs\\Build\\Debug or Release)
+    * Go to the build directory (e.g. Dev\\BinPkgs\\Build\\Debug or Release)
     * Use "jom all" to compile all the dependencies
     * Use "jom name_of_target" to compile only the desired target
 
