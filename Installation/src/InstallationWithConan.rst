@@ -184,7 +184,7 @@ Setting up your environment
             $ xcode-select --print-path
             /Applications/Xcode.app/Contents/Developer
 
-        If the above command print something different, you mays reset to the default with:
+        If the above command prints something different, you may reset to the default with:
 
         .. code:: bash
 
