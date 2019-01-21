@@ -38,7 +38,7 @@ If not already installed:
 
 #. Install `git <https://git-scm.com/>`_
 #. Install `Python 3.5 or greater <https://www.python.org/downloads/>`_
-#. Install `CMake <http://www.cmake.org/download/>`_ Version 3.12 or later is required. You should use prebuilt binaries as it is safer. 
+#. Install `CMake <http://www.cmake.org/download/>`_ Version 3.12 or later is required. You should use prebuilt binaries as it is safer.
 #. Install `ninja <https://github.com/ninja-build/ninja/releases>`_
 #. Install `Conan  <https://docs.conan.io/en/latest/installation.html>`_ (you can use Python's ``pip``, but be sure to use python ``3`` -- you can check this by running ``pip --version``)
 
@@ -79,7 +79,7 @@ Install a c++ compiler and other development libraries.
 
         Install `Xcode 10.1 <https://itunes.apple.com/fr/app/xcode/id497799835?mt=12>`_
 
-        For an easy install, you can use the `Homebrew project <http://brew.sh/>`_  to install missing packages. 
+        For an easy install, you can use the `Homebrew project <http://brew.sh/>`_  to install missing packages.
         Brewed python is python ``3`` and is required since default macOS python is ``2``
 
         .. code:: bash
@@ -177,7 +177,7 @@ Setting up your environment
 
             $ xcode-select --install
 
-        If you already had installed the ``Command Line Tools``, it may be a good idea to check that the currently used ones are the default: 
+        If you already had installed the ``Command Line Tools``, it may be a good idea to check that the currently used ones are the default:
 
         .. code:: bash
 
