@@ -38,9 +38,9 @@ If not already installed:
 
 #. Install `git <https://git-scm.com/>`_
 #. Install `Python 3.5 or greater <https://www.python.org/downloads/>`_
-#. Install `CMake <http://www.cmake.org/download/>`_ Version 3.12 or later is required.
+#. Install `CMake <http://www.cmake.org/download/>`_ Version 3.12 or later is required. You should use prebuilt binaries as it is safer. 
 #. Install `ninja <https://github.com/ninja-build/ninja/releases>`_
-#. Install `Conan  <https://docs.conan.io/en/latest/installation.html>`_ (you can use Python's ``pip``)
+#. Install `Conan  <https://docs.conan.io/en/latest/installation.html>`_ (you can use Python's ``pip``, but be sure to use python ``3`` -- you can check this by running ``pip --version``)
 
 Install a c++ compiler and other development libraries.
 
@@ -79,11 +79,13 @@ Install a c++ compiler and other development libraries.
 
         Install `Xcode 10.1 <https://itunes.apple.com/fr/app/xcode/id497799835?mt=12>`_
 
-        For an easy install, you can use the `Homebrew project <http://brew.sh/>`_  to install missing packages.
+        For an easy install, you can use the `Homebrew project <http://brew.sh/>`_  to install missing packages. 
+        Brewed python is python ``3`` and is required since default macOS python is ``2``
 
         .. code:: bash
 
             $ brew install git
+            & brew install python
             $ brew install cmake
             $ brew install ninja
 
@@ -175,6 +177,19 @@ Setting up your environment
 
             $ xcode-select --install
 
+        If you already had installed the ``Command Line Tools``, it may be a good idea to check that the currently used ones are the default: 
+
+        .. code:: bash
+
+            $ xcode-select --print-path
+            /Applications/Xcode.app/Contents/Developer
+
+        If the above command print something different, you mays reset to the default with:
+
+        .. code:: bash
+
+            $ sudo xcode-select --reset
+
 Building your sources
 ----------------------
 
@@ -239,7 +254,7 @@ If you want to launch the ``cmake``  through the command line with the appropria
 .. code:: bash
 
     $ cd Dev/Build/Debug
-    $ cmake . <path_to_sources> -G ninja -DCMAKE_INSTALL_PREFIX=<Path_to_install_dir> \
+    $ cmake <path_to_sources> -G "Ninja" -DCMAKE_INSTALL_PREFIX=<Path_to_install_dir> \
       -DCMAKE_BUILD_TYPE=Debug -DUSE_CONAN=ON
 
 Build
