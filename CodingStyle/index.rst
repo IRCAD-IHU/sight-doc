@@ -11,4 +11,5 @@ Coding style
    src/04-documentation
    src/05-xml-style
    src/06-cmake-style
-   src/07-license
+   src/07-glsl-style
+   src/08-license
