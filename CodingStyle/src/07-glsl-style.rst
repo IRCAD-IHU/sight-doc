@@ -10,7 +10,7 @@ Source and files
 
 .. rule :: version
 
-    Always specify the GL target version.
+    Always specify the GL target version, we only allow versions up to 410 for maximum portability.
 
 .. rule:: Document the code
 
