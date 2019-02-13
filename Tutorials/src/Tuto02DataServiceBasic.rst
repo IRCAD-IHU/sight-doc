@@ -160,4 +160,4 @@ To run the application, you must call the following line in the install or build
 
 .. code::
 
-    bin/fwlauncher share/Tuto02DataServiceBasic-0.1/profile.xml
+    bin/tuto02dataservicebasic

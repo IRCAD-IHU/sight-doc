@@ -145,10 +145,4 @@ To run the application, you must call the following line into the install or bui
 
 .. code::
 
-    bin/fwlauncher share/Tuto01Basic-0.1/profile.xml
-
-On Linux and MacOs, you can also use the shortcut (generated for each application):
-
-.. code::
-
     bin/tuto01basic

@@ -452,4 +452,4 @@ To run the application, you must call the following line into the install or bui
 
 .. code::
 
-    bin/fwlauncher share/Tuto10MatrixTransformInGS-0.1/profile.xml
+    bin/tuto10matrixtransformings
