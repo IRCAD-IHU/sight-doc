@@ -4,7 +4,9 @@
 [*Tuto06Filter*] Apply a filter on an image
 ********************************************
 
-This tutorial explains how to apply a filter on an image. Here, the filter applied on the image is a threshold. The tutorial also implements a flip filter, that won't be described in this tutorial. The code for this second filter is available in the repository.
+This tutorial explains how to apply a filter on an image. Here, the filter applied on the image is a threshold.
+The tutorial also implements a flip filter, that won't be described in this tutorial.
+The code for this second filter is available in the repository.
 
 .. figure:: ../media/tuto06Filter.png
     :scale: 80
@@ -225,10 +227,10 @@ However you can inherit from another type (like ``::fwServices::IOperator``) if 
 
 This  ``updating()`` function retrieves the two images and applies the threshold algorithm.
 
-The ``::fwData::Image`` contains a buffer for pixel values, it is stored as a ``void *`` to allows several types of
-pixel (uint8, int8, uint16, int16, double, float ...). To use the image buffer, we need to cast it to the image pixel type.
-For that, we use the ``::fwTools::Dispatcher`` class which it allows to invoke a template functor according to the image type. This is
-particularly useful when using template based libraries like `ITK <https://itk.org/>`_.
+The ``::fwData::Image`` contains a buffer for pixel values, it is stored as a ``void *`` to allows several types of pixel
+(uint8, int8, uint16, int16, double, float ...). To use the image buffer, we need to cast it to the image pixel type.
+For that, we use the ``::fwTools::Dispatcher`` class which it allows to invoke a template functor according to the
+image type. This is particularly useful when using template based libraries like `ITK <https://itk.org/>`_.
 
 .. code-block:: cpp
 
