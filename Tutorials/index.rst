@@ -13,4 +13,5 @@ Tutorials
    src/Tuto05Mesher
    src/Tuto06Filter
    src/Tuto08GenericScene
+   src/Tuto10MatrixTransformInGS
    src/TutoQml
