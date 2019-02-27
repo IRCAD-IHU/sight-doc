@@ -4,7 +4,9 @@
 [*Tuto06Filter*] Apply a filter on an image
 ********************************************
 
-This tutorial explains how to perform a filter on an image. Here, the filter applied on the image is a threshold.
+This tutorial explains how to apply a filter on an image. Here, the filter applied on the image is a threshold.
+The tutorial also implements a flip filter, that won't be described in this tutorial.
+The code for this second filter is available in the repository.
 
 .. figure:: ../media/tuto06Filter.png
     :scale: 80
@@ -14,7 +16,7 @@ This tutorial explains how to perform a filter on an image. Here, the filter app
 Prerequisites
 ===============
 
-Before reading this tutorial, you should have seen :
+Before reading this tutorial, you should have seen:
  * :ref:`tuto05`
 
 
@@ -25,7 +27,7 @@ Structure
 Properties.cmake
 ------------------
 
-This file describes the project information and requirements :
+This file describes the project information and requirements:
 
 .. code-block:: cmake
 
@@ -43,7 +45,7 @@ This file describes the project information and requirements :
         visuVTKQt
         vtkSimpleNegato
         opImageFilter # bundle containing the action to performs a threshold
-        launcher
+        fwlauncher
         appXml
     )
 
@@ -73,7 +75,10 @@ This file is in the ``rc/`` directory of the application. It defines the service
             <id>FilterConfig</id>
             <config>
 
+                <!-- Image declaration: -->
+                <!-- This is the source image for the filtering. -->
                 <object uid="myImage1" type="::fwData::Image" />
+                <!-- This is the output image for the filtering. -->
                 <object uid="myImage2" type="::fwData::Image" />
 
                 <!-- Windows & Main Menu -->
@@ -107,9 +112,9 @@ This file is in the ``rc/`` directory of the application. It defines the service
 
                 <service uid="myDefaultView" type="::gui::view::SDefaultView">
                     <gui>
-                        <layout type="::fwGui::CardinalLayoutManager">
-                            <view align="center" />
-                            <view align="right" minWidth="500" minHeight="100" />
+                        <layout type="::fwGui::LineLayoutManager">
+                            <view proportion="1" />
+                            <view proportion="1" />
                         </layout>
                     </gui>
                     <registry>
@@ -137,10 +142,12 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     <gui>
                         <layout>
                             <menuItem name="Compute Image Filter" />
+                            <menuItem name="Toggle vertical image flipping" />
                         </layout>
                     </gui>
                     <registry>
                         <menuItem sid="actionImageFilter" start="yes" />
+                        <menuItem sid="actionImageFlipper" start="yes" />
                     </registry>
                 </service>
 
@@ -161,10 +168,27 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     <inout key="target" uid="myImage2" />
                 </service>
 
-                <!-- Image declaration: -->
+                <!--
+                    Filter action:
+                    This action applies a flip filter. The source image is 'myImage1' and the
+                    output image is 'myImage2'.
+                    The two images are declared below.
+                 -->
+                <service uid="imageFlipper" type="::opImageFilter::SFlip">
+                    <in key="source" uid="myImage1" />
+                    <out key="target" uid="myImage2" />
+                </service>
+
+                <service uid="actionImageFlipper" type="::gui::action::SSlotCaller">
+                    <slots>
+                        <slot>imageFlipper/flipAxisY</slot>
+                    </slots>
+                </service>
+
+                <!-- Renderer declaration: -->
 
                 <!--
-                    1st Image of the composite:
+                    Renderer and reader of the 1st Image:
                     This is the source image for the filtering.
                 -->
                 <service uid="RenderingImage1" type="::vtkSimpleNegato::SRenderer" autoConnect="yes" >
@@ -177,7 +201,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                 </service>
 
                 <!--
-                    2nd Image of the composite:
+                    Rendered for the 2nd Image:
                     This is the output image for the filtering.
                 -->
                 <service uid="RenderingImage2" type="::vtkSimpleNegato::SRenderer" autoConnect="yes" >
@@ -185,6 +209,8 @@ This file is in the ``rc/`` directory of the application. It defines the service
                 </service>
 
                 <start uid="myFrame" />
+                <start uid="imageFlipper" />
+                <start uid="RenderingImage2" />
 
             </config>
         </extension>
@@ -201,48 +227,61 @@ However you can inherit from another type (like ``::fwServices::IOperator``) if 
 
 This  ``updating()`` function retrieves the two images and applies the threshold algorithm.
 
-The ``::fwData::Image`` contains a buffer for pixel values, it is stored as a ``void *`` to allows several types of
-pixel (uint8, int8, uint16, int16, double, float ...). To use the image buffer, we need to cast it to the image pixel type.
-For that, we use the ``::fwTools::Dispatcher`` class which it allows to invoke a template functor according to the image type. This is
-particularly useful when using template based libraries like `ITK <https://itk.org/>`_.
+The ``::fwData::Image`` contains a buffer for pixel values, it is stored as a ``void *`` to allows several types of pixel
+(uint8, int8, uint16, int16, double, float ...). To use the image buffer, we need to cast it to the image pixel type.
+For that, we use the ``::fwTools::Dispatcher`` class which it allows to invoke a template functor according to the
+image type. This is particularly useful when using template based libraries like `ITK <https://itk.org/>`_.
 
 .. code-block:: cpp
 
-    void SThreshold::updating() throw ( ::fwTools::Failed )
+    void SThreshold::updating()
     {
-        SLM_TRACE_FUNC();
-
-        // threshold value: the pixel with the value less than 50 will be set to 0, else the value is set to the maximum
-        // value of the image pixel type.
-        const double threshold = 50.0;
-
         ThresholdFilter::Parameter param; // filter parameters: threshold value, image source, image target
 
-        // Get source image
-        param.imageIn = this->getInput< ::fwData::Image >("source");
-        SLM_ASSERT("'source' key not found", param.imageIn);
+        ::fwData::Object::csptr input                  = this->getInput< ::fwData::Object >(s_IMAGE_INPUT);
+        ::fwMedData::ImageSeries::csptr imageSeriesSrc = ::fwMedData::ImageSeries::dynamicConstCast(input);
+        ::fwData::Image::csptr imageSrc                = ::fwData::Image::dynamicConstCast(input);
+        ::fwData::Object::sptr output;
 
-        // Get target image
-        param.imageOut = this->getInOut< ::fwData::Image >("target");
-        SLM_ASSERT("'target' key not found", param.imageOut);
+        // Get source/target image
+        if(imageSeriesSrc)
+        {
+            param.imageIn                                  = imageSeriesSrc->getImage();
+            ::fwMedData::ImageSeries::sptr imageSeriesDest = ::fwMedData::ImageSeries::New();
 
-        param.thresholdValue = threshold;
+            ::fwData::Object::DeepCopyCacheType cache;
+            imageSeriesDest->::fwMedData::Series::cachedDeepCopy(imageSeriesSrc, cache);
+            imageSeriesDest->setDicomReference(imageSeriesSrc->getDicomReference());
+
+            ::fwData::Image::sptr imageOut = ::fwData::Image::New();
+            imageSeriesDest->setImage(imageOut);
+            param.imageOut = imageOut;
+            output         = imageSeriesDest;
+        }
+        else if(imageSrc)
+        {
+            param.imageIn                  = imageSrc;
+            ::fwData::Image::sptr imageOut = ::fwData::Image::New();
+            param.imageOut                 = imageOut;
+            output                         = imageOut;
+        }
+        else
+        {
+            FW_RAISE("Wrong type: source type must be an ImageSeries or an Image");
+        }
+
+        param.thresholdValue = m_threshold;
 
         /*
-         * The dispatcher allows to apply the filter on any type of image.
-         * It invokes the template functor ThresholdFilter using the image type.
-         */
+        * The dispatcher allows to apply the filter on any type of image.
+        * It invokes the template functor ThresholdFilter using the image type.
+        */
         ::fwTools::DynamicType type = param.imageIn->getPixelType(); // image type
 
         // Invoke filter functor
         ::fwTools::Dispatcher< ::fwTools::IntrinsicTypes, ThresholdFilter >::invoke( type, param );
 
-        // Notify that the image target is modified
-        auto sig = param.imageOut->signal< ::fwData::Object::ModifiedSignalType >(::fwData::Object::s_MODIFIED_SIG);
-        {
-            ::fwCom::Connection::Blocker block(sig->getConnection(m_slotUpdate));
-            sig->asyncEmit();
-        }
+        this->setOutput(s_IMAGE_OUTPUT, output);
     }
 
 
@@ -300,12 +339,16 @@ method ``operator(parameters)``.
         }
     };
 
+.. note::
+
+    The SFlip service uses the same principle as the SThreshold service. The code makes further use of templates to enable the filter to work 1, 2 and 3 dimension images. Furthermore, the main code is implemented in the imageFilterOp library, which is then called from the SFlip service.
+
 
 Run
 =========
 
-To run the application, you must call the following line into the install or build directory:
+To run the application, launch the following command in the install or build directory:
 
 .. code::
 
-    bin/fwlauncher share/Tuto06Filter-0.1/profile.xml
+    bin/tuto06filter

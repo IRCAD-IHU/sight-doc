@@ -42,7 +42,7 @@ doxygen:
   image: python:3
   stage: build
   script:
-    - pip install sphinx sphinx_rtd_theme
+    - pip install sphinx sphinx_rtd_theme sphinx-tabs
     - apt-get update && apt-get install -yqq make
     - make html
   artifacts:

@@ -6,7 +6,8 @@ If you get compilation errors at this step, please ensure you installed all the 
 Source
 --------
 
-* `Clone <http://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository>`_ the following repositories in the (Dev/Src) source folder:
+* `Clone <http://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository>`_ the following repository in the (Dev/Src) source folder:
+
     * `sight <https://git.ircad.fr/Sight/sight.git>`_
 
 

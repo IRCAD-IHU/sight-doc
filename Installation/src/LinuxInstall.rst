@@ -9,7 +9,7 @@ If not already installed:
 #. Install `git <https://git-scm.com/>`_
 #. Install `gcc <https://gcc.gnu.org/>`_ The minimal version required is 4.8
    or `clang <http://clang.llvm.org/>`_ The minimal version required is 3.5
-#. Install `Python 2.7 <https://www.python.org/downloads/>`_
+#. Install `Python 3.5 or greater <https://www.python.org/downloads/>`_
 #. Install `CMake <http://www.cmake.org/download/>`_. Version 3.12 or later is required.
 #. Install `Ninja <https://ninja-build.org/>`_
 
