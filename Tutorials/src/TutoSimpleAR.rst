@@ -10,9 +10,9 @@ This exhibits:
 - how to detect an *ArUco* marker,
 - how to compute the pose of a marker,
 - how to make a basic augmented-reality render (we superimpose a plane onto the *ArUco* marker),
-- how to undistort a video according to the camera intrinsic parameters,
-- how to distort a 3D render according to the camera intrinsic parameters,
-- how to synchronize efficiently a video process pipeline with the video playback using ``SSignalGate``.
+- how to undistort a video according to the intrinsic parameters of the camera,
+- how to distort a 3D render according to the intrinsic parameters of the camera,
+- how to synchronize a video process pipeline with the video playback efficiently, using ``SSignalGate``.
 
 To use this application, you must open a calibration and a video. Samples are provided in the bundle folder
 of the appplication, ``share/sight/TutoSimpleAR-0.4`` on Linux/MacOs and ``share\TutoSimpleAR-0.4`` on Windows:
@@ -36,9 +36,9 @@ Before reading this tutorial, you should have seen :
 Tracking
 =================
 
-The detection of the tag is done with the service ``::trackerAruco::SArucoTracker``, which takes a video frame
+Tag detection is done with the ``::trackerAruco::SArucoTracker`` service, which takes a video frame
 as input, and fills in a map of identified *ArUco* markers. You only have to specify which marker identifier you
-want to retrieve, here the tag **101** corresponding to the video sample.
+want to retrieve, here we choose the tag **101** because it is the one seen in the video sample.
 
 .. code-block:: xml
 
@@ -59,8 +59,8 @@ The map of markers is a ``::arData::MarkerMap``, which stores, for each tag iden
 corresponding to the shape of the marker. In the *ArUco* case, the markers are squared so you get four 2D coordinates
 per marker.
 
-Once you get the markers, you want to get the 3D pose of each marker in the camera space. The service
-``::registrationCV::SPoseFrom2d`` takes the previous markers map as input, along with the calibration
+Once you get the markers, you want to get the 3D pose of each marker in the camera space. The
+``::registrationCV::SPoseFrom2d`` service takes the previous markers map as input, along with the calibration
 of the camera of type ``::arData::Camera``. Each time the map is updated, it fills in a matrix for each identifier,
 so here for the tag **101**.
 
@@ -83,9 +83,9 @@ so here for the tag **101**.
 Augmented view
 ===============
 
-Now that we get the 3D pose of the marker, this is pretty straightforward to display an object at this location on
+Now that we get the 3D pose of the marker, it is pretty straightforward to display an object at this location on
 top of the video. In the sample, a ``::fwData::Mesh`` is preloaded and contains a cube whose sides have the same
-dimensions than the *ArUco* marker.
+dimensions as the *ArUco* marker.
 
 In the generic scene, a first adaptor is used to display the video on the background layer:
 
@@ -114,7 +114,7 @@ transform of the pose of the marker.
             <config renderer="default" autoresetcamera="no" color="#ffffffda"/>
         </service>
 
-To compute the inverse matrix we use the service ``SConcatenateMatrices`` that can be used to multiply transform
+To compute the inverse matrix we use the ``SConcatenateMatrices`` service that can be used to multiply transform
 matrices and also to invert them at the same time :
 
 .. code-block:: xml
@@ -133,9 +133,9 @@ Lens distortion
 We offer the possiblity to apply the lens distortion correction either to the video or to the 3D rendering. In the
 first case we undistort the video, and in the second case we distort the 3D rendering. Undistorting the video is
 more common and easier, but in the field of surgery with laparoscopic or endoscopic videos, it may be preferable or
-even mandatory to keep to not alter the video image. That's why we also propose the second option.
+even mandatory to not alter the video image. This is why we give both options.
 
-We can use the same service ``::videoCalibration::SDistortion`` for both cases. Here is the configuration used in the
+We can use the same ``::videoCalibration::SDistortion`` service for both cases. Here is the configuration used in the
 tutorial to undistort the video:
 
 .. code-block:: xml
@@ -148,7 +148,7 @@ tutorial to undistort the video:
             <mode>undistort</mode>
         </service>
 
-The service is put in a dedicated worker thread to avoid the overload of the main thread of the application. It takes
+The service is put in a dedicated worker thread to avoid overloading the main thread of the application. It takes
 the calibration camera and the distorted original image as input. It outputs a corrected image. It is toggled thanks
 to a slot called ``changeState``. If it is not enabled, it simply copies the original image onto the output image.
 
@@ -195,7 +195,7 @@ execution process rather looks like this :
     :align: center
 
 To pipeline all of those services together, we use signals and slots. We first retrieve a frame from the frame timeline
-filled by the ``SFrameGrabber`` with the help of the service ``::videoTools::SFrameMatrixSynchronizer`` :
+filled by the ``SFrameGrabber`` with the help of the ``::videoTools::SFrameMatrixSynchronizer`` service:
 
 .. code-block:: xml
 
@@ -216,8 +216,8 @@ modifies the marker map. The modification of the marker map then triggers the co
 ``::registrationCV::SPoseFrom2d``. Last the modification of the ``markerToCamera`` matrix triggers the computation
 of the inverse matrix ``cameraToMarker``.
 
-Now to trigger the rendering of the scene, we simply use the service ``SSignalGate`` which waits several signals to
-be triggered once before sending a signal. It is configured simply by giving the list of the signals :
+Now to trigger the rendering of the scene, we simply use the ``SSignalGate`` service which waits on several signals to
+be triggered before sending a signal. It is configured by simply giving it the list of signals :
 
 .. code-block:: xml
 
@@ -246,8 +246,8 @@ At the end, the execution process looks like this:
     :scale: 100
     :align: center
 
-Please also note that by default, the generic scene renders each time a data of its adaptors is modified. To disable
-this behavior and synchronize only when requested, we setup the following attribute ``renderMode`` to ``sync``:
+Please also note that by default, the generic scene renders each time the input of any of its adaptors is modified.
+To disable this behavior and synchronize only when requested, we set the ``renderMode`` attribute to ``sync``:
 
 .. code-block:: xml
 
