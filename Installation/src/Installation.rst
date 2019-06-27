@@ -1,5 +1,5 @@
-Installation with Conan (pre-built dependencies)
-================================================
+Installation
+============
 
 Introduction
 ------------
@@ -254,8 +254,7 @@ If you want to launch the ``cmake``  through the command line with the appropria
 .. code:: bash
 
     $ cd Dev/Build/Debug
-    $ cmake <path_to_sources> -G "Ninja" -DCMAKE_INSTALL_PREFIX=<Path_to_install_dir> \
-      -DCMAKE_BUILD_TYPE=Debug -DUSE_CONAN=ON
+    $ cmake <path_to_sources> -G "Ninja" -DCMAKE_INSTALL_PREFIX=<Path_to_install_dir> -DCMAKE_BUILD_TYPE=Debug
 
 Build
 ~~~~~~~

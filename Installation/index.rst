@@ -4,24 +4,13 @@
 Installation
 ******************************************
 
-
-Installation from source
-------------------------
-
-.. toctree::
-   :maxdepth: 1
-
-   src/WindowsInstall
-   src/LinuxInstall
-   src/MacOSXInstall
-
-Installation With Conan (pre-built dependencies)
-------------------------------------------------
+Installation with Conan
+-----------------------
 
 .. toctree::
    :maxdepth: 1
 
-   src/InstallationWithConan
+   src/Installation
 
 Miscellaneous installations
 ---------------------------
