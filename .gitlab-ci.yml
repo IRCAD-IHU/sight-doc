@@ -38,7 +38,7 @@ markdown-lint:
     - echo {\"MD013\":{\"line_length\":120}} > .markdownlint.json
     - markdownlint --config .markdownlint.json .
 
-doxygen:
+build-doc:
   image: python:3
   stage: build
   script:
@@ -53,7 +53,7 @@ doxygen:
 pages:
   stage: deploy
   dependencies:
-    - doxygen
+    - build-doc
   script:
     - mv _build/html/ public/
   artifacts:

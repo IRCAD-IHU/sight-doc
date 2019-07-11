@@ -11,3 +11,4 @@ How-Tos
     HowTo-ApplicationCreation.rst
     HowTo-DepsCreation.rst
     HowTo-troubleshooting.rst
+    HowTo-QtCreatorSetup.rst
