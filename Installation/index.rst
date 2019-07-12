@@ -126,7 +126,7 @@ Setting up your environment
    .. group-tab:: Linux
 
         Make sure all of your Prerequisites_ are loaded into your path correctly, for all installation made through
-        `apt-get` this is done automatically but for manually downloaded binaries (e.g. example) you'll need to use
+        `apt-get` this is done automatically but for manually downloaded binaries (e.g. CMake) you'll need to use
         this command :
 
         .. code::
@@ -240,8 +240,6 @@ Generation
 ``PROJECTS_TO_BUILD``:
     Set the names of the applications to build (see Dev/Src/Apps or Dev/Src/Samples, ex: VRRender, Tuto01Basic ...),
     each project should be separated by ";".
-``USE_CONAN``:
-    This box ensures Conan packages are downloaded instead of relying on local builds. (check advanced options).
 
 .. note::
 
