@@ -12,8 +12,14 @@ syntax: glob
 .*~
 *.autosave
 # qtcreator cmake preferences
-*.txt.user
+*.txt.user*
 # reject and backup file
 *.rej
 *.orig
-_build/
+
+# macos
+.DS_Store
+
+# vs cmake project files
+\.vs*
+CMakeSettings\.json

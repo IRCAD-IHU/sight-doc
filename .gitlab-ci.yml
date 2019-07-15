@@ -5,7 +5,7 @@ stages:
   - deploy
 
 sheldon-mr:
-  image: ${DOCKER_ENVDEV_CLANG6}
+  image: ${DOCKER_ENVDEV_MINT19}
   stage: sheldon
   script:
     - export ORIG_BRANCH_COMMIT_SHA=$(git merge-base dev origin/${CI_COMMIT_REF_NAME})
@@ -14,7 +14,7 @@ sheldon-mr:
     - sight-git/hooks/sheldon ${ORIG_BRANCH_COMMIT_SHA}..${CI_COMMIT_SHA}
 
 sheldon:
-  image: ${DOCKER_ENVDEV_CLANG6}
+  image: ${DOCKER_ENVDEV_MINT19}
   stage: sheldon
   script:
     - git -c http.sslVerify=false clone --depth 1 https://gitlab-ci-token:${CI_JOB_TOKEN}@git.ircad.fr/Sight/sight-git.git
@@ -38,7 +38,7 @@ markdown-lint:
     - echo {\"MD013\":{\"line_length\":120}} > .markdownlint.json
     - markdownlint --config .markdownlint.json .
 
-doxygen:
+build-doc:
   image: python:3
   stage: build
   script:
@@ -53,7 +53,7 @@ doxygen:
 pages:
   stage: deploy
   dependencies:
-    - doxygen
+    - build-doc
   script:
     - mv _build/html/ public/
   artifacts:
