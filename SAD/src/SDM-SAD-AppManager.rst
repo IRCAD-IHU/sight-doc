@@ -19,7 +19,6 @@ a new object, the services will be started.
 Manage objects
 ---------------
 
-
 In order to specified the required objects for your service, you can define it in the constructor as follows :
 ``registerObject(key, access, autoConnect, optional)``.
 
@@ -87,3 +86,66 @@ Example:
 
 You can access the objects managed by the configuration using ``addObject(obj, id)``, ``getObject(id)`` and
 ``removeObject(obj, id)``.
+
+Launching multiple managers
+------------------------------
+
+If you want to dynamically launch an AppManager, you should inherit from this class. You can define the inputs you
+required by string that will be replaced when the manager is launched. You will need to call the method
+getInputID("...") to retrieve the string that are replaced.
+
+The method "checkInputs" checks if all the required inputs are present and add the object in the manager.
+
+You can find an example in ExActivitiesQml sample.
+
+.. code-block:: cpp
+
+    static const std::string s_IMAGE_ID = "image";
+    static const std::string s_MODEL_ID = "model";
+    static const std::string s_VALIDATION_CHANNEL = "validationChannel";
+
+    MyManager::MyManager() noexcept
+    {
+        this->requireInput(s_IMAGE_ID, InputType::OBJECT);
+        this->requireInput(s_MODEL_ID, InputType::OBJECT);
+        this->requireInput(s_VALIDATION_CHANNEL, InputType::CHANNEL);
+    }
+
+    MyManager::~MyManager() noexcept
+    {
+        this->destroy();
+    }
+
+    void MyManager::initialize()
+    {
+        this->create();
+
+        if (this->checkInputs())
+        {
+            auto mesher = this->addService("::opVTKMesh::SVTKMesher", true, true);
+            mesher->setObjectId("imageSeries", this->getInputID(s_IMAGE_ID));
+            mesher->setObjectId("modelSeries", this->getInputID(s_MODEL_ID));
+
+            ::fwServices::IService::ConfigType mesherConfig;
+            mesherConfig.put("config.percentReduction", reduction);
+            mesher->configure(mesherConfig);
+
+            ::fwServices::helper::ProxyConnections connection(this->getInputID(s_VALIDATION_CHANNEL));
+            connection.addSignalConnection(mesher->getID(), ::fwServices::IService::s_UPDATED_SIG);
+            this->addProxyConnection(connection);
+
+            this->startServices();
+        }
+        else
+        {
+            const std::string msg = "All the required inputs are not present, '" + this->getInputID("") +
+                                    "' activity will not be launched";
+            ::fwGui::dialog::MessageDialog::showMessageDialog("Manager Initialization",
+                                                              msg,
+                                                              ::fwGui::dialog::IMessageDialog::CRITICAL);
+        }
+    }
+
+
+The class that launch the AppManager must replace the input keys by calling
+``appManager->replaceInput("key", "value")``. These inputs can be provided by the Activity.
