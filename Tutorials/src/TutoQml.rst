@@ -114,8 +114,7 @@ Add the class `TutoQml::AppManager`.
     /**
      * @brief   This class is started when the bundles is loaded.
      */
-    class TUTOQML_CLASS_API AppManager : public QObject,
-                                         public ::fwServices::AppManager
+    class TUTOQML_CLASS_API AppManager : public ::fwQml::IQmlAppManager
     {
 
     Q_OBJECT;
@@ -181,35 +180,38 @@ Add the class `TutoQml::AppManager`.
 
     void AppManager::initialize()
     {
-        this->create();
+        this->::fwQml::IQmlAppManager::initialize();
 
-        // create the services
-        m_imageLoader = this->addService("::uiIO::editor::SIOSelector", "", true);
-        m_mesher      = this->addService("::opVTKMesh::SVTKMesher", "", true);
-        m_modelWriter = this->addService("::uiIO::editor::SIOSelector", "", true);
+        if (m_isInitialized)
+        {
+            // create the services
+            m_imageLoader = this->addService("::uiIO::editor::SIOSelector", "", true);
+            m_mesher      = this->addService("::opVTKMesh::SVTKMesher", "", true);
+            m_modelWriter = this->addService("::uiIO::editor::SIOSelector", "", true);
 
-        // associate the object to the services
-        m_imageLoader->setObjectId("data", s_IMAGE_SERIES_ID);
-        m_mesher->setObjectId("imageSeries", s_IMAGE_SERIES_ID);
-        m_mesher->setObjectId("modelSeries", s_MODELSERIES_ID);
-        m_modelWriter->setObjectId("data", s_MODELSERIES_ID);
+            // associate the object to the services
+            m_imageLoader->setObjectId("data", s_IMAGE_SERIES_ID);
+            m_mesher->setObjectId("imageSeries", s_IMAGE_SERIES_ID);
+            m_mesher->setObjectId("modelSeries", s_MODELSERIES_ID);
+            m_modelWriter->setObjectId("data", s_MODELSERIES_ID);
 
-        // configure the services
-        ::fwServices::IService::ConfigType imageSeriesReaderConfig;
-        imageSeriesReaderConfig.put("type.<xmlattr>.mode", "reader");
-        imageSeriesReaderConfig.put("type.<xmlattr>.class", "::fwMedData::ImageSeries");
-        m_imageLoader->configure(imageSeriesReaderConfig);
+            // configure the services
+            ::fwServices::IService::ConfigType imageSeriesReaderConfig;
+            imageSeriesReaderConfig.put("type.<xmlattr>.mode", "reader");
+            imageSeriesReaderConfig.put("type.<xmlattr>.class", "::fwMedData::ImageSeries");
+            m_imageLoader->configure(imageSeriesReaderConfig);
 
-        ::fwServices::IService::ConfigType mesherConfig;
-        mesherConfig.put("config.percentReduction", 50);
-        m_mesher->configure(mesherConfig);
+            ::fwServices::IService::ConfigType mesherConfig;
+            mesherConfig.put("config.percentReduction", 50);
+            m_mesher->configure(mesherConfig);
 
-        ::fwServices::IService::ConfigType modelSeriesWriterConfig;
-        modelSeriesWriterConfig.put("type.<xmlattr>.mode", "writer");
-        m_modelWriter->configure(modelSeriesWriterConfig);
+            ::fwServices::IService::ConfigType modelSeriesWriterConfig;
+            modelSeriesWriterConfig.put("type.<xmlattr>.mode", "writer");
+            m_modelWriter->configure(modelSeriesWriterConfig);
 
-        // Start the services if all their data are present
-        this->startServices();
+            // Start the services if all their data are present
+            this->startServices();
+        }
     }
 
     //------------------------------------------------------------------------------
@@ -217,7 +219,7 @@ Add the class `TutoQml::AppManager`.
     void AppManager::uninitialize()
     {
         // stop the started services and unregister all the services
-        this->stopAndUnregisterServices();
+        this->destroy();
     }
 
     //------------------------------------------------------------------------------
@@ -546,7 +548,7 @@ In our main qml file, we need to forward the signal to the AppManager.
 
             onServiceCreated: {
                 // call onServiceCreated with the service instance and an identifier.
-                // The identifier is only required if the same editor is used multipes times.
+                // The identifier is only required if the same editor is used multiples times.
                 appManager.onServiceCreated(srv, "myEditor1")
             }
             // ...

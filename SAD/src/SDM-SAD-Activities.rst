@@ -5,7 +5,7 @@ An activity is defined by the extension ``::fwActivities::registry::Activities``
 :ref:`AppConfig<App-Config>` with the selected data, it will create a new data ``::fwMedData::ActivitySeries`` that
 inherits from a ``fwMedData::Series``.
 
-There is three ways to launch an activity:
+There are three ways to launch an activity:
 
 - from a selection of Series contained in a Vector
 - from a activity wizard
@@ -24,23 +24,22 @@ signals and launches the activity in a new tab.
 **from the activity wizard**:
 
 The editor ``::uiActivitiesQt::editor::SCreateActivity`` and the action ``::uiActivitiesQt::action::SCreateActivity``
-propose the list of the available activity for the application, and when the user select one of them it sends a signal
-with the activity identifier. The activity wizard (``::uiMedDataQt::editor::SActivityWizard``) listen this signal and
-display a widget to set the required data. The ``::fwMedData::ActivitySeries`` is created and can be launched by the
-``guiQt::editor::SDynamicView``.
+propose the list of available activities for the application. when the user selects an activity a signal is sent
+with the activity identifier. The activity wizard (``::uiMedDataQt::editor::SActivityWizard``) listens to this signal
+and displays a widget to set the required data. The ``::fwMedData::ActivitySeries`` is then created and can be launched
+by the ``guiQt::editor::SDynamicView``.
 
 The process to create the activity with the different services works with signals and slots.
 
 **from the activity sequencer**:
 
-The service ``::activities::SActivitySequencer`` allows to define the list of the activities that will be launch
+The service ``::activities::SActivitySequencer`` allows to define a list of activities that will be launched
 sequentially. This service should be associated to ``::guiQt::editor::SActivityView`` to display the current activity
 in a container. Only one activity is launched at a time, the next activity will be available when all its requirements
 are present.
 
 A Qml implementation of the activity sequencer is available in ``uiActivitiesQml``. It proposes an activity 'stepper'
-that displays the list of the activities and allows to select any of the available activities.
-
+that displays the list of activities and allows the user to select any available activity.
 
 Activity series
 ----------------
@@ -382,13 +381,13 @@ To launch the activity, you will need to connect the services in you AppConfig:
 Activity sequencer
 ---------------------
 
-The activity allows to define the list of the activities that will be launch sequentially.
+The sequencer allows to define a list of the activities that will be launched sequentially.
 This service should be associated to a view to display the current activity in a container. Only one
 activity is launched at a time, the next activity will be available when all its requirements are present.
 
-Three implementations exists for the sequencer:
+Three implementations exist for the sequencer:
 
-- the "basic" sequencer without interface, the slots 'next', 'previous' and 'goTo' allows to select the activity
+- the "basic" sequencer with no interface, the slots 'next', 'previous' and 'goTo' allow to select the activity
   to launch
 - the Qt implementation of the stepper (``::uiActivitiesQt::editor::SActivitySequencer``)
 - the Qml implementation of the stepper (``::uiActivitiesQml::SActivitySequencer``)
@@ -399,14 +398,15 @@ Three implementations exists for the sequencer:
 
     Activity stepper.
 
-    The activity 'stepper' displays the list of the activities and allows to select any of the available activities. And
+    The activity 'stepper' displays the list of activities and allows to select any available activity. And
     then launch the activity in the main container.
 
 
 .. note::
 
-    You will need to call ``checkNext`` slot in the sequencer to check if the next activity is available.
-    It can be call using the channel ``validationChannel``.
+    If you need to enable the next activity after a process in your activity, you must call the sequencer `checkNext`
+    slot from your AppManager to check if the next activity is available. This slot can be call using the channel
+    `validationChannel`.
 
 Example for XML based application
 **********************************
@@ -432,12 +432,12 @@ seriesDB:
     save activities.
 
 ACTIVITY_READER_CONFIG/ACTIVITY_WRITER_CONFIG (optional):
-    configuration for activity reader/writer used by ``::ioAtoms::SReader`` and ``::ioAtoms::SWriter``. By default
-    is uses ``ActivityReaderConfig`` and ``ActivityWriterConfig`` that load/save the activities with the `.apz`
+    configuration for activity reading/writing used by ``::ioAtoms::SReader`` and ``::ioAtoms::SWriter``. By default
+    it uses ``ActivityReaderConfig`` and ``ActivityWriterConfig`` that load/save the activities with the `.apz`
     extension
 
 SEQUENCER_CONFIG
-    represents the list of the activities to launch, like:
+    represents the list of activities to launch, for example:
 
     .. code-block:: xml
 
@@ -453,7 +453,7 @@ SEQUENCER_CONFIG
         </extension>
 
     - **id**: identifier of the activity
-    - **name** (optional): name displayed in the activity stepper. If the name is not define, the title of the
+    - **name** (optional): name displayed in the activity stepper. If the name is not defined, the title of the
       activity will be used.
 
 Example for Qml based application
@@ -473,7 +473,7 @@ You can easily use the ``ActivityLauncher`` object in your Qml application to ma
         ActivityLauncher {
             id: activityLauncher
             anchors.fill: parent
-            activityIdsList: ["ExImageReading", "ExMesher", "ExImageDisplaying"]
+            activityIdsList: ["ExImageReadingActivity", "ExMesherActivity", "ExImageDisplayingActivity"]
             activityNameList: ["Read", "Mesher", "Display"]
         }
 
@@ -483,7 +483,7 @@ You can easily use the ``ActivityLauncher`` object in your Qml application to ma
     }
 
 - **activityIdsList**: identifiers of the activities to launch
-- **activityNameList**: name of the activities to launch, that will be displays in the stepper
+- **activityNameList**: name of the activities to launch, will be displayed in the stepper
 
 For a Qml application, a qml file must be created in the same bundle as the activity definition, with the filename
 described in ``appConfig.id`` attribute.
@@ -502,5 +502,14 @@ will need to define the associated AppManager.
 
         // Your layout, object, service...
         // ...
+        // the services should be register with 'exImageDisplayingActivity.registerService(service)'
+        SliceSelector {
+            id: sliceSelector
+
+            // register the service when created
+            onServiceCreated: {
+                exImageDisplayingActivity.registerService(srv)
+            }
+        }
     }
 

@@ -90,13 +90,13 @@ You can access the objects managed by the configuration using ``addObject(obj, i
 Launching multiple managers
 ------------------------------
 
-If you want to dynamically launch an AppManager, you should inherit from this class. You can define the inputs you
-required by string that will be replaced when the manager is launched. You will need to call the method
-getInputID("...") to retrieve the string that are replaced.
+If you want to dynamically launch an AppManager, you should inherit from this class. You can declare the required
+inputs with strings. These strings will be replaced at the AppManager launch. You will need to call the
+``getInputID("...")`` method to retrieve the replacing string.
 
-The method "checkInputs" checks if all the required inputs are present and add the object in the manager.
+The method "checkInputs" checks if all the required inputs are present and adds them to the manager.
 
-You can find an example in ExActivitiesQml sample.
+You can find an example in the ExActivitiesQml sample.
 
 .. code-block:: cpp
 
@@ -138,8 +138,8 @@ You can find an example in ExActivitiesQml sample.
         }
         else
         {
-            const std::string msg = "All the required inputs are not present, '" + this->getInputID("") +
-                                    "' activity will not be launched";
+            const std::string msg = "All the required inputs are not present, '" + this->getID() +
+                                    "' will not be launched";
             ::fwGui::dialog::MessageDialog::showMessageDialog("Manager Initialization",
                                                               msg,
                                                               ::fwGui::dialog::IMessageDialog::CRITICAL);
@@ -147,5 +147,5 @@ You can find an example in ExActivitiesQml sample.
     }
 
 
-The class that launch the AppManager must replace the input keys by calling
+The class launching the AppManager must replace the input keys by calling
 ``appManager->replaceInput("key", "value")``. These inputs can be provided by the Activity.
