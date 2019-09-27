@@ -48,7 +48,7 @@ Install a c++ compiler and other development libraries.
 
    .. group-tab:: Linux
 
-        Install `gcc 7 <https://gcc.gnu.org/>`_  or `clang 6.0 <http://clang.llvm.org/>`_ (As pre-built packages are
+        Install `gcc 8 <https://gcc.gnu.org/>`_  (As pre-built packages are
         only compiled with this versions).
 
         Depending on which linux distribution you use,
@@ -56,7 +56,7 @@ Install a c++ compiler and other development libraries.
 
         .. code:: bash
 
-            $ sudo apt-get install build-essential ninja-build python3 git
+            $ sudo apt-get install build-essential ninja-build python3 git g++-8
 
         And dependency development libraries :
 
@@ -77,7 +77,7 @@ Install a c++ compiler and other development libraries.
 
    .. group-tab:: Mac OSX
 
-        Install `Xcode 10.1 <https://itunes.apple.com/fr/app/xcode/id497799835?mt=12>`_
+        Install `Xcode 11 <https://developer.apple.com/xcode/>`_
 
         For an easy install, you can use the `Homebrew project <http://brew.sh/>`_  to install missing packages.
         Brewed python is python ``3`` and is required since default macOS python is ``2``
