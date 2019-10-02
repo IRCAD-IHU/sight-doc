@@ -22,12 +22,12 @@ Prerequisites
 
    .. group-tab:: Linux
 
-        For now, only Linux Mint 18 and 19 distributions are supported, other distributions may work but have
+        For now, only Linux Mint 19 distributions are supported, other distributions may work but have
         not been tested.
 
    .. group-tab:: Windows
 
-        For now, only `Visual Studio 2017` is supported, other versions may work but have not been tested.
+        For now, only `Visual Studio 2019` is supported, other versions may work but have not been tested.
 
 
    .. group-tab:: Mac OSX
@@ -37,8 +37,8 @@ Prerequisites
 If not already installed:
 
 #. Install `git <https://git-scm.com/>`_
-#. Install `Python 3.5 or greater <https://www.python.org/downloads/>`_
-#. Install `CMake <http://www.cmake.org/download/>`_ Version 3.12 or later is required. You should use prebuilt binaries as it is safer.
+#. Install `Python 3.7 or greater <https://www.python.org/downloads/>`_
+#. Install `CMake <http://www.cmake.org/download/>`_ Version 3.13 or later is required. You should use prebuilt binaries as it is safer.
 #. Install `ninja <https://github.com/ninja-build/ninja/releases>`_
 #. Install `Conan  <https://docs.conan.io/en/latest/installation.html>`_ (you can use Python's ``pip``, but be sure to use python ``3`` -- you can check this by running ``pip --version``)
 
@@ -48,7 +48,7 @@ Install a c++ compiler and other development libraries.
 
    .. group-tab:: Linux
 
-        Install `gcc 7 <https://gcc.gnu.org/>`_  or `clang 6.0 <http://clang.llvm.org/>`_ (As pre-built packages are
+        Install `gcc 8 <https://gcc.gnu.org/>`_  (As pre-built packages are
         only compiled with this versions).
 
         Depending on which linux distribution you use,
@@ -56,7 +56,7 @@ Install a c++ compiler and other development libraries.
 
         .. code:: bash
 
-            $ sudo apt-get install build-essential ninja-build python3 git
+            $ sudo apt-get install build-essential ninja-build python3 git g++-8
 
         And dependency development libraries :
 
@@ -72,12 +72,12 @@ Install a c++ compiler and other development libraries.
 
    .. group-tab:: Windows
 
-        Install `Visual Studio 2017 Community <https://visualstudio.microsoft.com/>`_
+        Install `Visual Studio 2019 Community <https://visualstudio.microsoft.com/>`_
 
 
    .. group-tab:: Mac OSX
 
-        Install `Xcode 10.1 <https://itunes.apple.com/fr/app/xcode/id497799835?mt=12>`_
+        Install `Xcode 11 <https://developer.apple.com/xcode/>`_
 
         For an easy install, you can use the `Homebrew project <http://brew.sh/>`_  to install missing packages.
         Brewed python is python ``3`` and is required since default macOS python is ``2``
@@ -143,10 +143,10 @@ Setting up your environment
 
         * Add Visual studio compilers.
 
-        You can use the 'VS2017 x64 Native Tools Command Prompt'  or launch the `vcvarsall.bat` script with the parameter
+        You can use the 'VS2019 x64 Native Tools Command Prompt'  or launch the `vcvarsall.bat` script with the parameter
         `amd64` on your current console.
         The location of that script will look something like this
-        ``C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat``
+        ``C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat``
 
         * Add the Prerequisites_
 
