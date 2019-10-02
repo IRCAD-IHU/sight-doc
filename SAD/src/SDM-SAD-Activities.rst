@@ -5,31 +5,41 @@ An activity is defined by the extension ``::fwActivities::registry::Activities``
 :ref:`AppConfig<App-Config>` with the selected data, it will create a new data ``::fwMedData::ActivitySeries`` that
 inherits from a ``fwMedData::Series``.
 
-There is two way to launch an activity:
+There are three ways to launch an activity:
+
 - from a selection of Series contained in a Vector
 - from a activity wizard
+- from an activity sequencer
 
 **from a selection of Series contained in a Vector**:
 
-The service ``::activities::action::SActivityLauncher`` allows to launch an activity from a selection of Series. Its
-role is to create the specific Activity associated with the selected data. The Series are contained in a
+The service ``::uiActivitiesQt::action::SActivityLauncher`` allows to launch an activity from a selection of Series.
+Its role is to create the specific Activity associated with the selected data. The Series are contained in a
 ``::fwData::Vector`` that can be filled by the user
 on clicking on the Series selection widget (``::uiMedDataQt::editor::SSelector``)
 
 This action should be followed by the service ``guiQt::editor::SDynamicView`` : this service listens the action
-signals and launchs the activity in a new tab.
+signals and launches the activity in a new tab.
 
 **from the activity wizard**:
 
-The editor ``::activities::editor::SCreateActivity`` and the action ``::activities::action::SCreateActivity`` propose
-the list of the available activity for the application,
-and when the user select one of them it sends a signal with the activity identifier.
-The activity wizard (``::uiMedDataQt::editor::SActivityWizard``) listen
-this signal and display a widget to set the required data.
-The ``::fwMedData::ActivitySeries`` is created and can be launched by the ``guiQt::editor::SDynamicView``.
+The editor ``::uiActivitiesQt::editor::SCreateActivity`` and the action ``::uiActivitiesQt::action::SCreateActivity``
+propose the list of available activities for the application. when the user selects an activity a signal is sent
+with the activity identifier. The activity wizard (``::uiMedDataQt::editor::SActivityWizard``) listens to this signal
+and displays a widget to set the required data. The ``::fwMedData::ActivitySeries`` is then created and can be launched
+by the ``guiQt::editor::SDynamicView``.
 
 The process to create the activity with the different services works with signals and slots.
 
+**from the activity sequencer**:
+
+The service ``::activities::SActivitySequencer`` allows to define a list of activities that will be launched
+sequentially. This service should be associated to ``::guiQt::editor::SActivityView`` to display the current activity
+in a container. Only one activity is launched at a time, the next activity will be available when all its requirements
+are present.
+
+A Qml implementation of the activity sequencer is available in ``uiActivitiesQml``. It proposes an activity 'stepper'
+that displays the list of activities and allows the user to select any available activity.
 
 Activity series
 ----------------
@@ -101,7 +111,8 @@ Example
                  <desc>Description of the required data....</desc>
                  <validator>::fwActivities::validator::ImageProperties</validator>
             </requirement>
-            <requirement name="transformationMatrix" type="::fwData::TransformationMatrix3D" minOccurs="0" maxOccurs="1" create="true" />
+            <requirement name="transformationMatrix" type="::fwData::TransformationMatrix3D" minOccurs="0"
+                         maxOccurs="1" create="true" />
            <!-- ...-->
        </requirements>
        <builder>::fwActivities::builder::ActivitySeries</builder>
@@ -195,10 +206,12 @@ validator (optional):
 
 appConfig
 **********
+
 It defines the AppConfig to launch and its parameters
 
 id:
-    Identifier of the AppConfig
+    Identifier of the AppConfig. For Qml activities, it represents the filename of the Qml file containing the
+    activity. This file must be in the same bundle as the activity.
 
 parameters:
     List of the parameters required by the AppConfig
@@ -210,7 +223,7 @@ parameter:
         Name of the parameter as defined in the AppConfig
     by:
         Defines the string that will replace the parameter name. It should be a simple string (ex.
-        frontal) or define a sesh@ path (ex. @values.myImage). The root object of the sesh@ path is the
+        frontal) or define a camp path (ex. @values.myImage). The root object of the camp path is the
         composite contained in the ActivitySeries.
 
 
@@ -243,7 +256,7 @@ It inherits of ::fwActivities::IActivityValidator and must implement the method:
     ValidationType validate(const CSPTR(::fwMedData::ActivitySeries) &activity ) const;
 
 The validator ::fwActivities::validator::DefaultActivity is applied if no other validator is defined. It checks if
-all the required objets are present in the series and if all the parameters delivered to the AppConfig are present.
+all the required objects are present in the series and if all the parameters delivered to the AppConfig are present.
 
 It provides some method useful to implement your own validator.
 
@@ -300,8 +313,8 @@ When the activity is selected, the service sends a signal with the activity iden
 filter (optional):
     it allows to filter the activity that can be proposed.
 
-mode: 'include' or 'exclude'.
-    Defines if the activity in the following list are proposed (include) or not (exclude).
+mode: 'include' or 'exclude':
+    defines if the activity in the following list are proposed (include) or not (exclude).
 
 id:
     id of the activity
@@ -363,3 +376,140 @@ To launch the activity, you will need to connect the services in you AppConfig:
 
         </config>
     </extension>
+
+
+Activity sequencer
+---------------------
+
+The sequencer allows to define a list of the activities that will be launched sequentially.
+This service should be associated to a view to display the current activity in a container. Only one
+activity is launched at a time, the next activity will be available when all its requirements are present.
+
+Three implementations exist for the sequencer:
+
+- the "basic" sequencer with no interface, the slots 'next', 'previous' and 'goTo' allow to select the activity
+  to launch
+- the Qt implementation of the stepper (``::uiActivitiesQt::editor::SActivitySequencer``)
+- the Qml implementation of the stepper (``::uiActivitiesQml::SActivitySequencer``)
+
+.. figure:: ../media/ActivitySequencer.png
+    :scale: 60
+    :align: center
+
+    Activity stepper.
+
+    The activity 'stepper' displays the list of activities and allows to select any available activity. And
+    then launch the activity in the main container.
+
+
+.. note::
+
+    If you need to enable the next activity after a process in your activity, you must call the sequencer `checkNext`
+    slot from your AppManager to check if the next activity is available. This slot can be call using the channel
+    `validationChannel`.
+
+Example for XML based application
+**********************************
+
+An XML configuration is available in ``activitiesConfig`` bundle.
+
+The configuration can be launched by a 'SConfigController':
+
+.. code-block:: xml
+
+    <service uid="activityLauncher" type="::fwServices::SConfigController">
+        <appConfig id="ActivityLauncher" />
+        <inout key="seriesDB" uid="mySeriesDB" />
+        <parameter replace="WID_PARENT" by="activityView" />
+        <parameter replace="ICON_PATH" by="${ICON_PATH}" />
+        <parameter replace="ACTIVITY_READER_CONFIG" by="ActivityReaderConfig" />
+        <parameter replace="ACTIVITY_WRITER_CONFIG" by="ActivityWriterConfig" />
+        <parameter replace="SEQUENCER_CONFIG" by="sequencerServiceConfigName" />
+    </service>
+
+seriesDB:
+    main seriesDB, it contains all the ActivitySeries launched by the sequencer. It is also used to load or
+    save activities.
+
+ACTIVITY_READER_CONFIG/ACTIVITY_WRITER_CONFIG (optional):
+    configuration for activity reading/writing used by ``::ioAtoms::SReader`` and ``::ioAtoms::SWriter``. By default
+    it uses ``ActivityReaderConfig`` and ``ActivityWriterConfig`` that load/save the activities with the `.apz`
+    extension
+
+SEQUENCER_CONFIG
+    represents the list of activities to launch, for example:
+
+    .. code-block:: xml
+
+        <extension implements="::fwServices::registry::ServiceConfig">
+            <id>sequencerServiceConfigName</id>
+            <service>::uiActivitiesQt::editor::SActivitySequencer</service>
+            <desc>Configuration for the sequencer</desc>
+            <config>
+                <activity id="activity1" name="my activity 1" />
+                <activity id="activity2" name="my activity 2" />
+                <activity id="activity3" name="my activity 3" />
+            </config>
+        </extension>
+
+    - **id**: identifier of the activity
+    - **name** (optional): name displayed in the activity stepper. If the name is not defined, the title of the
+      activity will be used.
+
+Example for Qml based application
+**********************************
+
+The Qml implementation of an activity launcher is available in ``uiActivitiesQml``.
+You can easily use the ``ActivityLauncher`` object in your Qml application to manage activities.
+
+.. code-block:: qml
+
+    ApplicationWindow {
+        id: root
+        width: 800
+        height: 600
+        visible: true
+
+        ActivityLauncher {
+            id: activityLauncher
+            anchors.fill: parent
+            activityIdsList: ["ExImageReadingActivity", "ExMesherActivity", "ExImageDisplayingActivity"]
+            activityNameList: ["Read", "Mesher", "Display"]
+        }
+
+        onClosing: {
+            activityLauncher.clear()
+        }
+    }
+
+- **activityIdsList**: identifiers of the activities to launch
+- **activityNameList**: name of the activities to launch, will be displayed in the stepper
+
+For a Qml application, a qml file must be created in the same bundle as the activity definition, with the filename
+described in ``appConfig.id`` attribute.
+
+The main object should be an `Activity`. This object provides a template for the activity that will be launched, you
+will need to define the associated AppManager.
+
+.. code-block:: qml
+
+    Activity {
+        id: exImageDisplaying
+        appManager: MesherManager {
+            id: appManager
+            frameBuffer: scene3D
+        }
+
+        // Your layout, object, service...
+        // ...
+        // the services should be register with 'exImageDisplayingActivity.registerService(service)'
+        SliceSelector {
+            id: sliceSelector
+
+            // register the service when created
+            onServiceCreated: {
+                exImageDisplayingActivity.registerService(srv)
+            }
+        }
+    }
+
