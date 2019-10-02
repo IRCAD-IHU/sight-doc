@@ -38,7 +38,7 @@ If not already installed:
 
 #. Install `git <https://git-scm.com/>`_
 #. Install `Python 3.7 or greater <https://www.python.org/downloads/>`_
-#. Install `CMake <http://www.cmake.org/download/>`_ Version 3.12 or later is required. You should use prebuilt binaries as it is safer.
+#. Install `CMake <http://www.cmake.org/download/>`_ Version 3.13 or later is required. You should use prebuilt binaries as it is safer.
 #. Install `ninja <https://github.com/ninja-build/ninja/releases>`_
 #. Install `Conan  <https://docs.conan.io/en/latest/installation.html>`_ (you can use Python's ``pip``, but be sure to use python ``3`` -- you can check this by running ``pip --version``)
 
