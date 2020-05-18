@@ -125,6 +125,61 @@ Source and files
         #include <map>
         #include <vector>
 
+.. rule :: Deprecated code
+
+    When you want to deprecate a piece of code, you need to warn other developers that the piece of code they are using is deprecated.
+
+    1. Use C++17 deprecated keyword (always)
+
+        The general rule is that you need to use the  keyword ``[[deprecated("message")]]``.
+        The "message" should indicate **when** the function will be removed.
+
+        We use a timelapse of **two(2)** majors version before removing previously deprecated function. Ex: you want to removed ``functionA()`` and the current release is sight 20.0
+        the code will looks like:
+
+        .. code-block :: cpp
+
+            [[deprecated("will be removed in sight 22.0, please use functionB().")]]
+            void functionA();
+
+        In case of deprecating a entire class, you may need to add the keyword on constructor, or at class level.
+
+    2. Use doxygen tag ``@deprecated`` (when needed)
+
+        In addition of the C++17 keyword, you may also want to add doxygen tag ``@deprecated``,
+        like the keyword it must contain the version where the function will be removed.
+
+        .. code-block :: cpp
+
+            /**
+            * @brief Computes the A value.
+            * @deprecated: will be removed in sight 22.0, please use functionB() instead.
+            **/
+            [[deprecated("will be removed in sight 22.0, please use functionB().")]]
+            void functionA();
+
+    3. Use a logging macro (carefully)
+
+        In some particular cases, you will need to use a macro that print a deprecated message as output (console or SLM.log file).
+        Be careful when using macro, because if the function is widely used, it can slow down the whole application.
+
+        That's why deprecated macros are reserved for very specific usages:
+
+        - **slots**: since our slots can be called by a xml configuration, you may need to warn the user using a message.
+        - **piece of code**: when you want to deprecate just a piece of code (loop, if/else, ...).
+        - **Changing XML parameters/config**:when a xml configuration or a parameter is deprecated you may want to print a message when user use it.
+
+        .. code-block :: cpp
+
+            void SNegato2D::newImageDeprecatedSlot()
+            {
+                FW_DEPRECATED_MSG("The 'newImage' slot will be removed in sight 21.0. Call 'update' instead.", "21.0");
+                this->newImage();
+            }
+
+        For more details about macros, please check the doxygen page of spyLog.hpp
+
+
 Naming conventions
 ------------------
 
@@ -230,7 +285,8 @@ Naming conventions
 
 .. rule :: Enumerated type
 
-    An enumerated type name must be written in upper camel case. Labels must be written in capitals. If a ``typedef`` is defined, it follows the upper camel case standard.
+    An enumerated type name must be written in upper camel case. Labels must be written in capitals.
+     If a ``typedef`` is defined, it follows the upper camel case standard.
 
     .. code-block :: cpp
 
