@@ -134,15 +134,15 @@ Source and files
         The general rule is that you need to use the  keyword ``[[deprecated("message")]]``.
         The "message" should indicate **when** the function will be removed.
 
-        We use a timelapse of **two(2)** majors version before removing previously deprecated function. Ex: you want to removed ``functionA()`` and the current release is sight 20.0
-        the code will looks like:
+        We use a timelapse of **two(2)** major versions before removing previously deprecated function. Ex: you want to remove ``functionA()`` and the current release is sight 20.0
+        the code will look like:
 
         .. code-block :: cpp
 
             [[deprecated("will be removed in sight 22.0, please use functionB().")]]
             void functionA();
 
-        In case of deprecating a entire class, you may need to add the keyword on constructor, or at class level.
+        In case of deprecating an entire class, you may need to add the keyword on constructor, or at class level.
 
     2. Use doxygen tag ``@deprecated`` (when needed)
 
@@ -160,14 +160,14 @@ Source and files
 
     3. Use a logging macro (carefully)
 
-        In some particular cases, you will need to use a macro that print a deprecated message as output (console or SLM.log file).
+        In some particular cases, you will need to use a macro that prints a deprecated message as output (console or SLM.log file).
         Be careful when using macro, because if the function is widely used, it can slow down the whole application.
 
         That's why deprecated macros are reserved for very specific usages:
 
-        - **slots**: since our slots can be called by a xml configuration, you may need to warn the user using a message.
+        - **slots**: since our slots can be called by an xml configuration, you may need to warn the user using a message.
         - **piece of code**: when you want to deprecate just a piece of code (loop, if/else, ...).
-        - **Changing XML parameters/config**:when a xml configuration or a parameter is deprecated you may want to print a message when user use it.
+        - **Changing XML parameters/config**:when an xml configuration or a parameter is deprecated you may want to print a message when user use it.
 
         .. code-block :: cpp
 
