@@ -46,7 +46,7 @@ This file describes the project information and requirements :
         appXml
     )
 
-    bundleParam(appXml PARAM_LIST config PARAM_VALUES tutoDataServiceConfig)
+    moduleParam(appXml PARAM_LIST config PARAM_VALUES tutoDataServiceConfig)
 
 
 .. note::

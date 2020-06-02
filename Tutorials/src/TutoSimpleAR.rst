@@ -14,7 +14,7 @@ This exhibits:
 - how to distort a 3D render according to the intrinsic parameters of the camera,
 - how to synchronize a video process pipeline with the video playback efficiently, using ``SSignalGate``.
 
-To use this application, you must open a calibration and a video. Samples are provided in the bundle folder
+To use this application, you must open a calibration and a video. Samples are provided in the module folder
 of the appplication, ``share/sight/TutoSimpleAR-0.4`` on Linux/MacOs and ``share\TutoSimpleAR-0.4`` on Windows:
 
 - ``calibration.xml``

@@ -41,7 +41,7 @@ Component-based implementation
 
 Implementation requires a dynamic structure which represents the component
 and a software launcher which loads and manages these components.
-A component, called a bundle, is just a simple folder that contains :
+A component, called a module, is just a simple folder that contains :
 
 - the component description file (plugin.xml) to describe the content of the
   dynamic library
@@ -83,11 +83,11 @@ the information is shared in the description file.
 
 .. code-block:: xml
 
- <plugin id="myBundle">
+ <plugin id="myModule">
 
-    <library name ="myBundle" />
+    <library name ="myModule" />
 
-    <! -- myBundle requires the bundle servicesReg to run -->
+    <! -- myModule requires the module servicesReg to run -->
     <requirement id="servicesReg" />
 
     <! -- Need code related to ::io::IReader -->
@@ -97,7 +97,7 @@ the information is shared in the description file.
         <! -- service type -->
         <type>::io::IReader</type>
         <! -- the service name available in this component library -->
-        <service>::myBundle::myReader</service>
+        <service>::myModule::myReader</service>
         <! -- the object type associated to the service -->
         <object>::fwData::myData</object>
         <desc>Description of my reader</desc>
