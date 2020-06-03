@@ -49,7 +49,7 @@ This file describes the project information and requirements:
         appXml
     )
 
-    bundleParam(appXml PARAM_LIST config PARAM_VALUES FilterConfig)
+    moduleParam(appXml PARAM_LIST config PARAM_VALUES FilterConfig)
 
 
 .. note::
@@ -79,7 +79,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                 <!-- This is the source image for the filtering. -->
                 <object uid="myImage1" type="::fwData::Image" />
                 <!-- This is the output image for the filtering. -->
-                <object uid="myImage2" type="::fwData::Image" />
+                <object uid="myImage2" type="::fwData::Image" src="deferred" />
 
                 <!-- Windows & Main Menu -->
                 <service uid="myFrame" type="::gui::frame::SDefaultFrame">
@@ -113,13 +113,14 @@ This file is in the ``rc/`` directory of the application. It defines the service
                 <service uid="myDefaultView" type="::gui::view::SDefaultView">
                     <gui>
                         <layout type="::fwGui::LineLayoutManager">
+                            <orientation value="horizontal" />
                             <view proportion="1" />
                             <view proportion="1" />
                         </layout>
                     </gui>
                     <registry>
                         <view sid="RenderingImage1" start="yes" />
-                        <view sid="RenderingImage2" start="yes" />
+                        <view sid="RenderingImage2" start="no" />
                     </registry>
                 </service>
 
@@ -161,18 +162,21 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     Filter action:
                     This action applies a threshold filter. The source image is 'myImage1' and the
                     output image is 'myImage2'.
-                    The two images are declared below.
+                    The two images are declared above.
                  -->
-                <service uid="actionImageFilter" type="::opImageFilter::action::SThreshold">
+                <service uid="actionImageFilter" type="::opImageFilter::SThreshold">
                     <in key="source" uid="myImage1" />
-                    <inout key="target" uid="myImage2" />
+                    <out key="target" uid="myImage2" />
+                    <config>
+                        <threshold>50</threshold>
+                    </config>
                 </service>
 
                 <!--
                     Filter action:
                     This action applies a flip filter. The source image is 'myImage1' and the
                     output image is 'myImage2'.
-                    The two images are declared below.
+                    The two images are declared above.
                  -->
                 <service uid="imageFlipper" type="::opImageFilter::SFlip">
                     <in key="source" uid="myImage1" />
@@ -185,7 +189,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     </slots>
                 </service>
 
-                <!-- Renderer declaration: -->
+                <!-- ******************************** Renderer declaration: **************************************** -->
 
                 <!--
                     Renderer and reader of the 1st Image:
@@ -223,14 +227,20 @@ Filter service
 Here, the filter service is inherited from ``::fwGui::IActionSrv``,
 which allows to use this service as an action, in this case as a button.
 The member function  ``updating()`` is called when clicking on the button.
-However you can inherit from another type (like ``::fwServices::IOperator``) if you do not need this behavior.
+However it should be better inherit from another type (like ``::fwServices::IOperator``) and use a IAction of type
+``::gui::action::SSlotCaller`` to call the update of you filter.
 
 This  ``updating()`` function retrieves the two images and applies the threshold algorithm.
 
-The ``::fwData::Image`` contains a buffer for pixel values, it is stored as a ``void *`` to allows several types of pixel
-(uint8, int8, uint16, int16, double, float ...). To use the image buffer, we need to cast it to the image pixel type.
-For that, we use the ``::fwTools::Dispatcher`` class which it allows to invoke a template functor according to the
+The ``::fwData::Image`` contains a buffer for pixel values, it is stored as a ``void *`` to allows several types of
+pixels (uint8, int8, uint16, int16, double, float ...). To use the image buffer, we need to cast it to the image pixel
+type. For that, we use the ``::fwTools::Dispatcher`` class which it allows to invoke a template functor according to the
 image type. This is particularly useful when using template based libraries like `ITK <https://itk.org/>`_.
+
+The image type is defined by the ``::fwTools::Type``, this class allows to serialize the image type as a string and to
+retrieve the type information as sizeof, signed or not, ...
+The Dispatcher allows to associate each ``Type`` to a real type as std::uint8_t, std::int8_t, std::uint16_t,... float,
+double.
 
 .. code-block:: cpp
 
@@ -238,7 +248,7 @@ image type. This is particularly useful when using template based libraries like
     {
         ThresholdFilter::Parameter param; // filter parameters: threshold value, image source, image target
 
-        ::fwData::Object::csptr input                  = this->getInput< ::fwData::Object >(s_IMAGE_INPUT);
+        auto input                  = this->getLockedInput< ::fwData::Object >(s_IMAGE_INPUT);
         ::fwMedData::ImageSeries::csptr imageSeriesSrc = ::fwMedData::ImageSeries::dynamicConstCast(input);
         ::fwData::Image::csptr imageSrc                = ::fwData::Image::dynamicConstCast(input);
         ::fwData::Object::sptr output;
@@ -272,15 +282,23 @@ image type. This is particularly useful when using template based libraries like
 
         param.thresholdValue = m_threshold;
 
-        /*
-        * The dispatcher allows to apply the filter on any type of image.
-        * It invokes the template functor ThresholdFilter using the image type.
-        */
-        ::fwTools::DynamicType type = param.imageIn->getPixelType(); // image type
+        // get image type
+        ::fwTools::Type type = param.imageIn->getType();
 
-        // Invoke filter functor
-        ::fwTools::Dispatcher< ::fwTools::IntrinsicTypes, ThresholdFilter >::invoke( type, param );
+        /* The dispatcher allows to apply the filter on any type of image.
+         * It invokes the template functor ThresholdFilter using the image type.
+         * - template parameters:
+         *   - ::fwTools::SupportedDispatcherTypes defined all the supported type of the functor, here all the type
+         *     supportted by ::fwTools::Type(std::int8_t, std::uint8_t, std::int16_t, std::uint16_t, std::int32_t,
+         *     std::uint32_t, std::int64_t, std::uint64_t, float, double)
+         *   - ThresholdFilter: functor struct or class
+         * - parameters:
+         *   - type: ::fwTools::Type of the image
+         *   - param: struct containing the functor parameters (here the input and output images and the threshold value)
+         */
+        ::fwTools::Dispatcher< ::fwTools::SupportedDispatcherTypes, ThresholdFilter >::invoke( type, param );
 
+        // register the output image to be accesible by the other service from the XML configuration
         this->setOutput(s_IMAGE_OUTPUT, output);
     }
 
@@ -318,30 +336,31 @@ method ``operator(parameters)``.
             ::fwData::Image::csptr imageIn = param.imageIn;
             ::fwData::Image::sptr imageOut = param.imageOut;
             SLM_ASSERT("Sorry, image must be 3D", imageIn->getNumberOfDimensions() == 3 );
+
             imageOut->copyInformation(imageIn); // Copy image size, type... without copying the buffer
-            imageOut->allocate(); // Allocate the image buffer
+            imageOut->resize(); // Allocate the image buffer
 
-            ::fwDataTools::helper::ImageGetter imageInHelper(imageIn); // helper used to access the image source buffer
-            ::fwDataTools::helper::Image imageOutHelper(imageOut); // helper used to access the image target buffer
+            // Get iterators on image buffers
+            auto it1          = imageIn->begin<PIXELTYPE>();
+            const auto it1End = imageIn->end<PIXELTYPE>();
+            auto it2          = imageOut->begin<PIXELTYPE>();
+            const auto it2End = imageOut->end<PIXELTYPE>();
 
-            // Get image buffers
-            const PIXELTYPE* buffer1 = (PIXELTYPE*)imageInHelper.getBuffer();
-            PIXELTYPE* buffer2       = (PIXELTYPE*)imageOutHelper.getBuffer();
-
-            // Get number of pixels
-            const size_t NbPixels = imageIn->getSize()[0] * imageIn->getSize()[1] * imageIn->getSize()[2];
+            const PIXELTYPE maxValue = std::numeric_limits<PIXELTYPE>::max();
 
             // Fill the target buffer considering the thresholding
-            for( size_t i = 0; i<NbPixels; ++i, ++buffer1, ++buffer2 )
+            for(; it1 != it1End && it2 != it2End; ++it1, ++it2 )
             {
-                * buffer2 = ( *buffer1 < thresholdValue ) ? 0 : std::numeric_limits<PIXELTYPE>::max();
+                * it2 = ( *it1 < thresholdValue ) ? 0 : maxValue;
             }
         }
     };
 
 .. note::
 
-    The SFlip service uses the same principle as the SThreshold service. The code makes further use of templates to enable the filter to work 1, 2 and 3 dimension images. Furthermore, the main code is implemented in the imageFilterOp library, which is then called from the SFlip service.
+    The SFlip service uses the same principle as the SThreshold service. The code makes further use of templates to
+    enable the filter to work 1, 2 and 3 dimension images. Furthermore, the main code is implemented in the
+    imageFilterOp library, which is then called from the SFlip service.
 
 
 Run
