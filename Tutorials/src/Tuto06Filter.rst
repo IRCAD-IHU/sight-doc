@@ -17,7 +17,9 @@ Prerequisites
 ===============
 
 Before reading this tutorial, you should have seen:
+
  * :ref:`tuto05`
+ * :ref:`BufferObjects`
 
 
 Structure
@@ -75,11 +77,15 @@ This file is in the ``rc/`` directory of the application. It defines the service
             <id>FilterConfig</id>
             <config>
 
-                <!-- Image declaration: -->
+                <!-- ************************************ data ************************************ -->
+
                 <!-- This is the source image for the filtering. -->
                 <object uid="myImage1" type="::fwData::Image" />
-                <!-- This is the output image for the filtering. -->
+                <!-- This is the output image for the filtering. "deferred" defines that the image is not created at the
+                     beginning, but will be created by a service. -->
                 <object uid="myImage2" type="::fwData::Image" src="deferred" />
+
+                <!-- ************************************* GUI ************************************ -->
 
                 <!-- Windows & Main Menu -->
                 <service uid="myFrame" type="::gui::frame::SDefaultFrame">
@@ -119,8 +125,9 @@ This file is in the ``rc/`` directory of the application. It defines the service
                         </layout>
                     </gui>
                     <registry>
-                        <view sid="RenderingImage1" start="yes" />
-                        <view sid="RenderingImage2" start="no" />
+                        <view sid="renderingImage1" start="yes" />
+                        <!-- As the output image is deferred, the service cannot be started at the beginning. -->
+                        <view sid="renderingImage2" start="no" />
                     </registry>
                 </service>
 
@@ -152,19 +159,49 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     </registry>
                 </service>
 
-                <!-- Actions -->
+                <!-- ******************************** actions ************************************* -->
+
+                <!-- Action to quit the application -->
                 <service uid="actionQuit" type="::gui::action::SQuit" />
-                <service uid="actionOpenImageFile" type="::gui::action::SStarter" >
-                    <start uid="readerPathImageFile" />
+
+                <!-- Action to open image file: call update on image reader service -->
+                <service uid="actionOpenImageFile" type="::gui::action::SSlotCaller" >
+                    <slots>
+                        <slot>imageReader/update</slot>
+                    </slots>
                 </service>
 
+                <!-- Action apply threshold filter: call update on threshold filter service -->
+                <service uid="actionImageFilter" type="::gui::action::SSlotCaller" >
+                    <slots>
+                        <slot>imageFilter/update</slot>
+                    </slots>
+                </service>
+
+                <!-- Action apply flip filter: call 'flipAxisY' slot on flip service -->
+                <service uid="actionImageFlipper" type="::gui::action::SSlotCaller">
+                    <slots>
+                        <slot>imageFlipper/flipAxisY</slot>
+                    </slots>
+                </service>
+
+                <!-- ************************************ reader ********************************** -->
+
+                <!-- Reader of the input image -->
+                <service uid="imageReader" type="::uiIO::editor::SIOSelector">
+                    <inout key="data" uid="myImage1" />
+                    <type mode="reader" />
+                </service>
+
+                <!-- ************************************ operators ******************************* -->
+
                 <!--
-                    Filter action:
-                    This action applies a threshold filter. The source image is 'myImage1' and the
+                    Threshold filter:
+                    Applies a threshold filter. The source image is 'myImage1' and the
                     output image is 'myImage2'.
                     The two images are declared above.
                  -->
-                <service uid="actionImageFilter" type="::opImageFilter::SThreshold">
+                <service uid="imageFilter" type="::opImageFilter::SThreshold">
                     <in key="source" uid="myImage1" />
                     <out key="target" uid="myImage2" />
                     <config>
@@ -173,8 +210,8 @@ This file is in the ``rc/`` directory of the application. It defines the service
                 </service>
 
                 <!--
-                    Filter action:
-                    This action applies a flip filter. The source image is 'myImage1' and the
+                    Flip filter:
+                    Applies a flip filter. The source image is 'myImage1' and the
                     output image is 'myImage2'.
                     The two images are declared above.
                  -->
@@ -183,38 +220,33 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     <out key="target" uid="myImage2" />
                 </service>
 
-                <service uid="actionImageFlipper" type="::gui::action::SSlotCaller">
-                    <slots>
-                        <slot>imageFlipper/flipAxisY</slot>
-                    </slots>
-                </service>
 
-                <!-- ******************************** Renderer declaration: **************************************** -->
+                <!-- ************************************ renderers ******************************* -->
 
                 <!--
-                    Renderer and reader of the 1st Image:
+                    Renderer of the 1st Image:
                     This is the source image for the filtering.
                 -->
-                <service uid="RenderingImage1" type="::vtkSimpleNegato::SRenderer" autoConnect="yes" >
+                <service uid="renderingImage1" type="::vtkSimpleNegato::SRenderer" autoConnect="yes" >
                     <in key="image" uid="myImage1" />
-                </service>
-
-                <service uid="readerPathImageFile" type="::uiIO::editor::SIOSelector">
-                    <inout key="data" uid="myImage1" />
-                    <type mode="reader" />
                 </service>
 
                 <!--
                     Rendered for the 2nd Image:
                     This is the output image for the filtering.
                 -->
-                <service uid="RenderingImage2" type="::vtkSimpleNegato::SRenderer" autoConnect="yes" >
+                <service uid="renderingImage2" type="::vtkSimpleNegato::SRenderer" autoConnect="yes" >
                     <in key="image" uid="myImage2" />
                 </service>
 
+                <!-- ************************************* starts ********************************* -->
+
                 <start uid="myFrame" />
+                <start uid="imageReader" />
+                <start uid="imageFilter" />
                 <start uid="imageFlipper" />
-                <start uid="RenderingImage2" />
+                <!-- start the service using a deferred image -->
+                <start uid="renderingImage2" />
 
             </config>
         </extension>
@@ -224,11 +256,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
 Filter service
 ---------------
 
-Here, the filter service is inherited from ``::fwGui::IActionSrv``,
-which allows to use this service as an action, in this case as a button.
-The member function  ``updating()`` is called when clicking on the button.
-However it should be better inherit from another type (like ``::fwServices::IOperator``) and use a IAction of type
-``::gui::action::SSlotCaller`` to call the update of you filter.
+Here, the filter service is inherited from a ``::fwServices::IOperator``
 
 This  ``updating()`` function retrieves the two images and applies the threshold algorithm.
 
