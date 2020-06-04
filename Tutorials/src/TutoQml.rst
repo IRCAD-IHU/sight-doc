@@ -488,7 +488,7 @@ This editor should be declared as qml type in the `Plugin::start()` of the modul
 
     void Plugin::start()
     {
-        qmlRegisterType<MyEditor>("muyModule", versionMajor, versionMinor, "MyEditor");
+        qmlRegisterType<MyEditor>("myModule", versionMajor, versionMinor, "MyEditor");
     }
 
 
