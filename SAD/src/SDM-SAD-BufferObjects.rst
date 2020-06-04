@@ -4,10 +4,10 @@ Objects containing buffers
 ===========================
 
 In ``sight``, we manage different type of large buffers, as in meshes and images. As the image can be of different types
-(signed or not, integers/floating), we use a generic class ``::fwData::Array`` that store a buffer as a ``void*`` and
-provides methods to accessed the buffer.
+(signed or not, integers/floating), we use a generic class ``::fwData::Array`` that stores a buffer as a ``void*`` and
+provides methods to access the buffer.
 
-Mesh and Image use array to store their information (buffer, points, normals), but they are not accessible, so we
+Mesh and Image use arrays to store their information (buffer, points, normals), but they are not accessible, so we
 provide an API to access the data.
 
 Array
@@ -42,7 +42,7 @@ You can access buffer values using ``at<type>(const size_t& offset)`` or ``at<ty
 
 .. warning::
 
-    These methods are may be slow if you use it intensively (a cast of the buffer is performed each time) and should
+    These methods may be slow if you use it intensively (a cast of the buffer is performed each time) and should
     not be used to parse the entire buffer (it is better to use iterators).
 
 You can also retrieve the entire buffer  with ``getBuffer()`` but be careful no check will be done when you use it.
@@ -70,7 +70,7 @@ can also be a simple struct like:
 
 This struct allows to parse the array as an RGBA buffer (RGBARGBARGBA....).
 
-To get an iterator on the array, use ```begin<FORMAT>()`` and ``end<FORMAT>()`` methods.
+To get an iterator on the array, use ``begin<FORMAT>()`` and ``end<FORMAT>()`` methods.
 
 .. warning::
 
@@ -151,7 +151,7 @@ and ``getAllocatedSizeInBytes()``.
     resize(). It may be useful when you don't want to reallocate the image too often, but you need to be sure to
     allocate enough memory.
 
-To resize the image, you must you must define the Type ([u]int[8|16|32|64], double, float), the size and the pixel
+To resize the image, you must define the Type ([u]int[8|16|32|64], double, float), the size and the pixel
 format of the buffer. You can use ``setSize(size)``, ``setType(type)`` and  ``setPixelFormalt(format)`` or directly call
 ``resize(size, type, format)``.
 
@@ -175,7 +175,7 @@ You can also use ``getPixelAsString()`` to retrieve the value as a string (usefu
 Iterators
 ~~~~~~~~~~
 
-To parse the buffer from beginning to end, the proper way is to use iterators. The iterator check (in debug) that you
+To parse the buffer from beginning to end, the proper way is to use iterators. The iterator checks (in debug) that you
 don't iterate outside of the buffer.
 
 The iteration depends on the given format. The format can be the buffer type ([u]int[8|16|32|64], double, float), but
@@ -260,7 +260,7 @@ The ``::fwData::Mesh`` represents a geometric structure composed of points, line
 Structure
 ***********
 
-The mesh structure contains some information stock in ``::fwData::Array``:
+The mesh structure contains some information stocked in ``::fwData::Array``:
 
 m_points
     Contains point coordinates (x,y,z)
@@ -273,7 +273,7 @@ m_cellData
 m_cellDataOffsets
     Contains indexes relative to m_cellData, to retrieve the first point necessary to the cell creation.
 
-An some additional arrays to store the mesh attributes (normals, texture coordinates and colors for points and
+And some additional arrays to store the mesh attributes (normals, texture coordinates and colors for points and
 cells).
 
 Example
@@ -289,7 +289,7 @@ Example
 - m_cellsDataSize = m_nbCells * <nb_points_per_cell> (m_nbCells * 3 if only triangle cell)
 - m_cellData = [0, 1, 2, 0, 1, 3, 0, 1, 3, 5... ] ( correspond to point id )
 
-Get the points coordinates of the third cell:
+Gets the points coordinates of the third cell:
 
 .. code-block::
 

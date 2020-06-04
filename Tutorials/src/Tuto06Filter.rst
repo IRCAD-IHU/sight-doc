@@ -171,14 +171,14 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     </slots>
                 </service>
 
-                <!-- Action apply threshold filter: call update on threshold filter service -->
+                <!-- Action to apply threshold filter: call update on threshold filter service -->
                 <service uid="actionImageFilter" type="::gui::action::SSlotCaller" >
                     <slots>
                         <slot>imageFilter/update</slot>
                     </slots>
                 </service>
 
-                <!-- Action apply flip filter: call 'flipAxisY' slot on flip service -->
+                <!-- Action to apply flip filter: call 'flipAxisY' slot on flip service -->
                 <service uid="actionImageFlipper" type="::gui::action::SSlotCaller">
                     <slots>
                         <slot>imageFlipper/flipAxisY</slot>
