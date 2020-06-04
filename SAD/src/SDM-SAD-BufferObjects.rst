@@ -28,12 +28,11 @@ The array buffer is allocated using the ``resize()`` methods. You can get the al
 
 .. warning::
 
-    The allocated size can be different from the array size: it can happen if you called ``resize(..., false)`` or just
-    ``setSize(...)``. It may be useful when you don't want to reallocate the image too often, but you need to be sure
-    to allocate enough memory.
+    The allocated size can be different from the array size: it can happen if you called ``resize(..., false)``. It may
+    be useful when you don't want to reallocate the image too often, but you need to be sure to allocate enough memory.
 
 To resize the array, you must define the Type ([u]int[8|16|32|64], double, float) and the size of the buffer. You can
-use ``setSize(size)`` and ``setType(type)`` or directly call ``resize(size, type)``.
+use ```setType(type)`` and ``resize(size)`` or directly call ``resize(size, type)``.
 
 Buffer access
 ~~~~~~~~~~~~~~~
@@ -147,8 +146,8 @@ and ``getAllocatedSizeInBytes()``.
 
 .. warning::
 
-    The allocated size can be different from the image size: it can happen if you called setSize() without calling
-    resize(). It may be useful when you don't want to reallocate the image too often, but you need to be sure to
+    The allocated size can be different from the image size: it can happen if you called ``setSize()`` without calling
+    ``resize()``. It may be useful when you don't want to reallocate the image too often, but you need to be sure to
     allocate enough memory.
 
 To resize the image, you must define the Type ([u]int[8|16|32|64], double, float), the size and the pixel
