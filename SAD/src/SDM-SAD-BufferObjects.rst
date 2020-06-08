@@ -127,7 +127,7 @@ Example
 Image
 -------
 
-An image contains an buffer (stored in an Array) and is defined by some parameters (size, spacing, pixel type, ...)
+An image contains a buffer (stored in an Array) and is defined by some parameters (size, spacing, pixel type, ...)
 The buffer type is defined by ``::fwTools::Type`` that provides the basic types ([u]int8, [u]int16, [u]int32, [u]int64,
 float and double).
 
