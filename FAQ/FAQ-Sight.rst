@@ -43,7 +43,7 @@ Where can I find applications developed with sight ?
 Some tutorials are provided with the framework and you can also build VRRender,
 a free visualization software or ARCalibration, a user-friendly camera calibration tool.
 
-Which prerequisites do I need to develop new services and bundles ?
+Which prerequisites do I need to develop new services and modules ?
 =====================================================================
 
 You must have a good knowledge in C++. Concerning the configuration files, they are written in XML.
@@ -58,7 +58,7 @@ They can be downloaded on https://git.ircad.fr/sight/sight-deps.
 Is it difficult to compile an application with sight?
 ======================================================
 
-No, it isn't. You just have to compile all the bundles and libraries used by the application.
+No, it isn't. You just have to compile all the modules and libraries used by the application.
 Please follow the :ref:`installation instructions<Installation>` for your platform.
 
 Why does sight provide a launcher?
@@ -94,7 +94,7 @@ and then debug it using **gdb** (Linux/Mac), **QtCreator** (Linux/Mac), **Visual
 Thirdly, you can manage the program complexity by reducing the number of activated components (in profile.xml)
 and the number of created services (in config.xml) to better localize errors.
 
-Fourthly, verify that your profile.xml / plugin.xml and each bundle plugin.xml are well-formed,
+Fourthly, verify that your profile.xml / plugin.xml and each module plugin.xml are well-formed,
 by using xmllint (command line tool provided by libxml2).
 
 I have an assertion/fatal message when I launch my program, any idea to correct the problem ?
@@ -103,15 +103,15 @@ I have an assertion/fatal message when I launch my program, any idea to correct 
 First, you can read the output message :) and try to solve the problem.
 In many cases, there are two kind of problems. The program fails to :
 
-- create the service given in configuration. In this case, four reasons are possibles :
-    - the name of service implementation in *config.xml* contains mistakes
-    - the bundle that contains this service is not activated in the profile
-    - the bundle plugin.xml, that contains this service,
-      does not declare the service or the declaration contains mistakes.
+- create the service given in configuration. In this case, four reasons are possible :
+    - the name of service implementation in *config.xml* contains mistakes,
+    - the module that contains this service is not activated in the profile,
+    - the plugin.xml of the module, that contains this service,
+      does not declare the service, or the declaration contains mistakes.
     - the service is not registered in the Service Factory (forget of macro *fwServicesRegisterMacro(...)* in file .cpp)
 - manage the configuration of service. In this case, the implementation code
   in .cpp file ( generally configuring() method of service ) does not correspond
-  to description code in config.xml ( Missing arguments, or not well-formed, or mistakes string parameters ).
+  to the description code in config.xml ( Missing arguments, or not well-formed, or mistakes in string parameters ).
 
 Do I need to convert my data object to a ::fwData::Object ?
 ==================================================================================================
@@ -164,7 +164,7 @@ For instance, the file *fwDataCamp/Image.cpp* shows :
     }
 
 Which means that each property is a reachable by a **camp path**.
-This is notably used by services in the ``ctrlCamp`` bundle, like ``SExtractObjObj`` or ``SCopy``.
+This is notably used by services in the ``ctrlCamp`` module, like ``SExtractObjObj`` or ``SCopy``.
 For instance the height of the image can be retrieved using:
 
 .. code:: xml

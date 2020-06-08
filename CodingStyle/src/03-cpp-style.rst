@@ -92,7 +92,7 @@ Source and files
 
 .. rule :: Sort headers inclusions
 
-    You must sort headers in the following order : same module, framework libraries, bundles, external libraries, standard library. This way, this helps to make each header independent. The rule can be broken if a different include order is necessary to get a successful build.
+    You must sort headers in the following order : same module, framework libraries, modules, external libraries, standard library. This way, this helps to make each header independent. The rule can be broken if a different include order is necessary to get a successful build.
 
     .. code-block :: cpp
 
@@ -559,7 +559,7 @@ Miscellaneous
 
 .. rule :: Use of namespaces
 
-    You have to organize your code inside namespaces. By default, you will have at least one namespace for your module (application or bundle). Inside this namespace, it is recommended to split your code into sub-namespaces. This helps notably to prevent naming conflicts.
+    You have to organize your code inside namespaces. By default, you will have at least one namespace for your module (application or module). Inside this namespace, it is recommended to split your code into sub-namespaces. This helps notably to prevent naming conflicts.
 
     It is forbidden to use the expression``using namespace`` in header files but it is allowed in implementation files. It is however recommended to use aliases in this latter case.
 
