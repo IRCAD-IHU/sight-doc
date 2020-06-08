@@ -322,7 +322,7 @@ The two methods ``reserve(...)`` and ``resize(...)`` allocate the mesh arrays. T
 that ``resize(...)`` modifies the number of points and cells.
 
 The ``pushPoint()`` and ``pushCell()`` methods add new points or cells, they increment the number of points/cells and
-allocate more memory if needed. It is recommended to call ``reserve()`` method before it if you know the number of
+allocate more memory if needed. It is recommended to call ``reserve()`` method before if you know the number of
 points and cells, it avoids allocating more memory than needed.
 You can call ``adjustAllocatedMemory()`` to reduce the allocated memory to the real number of points and cells.
 
