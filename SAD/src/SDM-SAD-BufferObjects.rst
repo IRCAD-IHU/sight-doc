@@ -49,6 +49,24 @@ You can also retrieve the entire buffer  with ``getBuffer()`` but be careful no 
 .. warning::
     The array must be locked for dump before accessing the buffer. It prevents the buffer to be dumped on the disk.
 
+**Example:**
+
+.. code-block:: cpp
+
+    // 2D array of std::int16_t
+
+    // prevent the buffer to be dumped on the disk
+    const auto dumpLock = array->lock();
+
+    // retrieve the value at index (x, y)
+    value = array->at<std::int16_t>({x, y});
+
+    // or you can compute the index like
+    const auto size = array->getSize();
+    const size_t index = x + y*size[0];
+    value = array->at<std::int16_t>(index);
+
+
 Iterators
 ~~~~~~~~~~~
 
@@ -83,8 +101,10 @@ Example
     const std::int16_t value = 19;
     ::fwData::Array::sptr array = ::fwData::Array::New();
     array->resize({1920, 1080}, ::fwTools::Type::s_INT16);
+
     auto iter          = array->begin<std::int16_t>();
     const auto iterEnd = array->end<std::int16_t>();
+
     for (; iter != iterEnd; ++iter)
     {
         *iter = value;
@@ -92,37 +112,27 @@ Example
 
 .. tip::
 
-    While these two examples will produce the same results, their performance will be different.
-
-    Using iterators: high performance
+    If you need to know (x, y) indices, you can parse the array looping from the last dimension to the first, like:
 
     .. code-block:: cpp
 
-
-        auto iter          = array->begin<std::int16_t>();
-        const auto iterEnd = array->end<std::int16_t>();
-
-        for (; iter != iterEnd; ++iter)
-        {
-            value = *iter;
-        }
-
-    Using ``at<std::int16_t>({x, y, z})`` : low performance
-
-    .. code-block:: cpp
-
+        auto iter = array->begin<std::int16_t>();
 
         const auto size = array->getSize();
-        for (size_t z=0 ; z<size[2] ; ++z)
+        for (size_t y=0 ; y<size[1] ; ++y)
         {
-            for (size_t y=0 ; y<size[1] ; ++y)
+            for (size_t x=0 ; x<size[0] ; ++x)
             {
-                for (size_t x=0 ; x<size[0] ; ++x)
-                {
-                    value = array->at<std::int16_t>({x, y, z});
-                }
+                // do something with x and y ....
+
+                // retrieve the value
+                value = *iter;
+
+                // increment iterator
+                ++iter;
             }
         }
+
 
 Image
 -------
@@ -170,6 +180,22 @@ You can also use ``getPixelAsString()`` to retrieve the value as a string (usefu
 
     The image must be locked for dump before accessing the buffer. It prevents the buffer to be dumped on the disk.
 
+**Example:**
+
+.. code-block:: cpp
+
+    // 3D image of std::int16_t
+
+    // prevent the buffer to be dumped on the disk
+    const auto dumpLock = image->lock();
+
+    // retrieve the value at index (x, y, z)
+    value = image->at<std::int16_t>(x, y, z);
+
+    // or you can compute the index like
+    const auto size = image->getSize2();
+    const size_t index = x + y*size[0] + z*size[0]*size[1];
+    value = image->at<std::int16_t>(index);
 
 Iterators
 ~~~~~~~~~~
@@ -205,7 +231,7 @@ Example
 .. code-block:: cpp
 
     ::fwData::Image::sptr img = ::fwData::Image::New();
-    img->resize(1920, 1080, 0, ::fwTools::Type::s_UINT8, ::fwData::Image::PixelFormat::RGBA);
+    img->resize(1920, 1080, 5, ::fwTools::Type::s_UINT8, ::fwData::Image::PixelFormat::RGBA);
     auto iter    = img->begin<Color>();
     const auto iterEnd = img->end<Color>();
     for (; iter != iterEnd; ++iter)
@@ -218,34 +244,30 @@ Example
 
 .. tip::
 
-    While these two examples will produce the same results, their performance will be different.
-
-    Using iterators: high performance
+    If you need to know (x, y, z) indices, you can parse the array looping from the last dimension to the first, like:
 
     .. code-block:: cpp
-
-
-        auto iter          = image->begin<std::int16_t>();
-        const auto iterEnd = image->end<std::int16_t>();
-
-        for (; iter != iterEnd; ++iter)
-        {
-            value = *iter;
-        }
-
-    Using ``at<std::int16_t>({x, y, z})`` : low performance
-
-    .. code-block:: cpp
-
 
         const auto size = image->getSize2();
+
+        auto iter    = image->begin<Color>();
+
         for (size_t z=0 ; z<size[2] ; ++z)
         {
             for (size_t y=0 ; y<size[1] ; ++y)
             {
                 for (size_t x=0 ; x<size[0] ; ++x)
                 {
-                    value = array->at<std::int16_t>(x, y, z);
+                    // do something with x and y ....
+
+                    // retrieve the value
+                    val1 = iter->r;
+                    val2 = iter->g;
+                    val3 = iter->b;
+                    val4 = iter->a;
+
+                    // increment iterator
+                    ++iter;
                 }
             }
         }
@@ -303,7 +325,7 @@ Gets the points coordinates of the third cell:
     p3 = [ x3=m_points[9]  y3 z3 ] ( 3 * 3 = 9 )
     p4 = [ x5=m_points[15] y5 z5 ] ( 5 * 3 = 15 )
 
-There are other arrays to stock normal by points, normal by edges, color by points or color by cells, to short :
+There are other arrays to stock normal by points, normal by edges, color by points or color by cells:
 
 - Normal arrays contains normal vector (x,y,z)
 - normals.size = number of mesh points (respc cells)
