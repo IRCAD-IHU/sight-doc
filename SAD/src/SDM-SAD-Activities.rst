@@ -97,7 +97,7 @@ Example
        <id>myActivityId</id>
        <title>3D Visu</title>
        <desc>Activity description ...</desc>
-       <icon>Bundles/media_0-1/icons/icon-3D.png</icon>
+       <icon>media_0-1/icons/icon-3D.png</icon>
        <requirements>
             <requirement name="param1" type="::fwData::Image" /> <!-- defaults : minOccurs = 1, maxOccurs = 1-->
             <requirement name="param2" type="::fwData::Mesh" maxOccurs="3" >
@@ -211,7 +211,7 @@ It defines the AppConfig to launch and its parameters
 
 id:
     Identifier of the AppConfig. For Qml activities, it represents the filename of the Qml file containing the
-    activity. This file must be in the same bundle as the activity.
+    activity. This file must be in the same module as the activity.
 
 parameters:
     List of the parameters required by the AppConfig
@@ -411,7 +411,7 @@ Three implementations exist for the sequencer:
 Example for XML based application
 **********************************
 
-An XML configuration is available in ``activitiesConfig`` bundle.
+An XML configuration is available in ``activitiesConfig`` module.
 
 The configuration can be launched by a 'SConfigController':
 
@@ -485,7 +485,7 @@ You can easily use the ``ActivityLauncher`` object in your Qml application to ma
 - **activityIdsList**: identifiers of the activities to launch
 - **activityNameList**: name of the activities to launch, will be displayed in the stepper
 
-For a Qml application, a qml file must be created in the same bundle as the activity definition, with the filename
+For a Qml application, a qml file must be created in the same module as the activity definition, with the filename
 described in ``appConfig.id`` attribute.
 
 The main object should be an `Activity`. This object provides a template for the activity that will be launched, you

@@ -27,7 +27,7 @@ Tuto09MesherWithGenericScene              Scene with multi-object rendering and 
 Tuto10MatrixTransformInGS                 Example of matrix transformation
 Tuto11LaunchBasicConfig                   Example to launch XML config in application
 Tuto12Picker                              Example of scene picker
-Tuto13Scene2D                             Example using the ``scene2d`` bundle
+Tuto13Scene2D                             Example using the ``scene2d`` module
 Tuto14MeshGenerator                       Mesh features (point/cell color, normals, ...)
 Tuto15Multithread                         Example of multi-threading using sight worker
 Tuto16MultithreadConsole                  Second example of multi-threading using sight worker without XML configuration

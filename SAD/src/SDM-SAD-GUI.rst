@@ -19,8 +19,8 @@ Backend
 -------
 
 When creating an application, we need to specify which gui backend we want to use. To do so,
-the chosen gui bundle must be activated and started in the profile.xml of the application. The
-main gui bundle for any application is ``guiQt``. The ``gui`` bundle must be activated regardless
+the chosen gui module must be activated and started in the profile.xml of the application. The
+main gui module for any application is ``guiQt``. The ``gui`` module must be activated regardless
 of the chosen backend.
 
 .. code-block:: xml
@@ -32,7 +32,7 @@ of the chosen backend.
 
     <start id="guiQt" />
 
-**Warning :** The gui backend bundle must be started before any other bundle in the profile.xml.
+**Warning :** The gui backend module must be started before any other module in the profile.xml.
 
 
 Configuration

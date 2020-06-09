@@ -47,7 +47,7 @@ This file describes the project information and requirements :
         appXml
     )
 
-    bundleParam(appXml PARAM_LIST config PARAM_VALUES tutoSignalSlotConfig)
+    moduleParam(appXml PARAM_LIST config PARAM_VALUES tutoSignalSlotConfig)
 
 
 .. note::

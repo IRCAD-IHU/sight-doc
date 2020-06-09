@@ -9,7 +9,7 @@ This page explain how to create an application using qml.
 Launch the UI
 ===============
 
-The application is declare in a bundle of type `APP` (see :ref:`BundleCreation<bundleCreation>`).
+The application is declare in a module of type `APP` (see :ref:`ModuleCreation<moduleCreation>`).
 The base of the application is located in the `Plugin` class.
 
 To launch an qml interface, write your qml document in the *rc/* directory of your App. And then launch it from the
@@ -74,7 +74,7 @@ Then in the ``Plugin.cpp``, implement the `initialize()` method like:
         SPTR(::fwQml::QmlEngine) engine = ::fwQml::QmlEngine::getDefault();
 
         // get the path of the qml file in the 'rc' directory
-        const auto path = ::fwRuntime::getBundleResourceFilePath("TutoQml", "ui.qml");
+        const auto path = ::fwRuntime::getModuleResourceFilePath("TutoQml", "ui.qml");
 
         // launch the qml component
         engine->loadMainComponent(path);
@@ -112,7 +112,7 @@ Add the class `TutoQml::AppManager`.
     {
 
     /**
-     * @brief   This class is started when the bundles is loaded.
+     * @brief   This class is started when the modules is loaded.
      */
     class TUTOQML_CLASS_API AppManager : public ::fwQml::IQmlAppManager
     {
@@ -482,13 +482,13 @@ Use editors in Qml
 To make the connection between qml and our cpp data, we created the `::fwQml::IQmlEditor` service type. This class should
 be inherited (like the `::fwGui::editor::IEditor`) and be associated to a qml file.
 
-This editor should be declared as qml type in the `Plugin::start()` of the bundle like:
+This editor should be declared as qml type in the `Plugin::start()` of the module like:
 
 .. code-block:: cpp
 
     void Plugin::start()
     {
-        qmlRegisterType<MyEditor>("muyBundle", versionMajor, versionMinor, "MyEditor");
+        qmlRegisterType<MyEditor>("myModule", versionMajor, versionMinor, "MyEditor");
     }
 
 
@@ -530,7 +530,7 @@ In our main qml file, we need to forward the signal to the AppManager.
 
 .. code-block:: qml
 
-    import myBundle 1.0
+    import myModule 1.0
 
     // ...
 
@@ -556,7 +556,7 @@ In our main qml file, we need to forward the signal to the AppManager.
     }
 
 
-Wee need to be sure that the bundle's editors are registered before to use it, so we need to add the *requirement* in
+Wee need to be sure that the module's editors are registered before to use it, so we need to add the *requirement* in
 the `plugin.xml`
 
 .. code-block:: xml
@@ -564,7 +564,7 @@ the `plugin.xml`
     <plugin id="MyAppQml" class="::MyAppQml::Plugin"  version="@PROJECT_VERSION@" >
 
         <requirement id="servicesReg" />
-        <!-- Add the qml bundle requirement. -->
+        <!-- Add the qml module requirement. -->
         <requirement id="uiReconstructionQml" />
 
         <library name="TutoQml" />
@@ -583,7 +583,7 @@ In the AppManager, we implement the slot `onServiceCreated(const QVariant& obj, 
         if (srv)
         {
             // check if it is the desired editor
-            if (srv->isA("::myBundle::MyEditor") && id == "myEditor1")
+            if (srv->isA("::myModule::MyEditor") && id == "myEditor1")
             {
                 // eventually associate the objects
                 srv->setObjectId("obj", s_OBJ_ID);
@@ -599,7 +599,7 @@ In the AppManager, we implement the slot `onServiceCreated(const QVariant& obj, 
 Example
 ------------
 
-In our example, we will use the ``uiReconstructionQml`` bundle containing two qml files (``organMaterialEditorqml`` and
+In our example, we will use the ``uiReconstructionQml`` module containing two qml files (``organMaterialEditorqml`` and
 ``representationEditor.qml``) in the *rc/* directory and the classes ``SOrganMaterialEditor`` and ``SRepresentationEditor``.
 
 These two editors allows to change the color and the representation of a Reconstruction.

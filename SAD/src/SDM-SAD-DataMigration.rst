@@ -237,7 +237,7 @@ The ``fwStructuralPatch`` library contains the structural patches for ``fwData``
 The ``fwMDSemanticPatch`` library contains the semantic patches for ``fwData`` and ``fwMedData`` conversion in the
 ``MedicalData`` context.
 
-The ``patchMedicalData`` bundle must be activated in your application to allow migration in ``MedicalData`` context.
+The ``patchMedicalData`` module must be activated in your application to allow migration in ``MedicalData`` context.
 
 
 .. _StructuralPatch:

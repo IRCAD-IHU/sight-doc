@@ -31,7 +31,7 @@ that is, the ``initialize`` method of the ``Plugin`` class.
 Plugin
 ~~~~~~~~
 
-The *Plugin* class contains the code that is run when a bundle is started (see :ref:`serviceBundle`). The declaration of
+The *Plugin* class contains the code that is run when a module is started (see :ref:`serviceModule`). The declaration of
 the services should be in the ``initialize()`` method.
 
 In the header file ``Plugin.hpp``:
@@ -52,7 +52,7 @@ In the header file ``Plugin.hpp``:
     {
 
     /**
-     * @brief   This class is started when the bundles is loaded.
+     * @brief   This class is started when the modules is loaded.
      */
     class TUTO02DATASERVICEBASICCTRL_CLASS_API Plugin : public ::fwRuntime::Plugin
     {

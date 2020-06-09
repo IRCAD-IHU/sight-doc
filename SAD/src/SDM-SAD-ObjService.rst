@@ -360,7 +360,7 @@ To simplify, you can use an helper that calls this lines and register the inputs
     // ...
     ::fwData::Image::sptr image = ::fwData::Image::New();
     ::fwData::Mesh::sptr mesh = ::fwData::Mesh::New();
-    ::fwServices::IService::sptr srv = ::fwServices::add("::myBundle::MyService");
+    ::fwServices::IService::sptr srv = ::fwServices::add("::myModule::MyService");
     srv->registerInOut(image, "image");
     srv->registerInput(mesh, "mesh");
 

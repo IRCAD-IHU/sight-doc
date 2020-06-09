@@ -45,7 +45,7 @@ This file describes the project information and requirements :
         appXml
     )
 
-    bundleParam(appXml PARAM_LIST config PARAM_VALUES tutoDataServiceBasicConfig)
+    moduleParam(appXml PARAM_LIST config PARAM_VALUES tutoDataServiceBasicConfig)
 
 .. note::
 
@@ -62,7 +62,7 @@ This file is located in the ``rc/`` directory of the application. It defines the
 
     <plugin id="Tuto02DataServiceBasic" version="@PROJECT_VERSION@">
 
-        <!-- The bundles in requirements are automatically started when this
+        <!-- The modules in requirements are automatically started when this
              application is launched. -->
         <requirement id="dataReg" />
         <requirement id="servicesReg" />

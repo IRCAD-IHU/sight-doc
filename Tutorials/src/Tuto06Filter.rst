@@ -46,7 +46,7 @@ This file describes the project information and requirements:
         uiIO
         visuVTKQt
         vtkSimpleNegato
-        opImageFilter # bundle containing the action to performs a threshold
+        opImageFilter # module containing the action to performs a threshold
         fwlauncher
         appXml
     )

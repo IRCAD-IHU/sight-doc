@@ -10,7 +10,7 @@ Sight and its dependencies are built with `CMake <http://www.cmake.org/>`_ .
 Note that the minimal version of cmake to have is 3.9.
 
 
-Each project (apps, bundles, libs) has two "CMake" files:
+Each project (apps, modules, libs) has two "CMake" files:
 
 - CMakeLists.txt_
 - Properties.cmake_
@@ -23,7 +23,7 @@ CMakeLists.txt
 The *CMakeLists.txt* should contain at least the function *fwLoadProperties()* to load the Properties.cmake.
 But it can also contain others functions useful to link with external libraries.
 
-Here is an example of CMakeLists.txt from guiQt Bundle :
+Here is an example of CMakeLists.txt from guiQt Module :
 
 .. code-block:: cmake
 
@@ -60,7 +60,7 @@ Actually if you're accustomed to CMake these two macros are strictly equivalent 
 
 They are proposed as a convenience so people won't forget for instance to specify `SYSTEM`,
 which prevents compilation warnings from third-part libraries to be displayed.
-If the rare case where your bundle may be a dependency of an another one,
+If the rare case where your module may be a dependency of an another one,
 you can forward the include directories and the libraries with ``fwForwardInclude`` and ``fwForwardLink``,
 which are still equivalent to ``target_include_directories``
 and ``target_link_libraries`` CMake commands but with ``PUBLIC`` set instead of ``PRIVATE``.
@@ -94,7 +94,7 @@ TYPE:
     Define the type of the target:
 
     - APP for an "Application"
-    - BUNDLE for a "bundle"
+    - MODULE for a "module"
     - LIBRARY for a "library"
     - EXECUTABLE for an executable
 
@@ -104,19 +104,19 @@ DEPENDENCIES:
 
 REQUIREMENTS:
     Ensure that the dependencies are built before the targets (see `add_dependencies <http://www.cmake.org/cmake/help/v3.0/command/add_dependencies.html?highlight=add_dependencies>`_ ).
-    The REQUIREMENTS should contain only "bundles".
+    The REQUIREMENTS should contain only "modules".
 
 In some Properties.cmake (mostly in applications), you can see the line:
 
 .. code-block:: cmake
 
-    bundleParam(appXml PARAM_LIST config PARAM_VALUES tutoBasicConfig)
+    moduleParam(appXml PARAM_LIST config PARAM_VALUES tutoBasicConfig)
 
-This CMake macro allows to give parameters to a bundle. The parameters are defined like:
+This CMake macro allows to give parameters to a module. The parameters are defined like:
 
 .. code-block:: cmake
 
-    bundleParam(<bundle>
+    moduleParam(<module>
                 PARAM_LIST <param1_name> <param2_name> <param3_name>
                 PARAM_VALUES <param1_value> <param2_value> <param3_value>
                 )
@@ -127,13 +127,13 @@ These parameters can be retrieved in the ``Plugin.cpp`` like:
 
     void Plugin::start()
     {
-        if( this->getBundle()->hasParameter("param1_name") )
+        if( this->getModule()->hasParameter("param1_name") )
         {
-            const std::string param1Value = this->getBundle()->getParameterValue("param1_name");
+            const std::string param1Value = this->getModule()->getParameterValue("param1_name");
         }
-        if( this->getBundle()->hasParameter("param2_name") )
+        if( this->getModule()->hasParameter("param2_name") )
         {
-            const std::string param2Value = this->getBundle()->getParameterValue("param2_name");
+            const std::string param2Value = this->getModule()->getParameterValue("param2_name");
         }
         // ...
     }
