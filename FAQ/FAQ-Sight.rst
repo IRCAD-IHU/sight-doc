@@ -26,7 +26,7 @@ The three main concepts of the architecture, explained in the following sections
 -  component approach
 -  signal-slot communication
 
-The framework is multi-platform and runs under Windows, Linux, and MacOS.
+The framework is multi-platform and runs under Windows and Linux.
 Building an application with Sight only requires to write one or several XML files.
 Its functionalities can be also extended by writing new components in C++,
 which is the coding language of the framework.
@@ -35,7 +35,7 @@ which is the coding language of the framework.
 Which platforms does sight run on?
 ===================================
 
-This framework can run under Windows, Linux and MacOS.
+This framework can run under Windows and Linux.
 
 Where can I find applications developed with sight ?
 ======================================================
@@ -89,7 +89,7 @@ Lower levels are really designed to be activated punctually when debugging a spe
 
 
 Secondly, you can of course compile your application in Debug mode (set **CMAKE_BUILD_TYPE** to "Debug" )
-and then debug it using **gdb** (Linux/Mac), **QtCreator** (Linux/Mac), **Visual Studio** (Windows).
+and then debug it using **gdb** (Linux), **QtCreator** (Linux/Windows), **Visual Studio** (Windows).
 
 Thirdly, you can manage the program complexity by reducing the number of activated components (in profile.xml)
 and the number of created services (in config.xml) to better localize errors.

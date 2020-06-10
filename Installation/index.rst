@@ -30,10 +30,6 @@ Prerequisites
         For now, only `Visual Studio 2019` is supported, other versions may work but have not been tested.
 
 
-   .. group-tab:: Mac OSX
-
-        For now, only `Mojave 10.14` is supported, other versions may work but have not been tested.
-
 If not already installed:
 
 #. Install `git <https://git-scm.com/>`_
@@ -74,20 +70,6 @@ Install a c++ compiler and other development libraries.
 
         Install `Visual Studio 2019 Community <https://visualstudio.microsoft.com/>`_
 
-
-   .. group-tab:: Mac OSX
-
-        Install `Xcode 11 <https://developer.apple.com/xcode/>`_
-
-        For an easy install, you can use the `Homebrew project <http://brew.sh/>`_  to install missing packages.
-        Brewed python is python ``3`` and is required since default macOS python is ``2``
-
-        .. code:: bash
-
-            $ brew install git
-            & brew install python
-            $ brew install cmake
-            $ brew install ninja
 
 
 Source tree layout
@@ -164,31 +146,6 @@ Setting up your environment
             Writing a ``.bat`` script that loads all these previous locations to your path can save you time and effort!
 
 
-   .. group-tab:: Mac OSX
-
-        Make sure all of your Prerequisites_ are loaded into your path correctly, for all installation made through
-        `brew` this is done automatically but for manually downloaded binaries you'll need to do it yourself.
-
-        If you haven't done it, launch Xcode at least one time and install the ``Command Line Tools`` when prompted.
-
-        You can do this manually by using the following command:
-
-        .. code:: bash
-
-            $ xcode-select --install
-
-        If you already had installed the ``Command Line Tools``, it may be a good idea to check that the currently used ones are the default:
-
-        .. code:: bash
-
-            $ xcode-select --print-path
-            /Applications/Xcode.app/Contents/Developer
-
-        If the above command prints something different, you may reset to the default with:
-
-        .. code:: bash
-
-            $ sudo xcode-select --reset
 
 Building your sources
 ----------------------
@@ -298,15 +255,6 @@ After a successful compilation any previously built application can be launched 
             $ ./bin/myapplication.bat
 
 
-   .. group-tab:: Mac OSX
-
-        You will find in the ``Build/bin`` directory an automatically generated script with the same name (on lowercase)
-        as the application you built.
-
-        .. code:: bash
-
-            $ cd Dev/Build/Debug
-            $ ./bin/myapplication
 
 .. important::
     This automatically generated script loads all the needed Conan packages locations and adds them temporarily to your
@@ -323,11 +271,6 @@ and generating the code, follow these two steps:
 
 The installer will be generated in the Build directory.
 
-.. note::
-
-    This functionality is only fully supported on Windows and Linux distributions.
-
-    For Mac OSX, ninja install will generate a ``.app`` and works only on some applications.
 
 Recommended software
 --------------------
@@ -352,12 +295,6 @@ The following programs may be helpful for your developments:
         * `ConsoleZ <https://github.com/cbucher/console/wiki/Downloads>`_:
             ConsoleZ is an alternative command prompt for Windows, adding more capabilities to the default Windows command
             prompt. To compile Sight with the console the windows command prompt has to be set in the tab settings.
-
-   .. group-tab:: Mac OSX
-
-        * `QT Creator <https://download.qt.io/official_releases/qtcreator/>`_:
-            QT Creator is a multi-OS Integrated Development Environment (IDE) for computer programming.
-            You can find a setup tutorial here :ref:`qtcreatorsetup`.
 
 
 Need some help? Keep in touch!
