@@ -371,7 +371,7 @@ Object retrieval
 ~~~~~~~~~~~~~~~~~
 
 We have two ways to retrieve the registered objects. We can retrieve them as a ``weak_ptr`` or as a ``locked_ptr``,
-using one of the two "kind" of getter: 
+using one of the two "kind" of getter:
 
 .. code-block :: cpp
 
@@ -391,7 +391,7 @@ and a ``::fwData::Mesh`` registered as ``"mesh"`` key with ``IN`` access
 type we can retrieve there associated ``weak_ptr`` or ``locked_ptr`` in a method of the service this way:
 
 .. code-block :: cpp
-    
+
     auto mesh  = this->getLockedInput< ::fwData::Mesh >("mesh");
     auto image = this->getWeakInOut< ::fwData::Image >("image");
 
@@ -412,7 +412,7 @@ Once we have a ``locked_ptr``, we are protected from concurrent access and from 
 the real pointer by calling ``locked_ptr::getShared()`` or simply use `->` or `*` operators, like in:
 
 .. code-block :: cpp
-    
+
     auto weakInput   = this->getWeakInput< ::fwData::Integer >(s_INPUT);
     auto lockedInput = weakInput.lock();
 
@@ -446,9 +446,9 @@ Once destroyed, accessing data objects with old pointer obtained from the destro
 is strongly discouraged, has there is no more concurrent access nor dumping protection.
 
 .. note::
-    
+
     ``locked_ptr`` are not "recursive", that means getting two ``locked_ptr`` in the same thread will
-    lead to a dead lock. 
+    lead to a dead lock.
 
 Object access type
 -------------------
@@ -459,15 +459,15 @@ How to choose between the different access type for a given data ?
     - If you don't modify the data and so that means you can deal with a const pointer on the data,
       then this is the right choice.
 
-    - This also implies a "read" (or "shared") mutex with the associated ``locked_ptr`` 
-      
+    - This also implies a "read" (or "shared") mutex with the associated ``locked_ptr``
+
 2. Write-only (*OUT*)
     - This is a special case when the service will actually create the data.
       The data doesn't exist before the service creation.
       At some point, during ``start()``, or ``update()`` or elsewhere,
       the data is allocated, filled and registered in the OSR:
 
-    - This also implies a "write" (or "exclusive") mutex with the associated ``locked_ptr`` 
+    - This also implies a "write" (or "exclusive") mutex with the associated ``locked_ptr``
 
 .. code-block :: cpp
 
