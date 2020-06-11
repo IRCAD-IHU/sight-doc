@@ -406,7 +406,9 @@ memory to disk dumping.
 
 ``weak_ptr`` use a hidden ``std::weak_ptr`` to point to the real data, but it can only be accessed by "locking"
 the ``weak_ptr`` to get a ``locked_ptr``. The main purpose of the ``weak_ptr``, is to be used as a class member,
-to spare the data lookup, or to control precisely the locking of the data.
+to spare the data lookup, or to control precisely the locking of the data. It is also the preferred way to retrieve
+optional data, that are not yet registered. In that case, test for nullity the ``locked_ptr`` returned by
+``weak_ptr::lock()``.
 
 Once we have a ``locked_ptr``, we are protected from concurrent access and from dumping on disk. We can access to
 the real pointer by calling ``locked_ptr::getShared()`` or simply use `->` or `*` operators, like in:
@@ -433,7 +435,8 @@ Or, even simpler:
     auto lockedInOut = this->getLockedInOut< ::fwData::Integer >(s_INOUT);
 
     // after that the data referenced by s_INOUT is "write locked"
-    // BUT beware, if the data is not yet registered, the locked_ptr can be NULL
+    // BUT beware, even if `getLockedInOut()` will assert that the data is not NULL in DEBUG,
+    // it can still be NULL in RELEASE.
 
     if( lockedInOut )
     {
