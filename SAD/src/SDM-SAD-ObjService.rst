@@ -424,7 +424,8 @@ the real pointer by calling ``locked_ptr::getShared()`` or simply use `->` or `*
     ....
     if( lockedInput )
     {
-        std::cout << lockedInput->getValue();
+        const std::int64_t value = lockedInput->getValue();
+        ...
     }
     ....
 
@@ -445,8 +446,8 @@ Or, even simpler:
     ....
 
 RAII mechanism will ensure that everything is unlocked once the ``locked_ptr`` is destroyed.
-Once destroyed, accessing data objects with old pointer obtained from the destroyed ``locked_ptr``,
-is strongly discouraged, has there is no more concurrent access nor dumping protection.
+Once destroyed, you should not access anymore to the data objects as there is no more concurrent
+access nor dumping protection.
 
 .. note::
 
