@@ -124,8 +124,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
 
                     It's possible to associate specific attributes for <menuItem> to configure their style, shortcut...
                     In this tutorial, the attribute 'specialAction' has the value "QUIT". On MS Windows, there's no
-                    impact, but on Mac OS, this value installs the menuItem in the system menu bar, and on Linux this
-                    value installs the default 'Quit' system icon in the menuItem.
+                    impact, but on Linux this value installs the default 'Quit' system icon in the menuItem.
                 -->
                 <service uid="myMenu" type="::gui::aspect::SDefaultMenu">
                     <gui>

@@ -317,7 +317,7 @@ double.
          * It invokes the template functor ThresholdFilter using the image type.
          * - template parameters:
          *   - ::fwTools::SupportedDispatcherTypes defined all the supported type of the functor, here all the type
-         *     supportted by ::fwTools::Type(std::int8_t, std::uint8_t, std::int16_t, std::uint16_t, std::int32_t,
+         *     supported by ::fwTools::Type(std::int8_t, std::uint8_t, std::int16_t, std::uint16_t, std::int32_t,
          *     std::uint32_t, std::int64_t, std::uint64_t, float, double)
          *   - ThresholdFilter: functor struct or class
          * - parameters:
@@ -326,7 +326,7 @@ double.
          */
         ::fwTools::Dispatcher< ::fwTools::SupportedDispatcherTypes, ThresholdFilter >::invoke( type, param );
 
-        // register the output image to be accesible by the other service from the XML configuration
+        // register the output image to be accessible by the other service from the XML configuration
         this->setOutput(s_IMAGE_OUTPUT, output);
     }
 
