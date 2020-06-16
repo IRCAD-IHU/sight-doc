@@ -298,7 +298,7 @@ Some services needs a specific configuration, it is usually described in the dox
 
 .. code-block:: cpp
 
-    ::fwData::Image::csptr image = this->getInput< ::fwData::Image >("image");
+    auto image = this->getLockedInput< ::fwData::Image >("image");
     ::fwData::Mesh::sptr mesh = ::fwData::Mesh::New();
     // mesher .....
     this->setOutput("mesh", mesh);

@@ -148,8 +148,8 @@ In the source file ``SMesher.cpp`` should be in the folder ``<src_dir>/modules/o
     void SMesher::updating()
     {
         // retrieve the image
-        ::fwData::Image::csptr image = this->getInput< ::fwData::Image >(s_IMAGE_INPUT);
-        SLM_ASSERT("Input '" + s_IMAGE_INPUT + "' is not defined", image);
+        auto lockedImage = this->getLockedInput< ::fwData::Image >(s_IMAGE_INPUT);
+        SLM_ASSERT("Input '" + s_IMAGE_INPUT + "' is not defined", lockedImage);
 
         ::fwData::Mesh::sptr mesh = ::fwData::Mesh::New();
 
