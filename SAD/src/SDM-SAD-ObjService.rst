@@ -436,8 +436,8 @@ Or, even simpler:
     auto lockedInOut = this->getLockedInOut< ::fwData::Integer >(s_INOUT);
 
     // after that the data referenced by s_INOUT is "write locked"
-    // `getLockedInOut()` will raise an exception if the underlying data object is NULL.
-    // No need to test for nullity, use getWeakInput() otherwise.
+    // `getLockedInOut()` will raise an exception if the underlying data object is null.
+    // If having a null object is a valid state, for instance for an optional data, please use `getWeakInOut()` instead.
 
     lockedInOut->setValue(666);
     ....
