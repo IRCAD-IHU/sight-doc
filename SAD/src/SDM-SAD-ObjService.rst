@@ -411,7 +411,7 @@ optional data, that are not yet registered. In that case, test for nullity the `
 ``weak_ptr::lock()``.
 
 Once we have a ``locked_ptr``, we are protected from concurrent access and from dumping on disk. We can access to
-the real pointer by calling ``locked_ptr::getShared()`` or simply use `->` or `*` operators, like in:
+the real pointer by calling ``locked_ptr::get_shared()`` or simply use `->` or `*` operators, like in:
 
 .. code-block :: cpp
 
@@ -436,13 +436,10 @@ Or, even simpler:
     auto lockedInOut = this->getLockedInOut< ::fwData::Integer >(s_INOUT);
 
     // after that the data referenced by s_INOUT is "write locked"
-    // BUT beware, even if `getLockedInOut()` will assert that the data is not NULL in DEBUG,
-    // it can still be NULL in RELEASE.
+    // `getLockedInOut()` will raise an exception if the underlying data object is NULL.
+    // No need to test for nullity, use getWeakInput() otherwise.
 
-    if( lockedInOut )
-    {
-        lockedInOut->setValue(666);
-    }
+    lockedInOut->setValue(666);
     ....
 
 RAII mechanism will ensure that everything is unlocked once the ``locked_ptr`` is destroyed.
