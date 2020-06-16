@@ -411,7 +411,7 @@ optional data, that are not yet registered. In that case, test for nullity the `
 ``weak_ptr::lock()``.
 
 Once we have a ``locked_ptr``, we are protected from concurrent access and from dumping on disk. We can access to
-the real pointer by calling ``locked_ptr::get_shared()`` or simply use `->` or `*` operators, like in:
+the real pointer by calling ``locked_ptr::get_shared()`` or simply use ``->`` or ``*`` operators, like in:
 
 .. code-block :: cpp
 
