@@ -221,9 +221,9 @@ For more information about serialization see:
 .. csv-table::
     :header: "location", "brief"
 
-    "Srclib/core/fwData/include/","fwData header files with serialization macros"
-    "Srclib/core/fwDataCamp","Serialization description of all Sight data"
-    "Srclib/core/fwDataCamp/include/fwDataCamp/autoload.hpp","Auto loading data bindings in the system"
+    "libs/core/fwData/include/","fwData header files with serialization macros"
+    "libs/core/fwDataCamp","Serialization description of all Sight data"
+    "libs/core/fwDataCamp/include/fwDataCamp/autoload.hpp","Auto loading data bindings in the system"
 
 
 ``fwData::Object`` to ``fwAtoms::Object`` conversion

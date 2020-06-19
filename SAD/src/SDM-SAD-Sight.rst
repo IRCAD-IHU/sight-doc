@@ -30,7 +30,7 @@ This document will introduce the general architecture of Sight.
     Annexes
     -------
 
-    -  *Srclib list:* this document lists all libraries with a brief description.
+    -  *libs list:* this document lists all libraries with a brief description.
     -  *Object list:* this document lists all data with a brief description.
     -  *Service list:* this document lists all services and modules with a brief description.
     -  *Third party:* this document contains a description of libraries used to
