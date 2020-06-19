@@ -195,7 +195,7 @@ Generation
 ``CMAKE_BUILD_TYPE``:
     Set to Debug or Release.
 ``PROJECTS_TO_BUILD``:
-    Set the names of the applications to build (see Dev/Src/Apps or Dev/Src/Samples, ex: VRRender, Tuto01Basic ...),
+    Set the names of the applications to build (see Dev/Src/apps or Dev/Src/samples, ex: VRRender, Tuto01Basic ...),
     each project should be separated by ";".
 
 .. note::
@@ -302,4 +302,4 @@ Need some help? Keep in touch!
 
 As any active community, we *sighters* are happy to help each other or beginners however we can. Feel free to join us
 and share with us your questions or comments at our `Gitter <https://gitter.im/IRCAD-IHU/sight-support>`_ .
-We provide support in French, English and Spanish.
+We provide support in French or English.
