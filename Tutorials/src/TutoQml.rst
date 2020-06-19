@@ -9,7 +9,7 @@ This page explain how to create an application using qml.
 Launch the UI
 ===============
 
-The application is declare in a bundle of type `APP` (see :ref:`BundleCreation<bundleCreation>`).
+The application is declare in a module of type `APP` (see :ref:`ModuleCreation<moduleCreation>`).
 The base of the application is located in the `Plugin` class.
 
 To launch an qml interface, write your qml document in the *rc/* directory of your App. And then launch it from the
@@ -74,7 +74,7 @@ Then in the ``Plugin.cpp``, implement the `initialize()` method like:
         SPTR(::fwQml::QmlEngine) engine = ::fwQml::QmlEngine::getDefault();
 
         // get the path of the qml file in the 'rc' directory
-        const auto path = ::fwRuntime::getBundleResourceFilePath("TutoQml", "ui.qml");
+        const auto path = ::fwRuntime::getModuleResourceFilePath("TutoQml", "ui.qml");
 
         // launch the qml component
         engine->loadMainComponent(path);
@@ -112,10 +112,9 @@ Add the class `TutoQml::AppManager`.
     {
 
     /**
-     * @brief   This class is started when the bundles is loaded.
+     * @brief   This class is started when the modules is loaded.
      */
-    class TUTOQML_CLASS_API AppManager : public QObject,
-                                         public ::fwServices::AppManager
+    class TUTOQML_CLASS_API AppManager : public ::fwQml::IQmlAppManager
     {
 
     Q_OBJECT;
@@ -181,35 +180,38 @@ Add the class `TutoQml::AppManager`.
 
     void AppManager::initialize()
     {
-        this->create();
+        this->::fwQml::IQmlAppManager::initialize();
 
-        // create the services
-        m_imageLoader = this->addService("::uiIO::editor::SIOSelector", "", true);
-        m_mesher      = this->addService("::opVTKMesh::SVTKMesher", "", true);
-        m_modelWriter = this->addService("::uiIO::editor::SIOSelector", "", true);
+        if (m_isInitialized)
+        {
+            // create the services
+            m_imageLoader = this->addService("::uiIO::editor::SIOSelector", "", true);
+            m_mesher      = this->addService("::opVTKMesh::SVTKMesher", "", true);
+            m_modelWriter = this->addService("::uiIO::editor::SIOSelector", "", true);
 
-        // associate the object to the services
-        m_imageLoader->setObjectId("data", s_IMAGE_SERIES_ID);
-        m_mesher->setObjectId("imageSeries", s_IMAGE_SERIES_ID);
-        m_mesher->setObjectId("modelSeries", s_MODELSERIES_ID);
-        m_modelWriter->setObjectId("data", s_MODELSERIES_ID);
+            // associate the object to the services
+            m_imageLoader->setObjectId("data", s_IMAGE_SERIES_ID);
+            m_mesher->setObjectId("imageSeries", s_IMAGE_SERIES_ID);
+            m_mesher->setObjectId("modelSeries", s_MODELSERIES_ID);
+            m_modelWriter->setObjectId("data", s_MODELSERIES_ID);
 
-        // configure the services
-        ::fwServices::IService::ConfigType imageSeriesReaderConfig;
-        imageSeriesReaderConfig.put("type.<xmlattr>.mode", "reader");
-        imageSeriesReaderConfig.put("type.<xmlattr>.class", "::fwMedData::ImageSeries");
-        m_imageLoader->configure(imageSeriesReaderConfig);
+            // configure the services
+            ::fwServices::IService::ConfigType imageSeriesReaderConfig;
+            imageSeriesReaderConfig.put("type.<xmlattr>.mode", "reader");
+            imageSeriesReaderConfig.put("type.<xmlattr>.class", "::fwMedData::ImageSeries");
+            m_imageLoader->configure(imageSeriesReaderConfig);
 
-        ::fwServices::IService::ConfigType mesherConfig;
-        mesherConfig.put("config.percentReduction", 50);
-        m_mesher->configure(mesherConfig);
+            ::fwServices::IService::ConfigType mesherConfig;
+            mesherConfig.put("config.percentReduction", 50);
+            m_mesher->configure(mesherConfig);
 
-        ::fwServices::IService::ConfigType modelSeriesWriterConfig;
-        modelSeriesWriterConfig.put("type.<xmlattr>.mode", "writer");
-        m_modelWriter->configure(modelSeriesWriterConfig);
+            ::fwServices::IService::ConfigType modelSeriesWriterConfig;
+            modelSeriesWriterConfig.put("type.<xmlattr>.mode", "writer");
+            m_modelWriter->configure(modelSeriesWriterConfig);
 
-        // Start the services if all their data are present
-        this->startServices();
+            // Start the services if all their data are present
+            this->startServices();
+        }
     }
 
     //------------------------------------------------------------------------------
@@ -217,7 +219,7 @@ Add the class `TutoQml::AppManager`.
     void AppManager::uninitialize()
     {
         // stop the started services and unregister all the services
-        this->stopAndUnregisterServices();
+        this->destroy();
     }
 
     //------------------------------------------------------------------------------
@@ -480,13 +482,13 @@ Use editors in Qml
 To make the connection between qml and our cpp data, we created the `::fwQml::IQmlEditor` service type. This class should
 be inherited (like the `::fwGui::editor::IEditor`) and be associated to a qml file.
 
-This editor should be declared as qml type in the `Plugin::start()` of the bundle like:
+This editor should be declared as qml type in the `Plugin::start()` of the module like:
 
 .. code-block:: cpp
 
     void Plugin::start()
     {
-        qmlRegisterType<MyEditor>("muyBundle", versionMajor, versionMinor, "MyEditor");
+        qmlRegisterType<MyEditor>("myModule", versionMajor, versionMinor, "MyEditor");
     }
 
 
@@ -528,7 +530,7 @@ In our main qml file, we need to forward the signal to the AppManager.
 
 .. code-block:: qml
 
-    import myBundle 1.0
+    import myModule 1.0
 
     // ...
 
@@ -546,7 +548,7 @@ In our main qml file, we need to forward the signal to the AppManager.
 
             onServiceCreated: {
                 // call onServiceCreated with the service instance and an identifier.
-                // The identifier is only required if the same editor is used multipes times.
+                // The identifier is only required if the same editor is used multiples times.
                 appManager.onServiceCreated(srv, "myEditor1")
             }
             // ...
@@ -554,7 +556,7 @@ In our main qml file, we need to forward the signal to the AppManager.
     }
 
 
-Wee need to be sure that the bundle's editors are registered before to use it, so we need to add the *requirement* in
+Wee need to be sure that the module's editors are registered before to use it, so we need to add the *requirement* in
 the `plugin.xml`
 
 .. code-block:: xml
@@ -562,7 +564,7 @@ the `plugin.xml`
     <plugin id="MyAppQml" class="::MyAppQml::Plugin"  version="@PROJECT_VERSION@" >
 
         <requirement id="servicesReg" />
-        <!-- Add the qml bundle requirement. -->
+        <!-- Add the qml module requirement. -->
         <requirement id="uiReconstructionQml" />
 
         <library name="TutoQml" />
@@ -581,7 +583,7 @@ In the AppManager, we implement the slot `onServiceCreated(const QVariant& obj, 
         if (srv)
         {
             // check if it is the desired editor
-            if (srv->isA("::myBundle::MyEditor") && id == "myEditor1")
+            if (srv->isA("::myModule::MyEditor") && id == "myEditor1")
             {
                 // eventually associate the objects
                 srv->setObjectId("obj", s_OBJ_ID);
@@ -597,7 +599,7 @@ In the AppManager, we implement the slot `onServiceCreated(const QVariant& obj, 
 Example
 ------------
 
-In our example, we will use the ``uiReconstructionQml`` bundle containing two qml files (``organMaterialEditorqml`` and
+In our example, we will use the ``uiReconstructionQml`` module containing two qml files (``organMaterialEditorqml`` and
 ``representationEditor.qml``) in the *rc/* directory and the classes ``SOrganMaterialEditor`` and ``SRepresentationEditor``.
 
 These two editors allows to change the color and the representation of a Reconstruction.

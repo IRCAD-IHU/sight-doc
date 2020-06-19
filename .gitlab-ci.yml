@@ -9,7 +9,7 @@ sheldon-mr:
   stage: sheldon
   script:
     - export ORIG_BRANCH_COMMIT_SHA=$(git merge-base dev origin/${CI_COMMIT_REF_NAME})
-    - git -c http.sslVerify=false clone --depth 1 https://gitlab-ci-token:${CI_JOB_TOKEN}@git.ircad.fr/Sight/sight-git.git
+    - git clone --depth 1 https://gitlab-ci-token:${CI_JOB_TOKEN}@git.ircad.fr/Sight/sight-git.git
     # Execute sheldon, on all commits from the merge request
     - sight-git/hooks/sheldon ${ORIG_BRANCH_COMMIT_SHA}..${CI_COMMIT_SHA}
 
@@ -17,14 +17,14 @@ sheldon:
   image: ${DOCKER_ENVDEV_MINT19}
   stage: sheldon
   script:
-    - git -c http.sslVerify=false clone --depth 1 https://gitlab-ci-token:${CI_JOB_TOKEN}@git.ircad.fr/Sight/sight-git.git
+    - git clone --depth 1 https://gitlab-ci-token:${CI_JOB_TOKEN}@git.ircad.fr/Sight/sight-git.git
     - sight-git/hooks/sheldon HEAD^ HEAD
   except:
     - dev
     - master
 
 rst-lint:
-  image: python:3
+  image: python:alpine
   stage: lint
   script:
     - pip install doc8 Pygments
@@ -39,11 +39,11 @@ markdown-lint:
     - markdownlint --config .markdownlint.json .
 
 build-doc:
-  image: python:3
+  image: python:alpine
   stage: build
   script:
     - pip install sphinx sphinx_rtd_theme sphinx-tabs
-    - apt-get update && apt-get install -yqq make
+    - apk add make
     - make html
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"

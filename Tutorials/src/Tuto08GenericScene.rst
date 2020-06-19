@@ -59,7 +59,7 @@ This file describes the project information and requirements :
         appXml
     )
 
-    bundleParam(appXml PARAM_LIST config PARAM_VALUES Tuto08GenericScene)
+    moduleParam(appXml PARAM_LIST config PARAM_VALUES Tuto08GenericScene)
 
 .. note::
 

@@ -360,7 +360,7 @@ To simplify, you can use an helper that calls this lines and register the inputs
     // ...
     ::fwData::Image::sptr image = ::fwData::Image::New();
     ::fwData::Mesh::sptr mesh = ::fwData::Mesh::New();
-    ::fwServices::IService::sptr srv = ::fwServices::add("::myBundle::MyService");
+    ::fwServices::IService::sptr srv = ::fwServices::add("::myModule::MyService");
     srv->registerInOut(image, "image");
     srv->registerInput(mesh, "mesh");
 
@@ -370,7 +370,8 @@ To simplify, you can use an helper that calls this lines and register the inputs
 Object retrieval
 ~~~~~~~~~~~~~~~~~
 
-Thus, to retrieve the registered objects of a service, there are two different methods :
+We have two ways to retrieve the registered objects. We can retrieve them as a ``weak_ptr`` or as a ``locked_ptr``,
+using one of the two "kind" of getter:
 
 .. code-block :: cpp
 
@@ -378,19 +379,77 @@ Thus, to retrieve the registered objects of a service, there are two different m
     {
     public:
       // ...
-      template<class DATATYPE> CSPTR(DATATYPE) getInput( const KeyType& key) const;
-      template<class DATATYPE>  SPTR(DATATYPE) getInOut( const KeyType& key) const;
+      ::fwData::mt::weak_ptr< CONST_DATATYPE > getWeakInput(const KeyType& key) const;
+      ::fwData::mt::weak_ptr< DATATYPE > getWeakInOut(const KeyType& key) const;
       // ...
+      ::fwData::mt::locked_ptr< CONST_DATATYPE > getLockedInput(const KeyType& key) const;
+      ::fwData::mt::locked_ptr< DATATYPE > getLockedInOut(const KeyType& key) const;
     };
 
 For instance, if we have a ``::fwData::Image`` registered as ``"image"`` key with ``INOUT`` access type,
 and a ``::fwData::Mesh`` registered as ``"mesh"`` key with ``IN`` access
-type we can retrieve them in a method of the service this way:
+type we can retrieve there associated ``weak_ptr`` or ``locked_ptr`` in a method of the service this way:
 
 .. code-block :: cpp
 
-    ::fwData::Image::sptr image = this->getInOut< ::fwData::Image>("image");
-    ::fwData::Mesh::csptr mesh  = this->getInput< ::fwData::Mesh>("mesh");
+    auto mesh  = this->getLockedInput< ::fwData::Mesh >("mesh");
+    auto image = this->getWeakInOut< ::fwData::Image >("image");
+
+
+``weak_ptr`` or ``locked_ptr`` ?
+--------------------------------
+
+They both hold a pointer to the real data object, but mimic the behavior of ``std::weak_ptr``, ``std::shared_ptr``
+and ``std::lock_guard``.
+The purpose of this container classes, is to provide an out-of-the-box protection against concurrent access and
+memory to disk dumping.
+
+``weak_ptr`` use a hidden ``std::weak_ptr`` to point to the real data, but it can only be accessed by "locking"
+the ``weak_ptr`` to get a ``locked_ptr``. The main purpose of the ``weak_ptr``, is to be used as a class member,
+to spare the data lookup, or to control precisely the locking of the data. It is also the preferred way to retrieve
+optional data, that are not yet registered. In that case, test for nullity the ``locked_ptr`` returned by
+``weak_ptr::lock()``.
+
+Once we have a ``locked_ptr``, we are protected from concurrent access and from dumping on disk. We can access to
+the real pointer by calling ``locked_ptr::get_shared()`` or simply use ``->`` or ``*`` operators, like in:
+
+.. code-block :: cpp
+
+    auto weakInput   = this->getWeakInput< ::fwData::Integer >(s_INPUT);
+    auto lockedInput = weakInput.lock();
+
+    // now, the data referenced by s_INPUT is "read locked"
+    // BUT beware, if the data is not yet registered, the locked_ptr can be NULL
+
+    ....
+    if( lockedInput )
+    {
+        const std::int64_t value = lockedInput->getValue();
+        ...
+    }
+    ....
+
+Or, even simpler:
+
+.. code-block :: cpp
+
+    auto lockedInOut = this->getLockedInOut< ::fwData::Integer >(s_INOUT);
+
+    // after that the data referenced by s_INOUT is "write locked"
+    // `getLockedInOut()` will raise an exception if the underlying data object is null.
+    // If having a null object is a valid state, for instance for an optional data, please use `getWeakInOut()` instead.
+
+    lockedInOut->setValue(666);
+    ....
+
+RAII mechanism will ensure that everything is unlocked once the ``locked_ptr`` is destroyed.
+Once destroyed, you should not access anymore to the data objects as there is no more concurrent
+access nor dumping protection.
+
+.. note::
+
+    ``locked_ptr`` are not "recursive", that means getting two ``locked_ptr`` in the same thread will
+    lead to a dead lock.
 
 Object access type
 -------------------
@@ -400,11 +459,16 @@ How to choose between the different access type for a given data ?
 1. Read-only (*IN*)
     - If you don't modify the data and so that means you can deal with a const pointer on the data,
       then this is the right choice.
+
+    - This also implies a "read" (or "shared") mutex with the associated ``locked_ptr``
+
 2. Write-only (*OUT*)
     - This is a special case when the service will actually create the data.
       The data doesn't exist before the service creation.
       At some point, during ``start()``, or ``update()`` or elsewhere,
       the data is allocated, filled and registered in the OSR:
+
+    - This also implies a "write" (or "exclusive") mutex with the associated ``locked_ptr``
 
 .. code-block :: cpp
 
@@ -415,6 +479,7 @@ How to choose between the different access type for a given data ?
 
 3. Read-Write
     - The object already exists, and you need to modify it.
+    - This also implies a "write" (or "exclusive") mutex with the associated ``locked_ptr``
 
 This topic is explained more widely in the :ref:`AppConfig<App-config>` section.
 

@@ -7,7 +7,7 @@ How-Tos
 
     HowTo-CMake.rst
     HowTo-ServiceCreation.rst
-    HowTo-BundleCreation.rst
+    HowTo-ModuleCreation.rst
     HowTo-ApplicationCreation.rst
     HowTo-DepsCreation.rst
     HowTo-troubleshooting.rst

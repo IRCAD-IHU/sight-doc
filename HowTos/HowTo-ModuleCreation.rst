@@ -1,8 +1,8 @@
 *******************************************************************
-How to create a bundle, a lib, an executable or an application ?
+How to create a module, a lib, an executable or an application ?
 *******************************************************************
 
-In sight, the bundles, libraries, applications and executables are folders containing:
+In sight, the modules, libraries, applications and executables are folders containing:
 
 - [required] two files to generate the *CMake* target: ``CMakeLists.txt``
   and ``Properties.cmake`` (see :ref:`HowCMake`).
@@ -10,33 +10,33 @@ In sight, the bundles, libraries, applications and executables are folders conta
 - [optional] *rc* folder to contain resources and XML configuration files
 - [optional] *test* folder to contain the unit tests
 
-.. _bundleCreation:
+.. _moduleCreation:
 
-How to create a bundle ?
+How to create a module ?
 ==========================
 
-In sight, you will encounter two types of bundles:
+In sight, you will encounter two types of modules:
 
-- the bundles containing only XML configurations
-- the bundles containing services or other cpp code
+- the modules containing only XML configurations
+- the modules containing services or other cpp code
 
 It is possible to contain at the same time configurations and services (or C++ code), but for the sake of clarity and
 reusability we recommend to separate the two.
 
-.. _configBundle:
+.. _configModule:
 
-XML configurations bundles
+XML configurations modules
 --------------------------
 
-These bundles does not contain C++ code, they only contain XML files and the required *CMake* files.
-In the bundle folder, there is only the *CMake* files and the *rc* folder.
+These modules does not contain C++ code, they only contain XML files and the required *CMake* files.
+In the module folder, there is only the *CMake* files and the *rc* folder.
 
 CMake files
 ~~~~~~~~~~~~
 
 The CMakeLists.txt contains only ``fwLoadProperties()`` to load the Properties.cmake
 
-The Properties.cmake defines the bundles needed to launch the configuration (ie. the bundle of all the services present
+The Properties.cmake defines the modules needed to launch the configuration (ie. the module of all the services present
 in the configurations).
 
 Example:
@@ -45,10 +45,10 @@ Example:
 
     set( NAME dataManagerConfig )
     set( VERSION 0.1 )
-    set( TYPE BUNDLE )
+    set( TYPE MODULE )
     set( DEPENDENCIES  ) # no dependency
 
-    set( REQUIREMENTS # required bundle
+    set( REQUIREMENTS # required module
         gui
         guiQt
         uiMedDataQt
@@ -60,7 +60,7 @@ Example:
 Configurations
 ~~~~~~~~~~~~~~~
 
-A bundle could contain several configurations, they are in the ``plugin.xml`` file in the *rc* folder.
+A module could contain several configurations, they are in the ``plugin.xml`` file in the *rc* folder.
 
 .. code-block:: xml
 
@@ -75,7 +75,7 @@ A bundle could contain several configurations, they are in the ``plugin.xml`` fi
 
 The ``@PROJECT_VERSION@`` will be automatically replaced by the version defined in the Properties.cmake.
 
-The ``<requirement>`` tags contain the bundles that must be started before to start your bundle (see https://sight.pages.ircad.fr/sight/group__requirement.html).
+The ``<requirement>`` tags contain the modules that must be started before to start your module (see https://sight.pages.ircad.fr/sight/group__requirement.html).
 
 Then the extensions are defined. There are different types of extensions, the most common are:
 
@@ -90,19 +90,19 @@ Then the extensions are defined. There are different types of extensions, the mo
 
     To separate the configuration in several files, you can use ``<xi:include href="..." />``
 
-.. _serviceBundle:
+.. _serviceModule:
 
-Service bundles
+Service modules
 ----------------
 
-You don't need to create the ``plugin.xml`` file for the bundle that contains only services,
+You don't need to create the ``plugin.xml`` file for the module that contains only services,
 it will be automatically generated.
 A ``CMake`` script parses the services macro and doxygen
 to generate the ``::fwServices::registry::ServiceFactory`` extension
 (see :ref:`serviceCreation` and :ref:`serviceNotFound`)
 
-The bundle contains the service header files in the `include` folder and the `source` files in the `src` folder.
-It must also contain a ``Plugin`` class used to register the bundle.
+The module contains the service header files in the `include` folder and the `source` files in the `src` folder.
+It must also contain a ``Plugin`` class used to register the module.
 
 The ``Plugin.hpp`` in the *include* folder should look like:
 
@@ -112,10 +112,10 @@ The ``Plugin.hpp`` in the *include* folder should look like:
 
     #include <fwRuntime/Plugin.hpp>
 
-    namespace myBundle
+    namespace myModule
     {
 
-    class MYBUNDLE_CLASS_API Plugin : public ::fwRuntime::Plugin
+    class MYMODULE_CLASS_API Plugin : public ::fwRuntime::Plugin
     {
 
     public:
@@ -123,21 +123,21 @@ The ``Plugin.hpp`` in the *include* folder should look like:
         /// Plugin destructor
         ~Plugin() noexcept;
 
-        /// This method is used by runtime to start the bundle.
+        /// This method is used by runtime to start the module.
         void start();
 
-        /// This method is used by runtime to stop the bundle.
+        /// This method is used by runtime to stop the module.
         void stop() noexcept;
 
-        /// This method is used by runtime to initialize the bundle.
+        /// This method is used by runtime to initialize the module.
         void initialize();
 
-        /// This method is used by runtime to uninitialize the bundle.
+        /// This method is used by runtime to uninitialize the module.
         void uninitialize() noexcept;
 
     };
 
-    } // namespace myBundle
+    } // namespace myModule
 
 
 The ``Plugin.cpp`` in the *src* folder should be like:
@@ -146,14 +146,14 @@ The ``Plugin.cpp`` in the *src* folder should be like:
 
     #include <fwRuntime/utils/GenericExecutableFactoryRegistrar.hpp>
 
-    #include "myBundle/Plugin.hpp"
+    #include "myModule/Plugin.hpp"
 
-    namespace myBundle
+    namespace myModule
     {
 
     //-----------------------------------------------------------------------------
 
-    static ::fwRuntime::utils::GenericExecutableFactoryRegistrar<Plugin> registrar("::myBundle::Plugin");
+    static ::fwRuntime::utils::GenericExecutableFactoryRegistrar<Plugin> registrar("::myModule::Plugin");
 
     //-----------------------------------------------------------------------------
 
@@ -187,14 +187,14 @@ The ``Plugin.cpp`` in the *src* folder should be like:
 
     //-----------------------------------------------------------------------------
 
-    } // namespace myBundle
+    } // namespace myModule
 
 
 .. warning::
 
-    The ``registrar("::myBundle::Plugin");`` is the most important line, it allows to register the bundle to be used in a XML based application.
+    The ``registrar("::myModule::Plugin");`` is the most important line, it allows to register the module to be used in a XML based application.
 
-    **Don't forget to register the bundle with the correct namespace with '::'.**
+    **Don't forget to register the module with the correct namespace with '::'.**
 
 The methods ``start()`` and ``stop`` must be implemented but are usually empty. They are called when the application is
-started and stopped. The ``initialize()`` method is executed after the *start* of all the bundles and ``uninitialize()`` before the *stop*.
+started and stopped. The ``initialize()`` method is executed after the *start* of all the modules and ``uninitialize()`` before the *stop*.

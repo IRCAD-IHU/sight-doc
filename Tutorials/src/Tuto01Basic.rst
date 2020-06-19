@@ -22,15 +22,15 @@ You should have properly installed your sight environment (see :ref:`Installatio
 Structure
 ----------
 
-Sight is organized around four elements: the ``application``, the ``bundle``, the ``library`` and the ``utility``.
+Sight is organized around four elements: the ``application``, the ``module``, the ``library`` and the ``utility``.
 
-The ``applications`` contain the configuration of the ``bundles`` (and its services) to launch. The ``bundles`` contain
+The ``applications`` contain the configuration of the ``modules`` (and its services) to launch. The ``modules`` contain
 the cpp implementation of the services, it may also contain some application sub-configuration. The ``libraries``
-contain the data implementation and the code shared with several bundles. The ``utilities`` are simple executables using
+contain the data implementation and the code shared with several modules. The ``utilities`` are simple executables using
 the ``libraries``.
 
-In this example, we will only explain how to create a basic application with the existing bundles. Further Tutorials
-will explain how to use and create services and bundles.
+In this example, we will only explain how to create a basic application with the existing modules. Further Tutorials
+will explain how to use and create services and modules.
 
 A sight application is organized around three main files :
  * CMakeLists.txt
@@ -73,7 +73,7 @@ This file describes the project information and requirements (see :ref:`Properti
     )
 
     # Set application configuration to 'tutoBasicConfig'
-    bundleParam(appXml PARAM_LIST config PARAM_VALUES tutoBasicConfig)
+    moduleParam(appXml PARAM_LIST config PARAM_VALUES tutoBasicConfig)
 
 
 This file contains the minimal requirements to launch an application with a Qt user interface.
@@ -83,8 +83,8 @@ This file contains the minimal requirements to launch an application with a Qt u
     The Properties.cmake file of the application is used by CMake_ to compile the application but also to generate the
     ``profile.xml``, the input file used to launch the application (see :ref:`profile.xml`).
 
-The ``bundleParam`` line defines the parameters to set for a bundle, here it defines the configuration to launch by the
-appXML bundle, i.e. the application configuration.
+The ``moduleParam`` line defines the parameters to set for a module, here it defines the configuration to launch by the
+appXML module, i.e. the application configuration.
 
 plugin.xml
 ~~~~~~~~~~~
@@ -97,7 +97,7 @@ This file is located in the ``rc/`` directory of the application. It contains th
          using the version defined in the Properties.cmake) -->
     <plugin id="Tuto01Basic" version="@PROJECT_VERSION@">
 
-        <!-- The bundles in requirements are automatically started when this
+        <!-- The modules in requirements are automatically started when this
              Application is launched. -->
         <requirement id="dataReg" />
         <requirement id="servicesReg" />
@@ -124,8 +124,8 @@ This file is located in the ``rc/`` directory of the application. It contains th
         </extension>
     </plugin>
 
-``<requirement>`` lists the bundles that should be loaded before launching the application:
-the bundle to register data or i/o services (see Requirements_).
+``<requirement>`` lists the modules that should be loaded before launching the application:
+the module to register data or i/o services (see Requirements_).
 
 The ``::fwServices::registry::AppConfig`` extension defines the configuration of an application:
 

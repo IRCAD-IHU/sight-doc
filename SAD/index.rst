@@ -18,4 +18,5 @@ Software Architecture Description (SAD)
    src/SDM-SAD-Manager
    src/SDM-SAD-GUI
    src/SDM-SAD-GenericScene
+   src/SDM-SAD-BufferObjects
    src/SDM-SAD-DataMigration

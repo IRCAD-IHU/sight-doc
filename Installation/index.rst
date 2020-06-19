@@ -22,23 +22,19 @@ Prerequisites
 
    .. group-tab:: Linux
 
-        For now, only Linux Mint 18 and 19 distributions are supported, other distributions may work but have
+        For now, only Linux Mint 19 distributions are supported, other distributions may work but have
         not been tested.
 
    .. group-tab:: Windows
 
-        For now, only `Visual Studio 2017` is supported, other versions may work but have not been tested.
+        For now, only `Visual Studio 2019` is supported, other versions may work but have not been tested.
 
-
-   .. group-tab:: Mac OSX
-
-        For now, only `Mojave 10.14` is supported, other versions may work but have not been tested.
 
 If not already installed:
 
 #. Install `git <https://git-scm.com/>`_
-#. Install `Python 3.5 or greater <https://www.python.org/downloads/>`_
-#. Install `CMake <http://www.cmake.org/download/>`_ Version 3.12 or later is required. You should use prebuilt binaries as it is safer.
+#. Install `Python 3.7 or greater <https://www.python.org/downloads/>`_
+#. Install `CMake <http://www.cmake.org/download/>`_ Version 3.13 or later is required. You should use prebuilt binaries as it is safer.
 #. Install `ninja <https://github.com/ninja-build/ninja/releases>`_
 #. Install `Conan  <https://docs.conan.io/en/latest/installation.html>`_ (you can use Python's ``pip``, but be sure to use python ``3`` -- you can check this by running ``pip --version``)
 
@@ -48,7 +44,7 @@ Install a c++ compiler and other development libraries.
 
    .. group-tab:: Linux
 
-        Install `gcc 7 <https://gcc.gnu.org/>`_  or `clang 6.0 <http://clang.llvm.org/>`_ (As pre-built packages are
+        Install `gcc 8 <https://gcc.gnu.org/>`_  (As pre-built packages are
         only compiled with this versions).
 
         Depending on which linux distribution you use,
@@ -56,7 +52,7 @@ Install a c++ compiler and other development libraries.
 
         .. code:: bash
 
-            $ sudo apt-get install build-essential ninja-build python3 git
+            $ sudo apt-get install build-essential ninja-build python3 git g++-8
 
         And dependency development libraries :
 
@@ -72,22 +68,8 @@ Install a c++ compiler and other development libraries.
 
    .. group-tab:: Windows
 
-        Install `Visual Studio 2017 Community <https://visualstudio.microsoft.com/>`_
+        Install `Visual Studio 2019 Community <https://visualstudio.microsoft.com/>`_
 
-
-   .. group-tab:: Mac OSX
-
-        Install `Xcode 10.1 <https://itunes.apple.com/fr/app/xcode/id497799835?mt=12>`_
-
-        For an easy install, you can use the `Homebrew project <http://brew.sh/>`_  to install missing packages.
-        Brewed python is python ``3`` and is required since default macOS python is ``2``
-
-        .. code:: bash
-
-            $ brew install git
-            & brew install python
-            $ brew install cmake
-            $ brew install ninja
 
 
 Source tree layout
@@ -143,10 +125,10 @@ Setting up your environment
 
         * Add Visual studio compilers.
 
-        You can use the 'VS2017 x64 Native Tools Command Prompt'  or launch the `vcvarsall.bat` script with the parameter
+        You can use the 'VS2019 x64 Native Tools Command Prompt'  or launch the `vcvarsall.bat` script with the parameter
         `amd64` on your current console.
         The location of that script will look something like this
-        ``C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat``
+        ``C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat``
 
         * Add the Prerequisites_
 
@@ -164,31 +146,6 @@ Setting up your environment
             Writing a ``.bat`` script that loads all these previous locations to your path can save you time and effort!
 
 
-   .. group-tab:: Mac OSX
-
-        Make sure all of your Prerequisites_ are loaded into your path correctly, for all installation made through
-        `brew` this is done automatically but for manually downloaded binaries you'll need to do it yourself.
-
-        If you haven't done it, launch Xcode at least one time and install the ``Command Line Tools`` when prompted.
-
-        You can do this manually by using the following command:
-
-        .. code:: bash
-
-            $ xcode-select --install
-
-        If you already had installed the ``Command Line Tools``, it may be a good idea to check that the currently used ones are the default:
-
-        .. code:: bash
-
-            $ xcode-select --print-path
-            /Applications/Xcode.app/Contents/Developer
-
-        If the above command prints something different, you may reset to the default with:
-
-        .. code:: bash
-
-            $ sudo xcode-select --reset
 
 Building your sources
 ----------------------
@@ -238,7 +195,7 @@ Generation
 ``CMAKE_BUILD_TYPE``:
     Set to Debug or Release.
 ``PROJECTS_TO_BUILD``:
-    Set the names of the applications to build (see Dev/Src/Apps or Dev/Src/Samples, ex: VRRender, Tuto01Basic ...),
+    Set the names of the applications to build (see Dev/Src/apps or Dev/Src/samples, ex: VRRender, Tuto01Basic ...),
     each project should be separated by ";".
 
 .. note::
@@ -298,15 +255,6 @@ After a successful compilation any previously built application can be launched 
             $ ./bin/myapplication.bat
 
 
-   .. group-tab:: Mac OSX
-
-        You will find in the ``Build/bin`` directory an automatically generated script with the same name (on lowercase)
-        as the application you built.
-
-        .. code:: bash
-
-            $ cd Dev/Build/Debug
-            $ ./bin/myapplication
 
 .. important::
     This automatically generated script loads all the needed Conan packages locations and adds them temporarily to your
@@ -323,11 +271,6 @@ and generating the code, follow these two steps:
 
 The installer will be generated in the Build directory.
 
-.. note::
-
-    This functionality is only fully supported on Windows and Linux distributions.
-
-    For Mac OSX, ninja install will generate a ``.app`` and works only on some applications.
 
 Recommended software
 --------------------
@@ -353,16 +296,10 @@ The following programs may be helpful for your developments:
             ConsoleZ is an alternative command prompt for Windows, adding more capabilities to the default Windows command
             prompt. To compile Sight with the console the windows command prompt has to be set in the tab settings.
 
-   .. group-tab:: Mac OSX
-
-        * `QT Creator <https://download.qt.io/official_releases/qtcreator/>`_:
-            QT Creator is a multi-OS Integrated Development Environment (IDE) for computer programming.
-            You can find a setup tutorial here :ref:`qtcreatorsetup`.
-
 
 Need some help? Keep in touch!
 -------------------------------
 
 As any active community, we *sighters* are happy to help each other or beginners however we can. Feel free to join us
 and share with us your questions or comments at our `Gitter <https://gitter.im/IRCAD-IHU/sight-support>`_ .
-We provide support in French, English and Spanish.
+We provide support in French or English.

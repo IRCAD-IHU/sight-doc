@@ -15,10 +15,10 @@ A service is a C++ class inherited from ``::fwServices::IService``. It will impl
 
 These methods are called by the *configure()*, *start()*, *update()* and *stop()* slots of the base class ``IService``.
 
-For the example, we will create a service ``SMesher`` in a bundle ``operators``. The service will have a
+For the example, we will create a service ``SMesher`` in a module ``operators``. The service will have a
 ``::fwData::Image`` as input and a ``::fwData::Mesh`` as output.
 
-The header file ``SMesher.hpp`` should be in the folder ``<src_dir>/bundles/operators/include/operators``:
+The header file ``SMesher.hpp`` should be in the folder ``<src_dir>/modules/operators/include/operators``:
 
 .. code-block:: cpp
 
@@ -99,7 +99,7 @@ macros that allow to expose symbols in the shared library.
     - *description*: the purpose of this input/output
 
 
-In the source file ``SMesher.cpp`` should be in the folder ``<src_dir>/bundles/operators/src/operators``:
+In the source file ``SMesher.cpp`` should be in the folder ``<src_dir>/modules/operators/src/operators``:
 
 .. code-block:: cpp
 
@@ -148,8 +148,8 @@ In the source file ``SMesher.cpp`` should be in the folder ``<src_dir>/bundles/o
     void SMesher::updating()
     {
         // retrieve the image
-        ::fwData::Image::csptr image = this->getInput< ::fwData::Image >(s_IMAGE_INPUT);
-        SLM_ASSERT("Input '" + s_IMAGE_INPUT + "' is not defined", image);
+        auto lockedImage = this->getLockedInput< ::fwData::Image >(s_IMAGE_INPUT);
+        SLM_ASSERT("Input '" + s_IMAGE_INPUT + "' is not defined", lockedImage);
 
         ::fwData::Mesh::sptr mesh = ::fwData::Mesh::New();
 

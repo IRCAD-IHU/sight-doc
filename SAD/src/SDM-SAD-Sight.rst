@@ -17,7 +17,7 @@ The three main concepts of the architecture, explained in the following sections
 -  component approach
 -  signal-slot communication
 
-The framework is multi-platform and runs under Windows, Linux and MacOS.
+The framework is multi-platform and runs under Windows and Linux.
 Building an application with Sight only requires to write one or several XML files.
 Its functionalities can be also extended by writing new components in C++,
 which is the coding language of the framework.
@@ -30,9 +30,9 @@ This document will introduce the general architecture of Sight.
     Annexes
     -------
 
-    -  *Srclib list:* this document lists all libraries with a brief description.
+    -  *libs list:* this document lists all libraries with a brief description.
     -  *Object list:* this document lists all data with a brief description.
-    -  *Service list:* this document lists all services and bundles with a brief description.
+    -  *Service list:* this document lists all services and modules with a brief description.
     -  *Third party:* this document contains a description of libraries used to
        support this architecture and its functions.
     -  *OSR diagram:* this document introduces how to represent an application

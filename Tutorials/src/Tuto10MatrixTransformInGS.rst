@@ -44,7 +44,7 @@ This file describes the project information and requirements :
         appXml
     )
 
-    bundleParam(appXml PARAM_LIST config PARAM_VALUES Tuto10MatrixTransformInGS)
+    moduleParam(appXml PARAM_LIST config PARAM_VALUES Tuto10MatrixTransformInGS)
 
 .. note::
 
