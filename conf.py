@@ -12,8 +12,7 @@
 
 import sys
 import os
-import shlex
-import sys, os
+import subprocess
 import sphinx_rtd_theme
 
 from datetime import date
@@ -57,7 +56,14 @@ author = 'IRCAD-IHU Dev. team'
 # built documents.
 #
 # The short X.Y version.
-version = os.getenv('CI_BUILD_REF_NAME', '13.0')
+version = os.getenv('CI_COMMIT_REF_NAME')
+
+if version is None:
+    git_cmd = 'git rev-parse --abbrev-ref HEAD'
+    branch = subprocess.run(git_cmd.split(), check=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout
+    version = branch.decode().split("\n")[0]
+    print("'CI_COMMIT_REF_NAME' not available, using '" + version + "' as documentation version.")
+
 # The full version, including alpha/beta/rc tags.
 release = version
 
