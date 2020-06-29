@@ -41,10 +41,10 @@ SET PATH=%PATH%;C:\Python\Scripts
 pip install sphinx
 ```
 
-- Use pip to install Sphinx rtd-theme sphinx-tab
+- Use pip to install Sphinx rtd-theme sphinx-tabs
 
 ```bash
-pip install sphinx_rtd_theme
+pip install sphinx_rtd_theme sphinx-tabs
 ```
 
 Once sphinx is installed, launch the following command at the root of your local copy to generate html documentation:
