@@ -8,6 +8,7 @@ Software Architecture Description (SAD)
    src/Sight
    src/ObjService
    src/SigSlot
+   src/ErrorHandling
    src/AppConfig
    src/AppManager
    src/Activities

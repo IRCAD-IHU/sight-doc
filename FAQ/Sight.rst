@@ -70,7 +70,7 @@ It parses the profile and configuration xml file to build it.
 How can I debug my program ?
 =============================
 
-First, you can watch the log of the application. Under Windows platform,
+First, you can watch the log of the application. On the Windows platform,
 log messages are saved on filesystem in **SLM.log** file, in the working directory.
 On other systems, they are displayed in the terminal.
 
