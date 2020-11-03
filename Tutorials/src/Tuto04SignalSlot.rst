@@ -1,4 +1,4 @@
-.. _tuto04:
+.. _TutorialsTuto04SignalSlot:
 
 ***********************************************
 [*Tuto04SignalSlot*] Signal-slot communication
@@ -7,22 +7,22 @@
 The fourth tutorial explains the communication mechanism with signals and slots.
 
 .. figure:: ../media/tuto04SignalSlot.png
-    :scale: 80
+    :scale: 25
     :align: center
 
-
+=============
 Prerequisites
-===============
-
-Before reading this tutorial, you should have seen :
- * :ref:`tuto03`
- * :ref:`SigSlot`
-
-
-
-Structure
 =============
 
+Before reading this tutorial, you should have seen :
+ * :ref:`TutorialsTuto03DataService`
+ * :ref:`SADSigSlot`
+
+=========
+Structure
+=========
+
+------------------
 Properties.cmake
 ------------------
 
@@ -31,74 +31,114 @@ This file describes the project information and requirements :
 .. code-block:: cmake
 
     set( NAME Tuto04SignalSlot )
-    set( VERSION 0.1 )
+    set( VERSION 0.2 )
     set( TYPE APP )
     set( DEPENDENCIES  )
     set( REQUIREMENTS
-        dataReg
-        servicesReg
+        fwlauncher              # Needed to build the launcher
+        appXml                  # XML configurations
+
+        guiQt                   # Start the module, load qt implementation of gui
+
+        # Objects declaration
+        fwData
+        servicesReg             # fwService
+
+        # UI declaration/Actions
         gui
-        guiQt
+        style
+
+        # Reader
         ioVTK
+
+        # Services
         uiIO
-        visuVTKQt
-        vtkSimpleMesh # contains a visualization service of mesh.
-        launcher
-        appXml
+        visuBasic
     )
 
-    moduleParam(appXml PARAM_LIST config PARAM_VALUES tutoSignalSlotConfig)
+    moduleParam(guiQt
+        PARAM_LIST
+            resource
+            stylesheet
+        PARAM_VALUES
+            style-0.1/flatdark.rcc
+            style-0.1/flatdark.qss
+    ) # Allow dark theme via guiQt
 
+    moduleParam(
+            appXml
+        PARAM_LIST
+            config
+        PARAM_VALUES
+            Tuto04SignalSlot_AppCfg
+    ) # Main application's configuration to launch
 
 .. note::
 
     The Properties.cmake file of the application is used by CMake to compile the application but also to generate the
     ``profile.xml``: the file used to launch the application.
 
-
+----------
 plugin.xml
-------------
+----------
 
 This file is in the ``rc/`` directory of the application. It defines the services to run.
 
 .. code-block:: xml
 
-    <plugin id="Tuto04SignalSlot" version="@PROJECT_VERSION@">
+    <plugin id="Tuto04SignalSlot" version="@PROJECT_VERSION@" >
 
-        <requirement id="dataReg" />
         <requirement id="servicesReg" />
-        <requirement id="visuVTKQt" />
+        <requirement id="guiQt" />
 
-        <extension implements="::fwServices::registry::AppConfig">
-            <id>tutoSignalSlotConfig</id>
+        <extension implements="::fwServices::registry::AppConfig" >
+            <id>Tuto04SignalSlot_AppCfg</id>
             <config>
+
+                <!-- ******************************* Objects declaration ****************************** -->
 
                 <!-- The main data object is ::fwData::Mesh. -->
                 <object uid="mesh" type="::fwData::Mesh" />
 
-                <service uid="myFrame" type="::gui::frame::SDefaultFrame">
+                <!-- ******************************* UI declaration *********************************** -->
+
+                <service uid="mainFrame" type="::gui::frame::SDefaultFrame" >
                     <gui>
                         <frame>
-                            <name>tutoSignalSlot</name>
-                            <icon>Tuto04SignalSlot-0.1/tuto.ico</icon>
-                            <minSize width="720" height="600" />
+                            <name>Tuto04SignalSlot</name>
+                            <icon>Tuto04SignalSlot-@PROJECT_VERSION@/tuto.ico</icon>
+                            <minSize width="1280" height="720" />
                         </frame>
                         <menuBar />
                     </gui>
                     <registry>
-                        <menuBar sid="myMenuBar" start="yes" />
-                        <view sid="myDefaultView" start="yes" />
+                        <menuBar sid="menuBarView" start="yes" />
+                        <view sid="containerView" start="yes" />
                     </registry>
                 </service>
 
-                <service uid="myMenuBar" type="::gui::aspect::SDefaultMenuBar">
+                <service uid="menuBarView" type="::gui::aspect::SDefaultMenuBar" >
                     <gui>
                         <layout>
                             <menu name="File" />
                         </layout>
                     </gui>
                     <registry>
-                        <menu sid="myMenuFile" start="yes" />
+                        <menu sid="menuFileView" start="yes" />
+                    </registry>
+                </service>
+
+                <service uid="menuFileView" type="::gui::aspect::SDefaultMenu" >
+                    <gui>
+                        <layout>
+                            <menuItem name="Open mesh" shortcut="Ctrl+O" />
+                            <separator />
+                            <menuItem name="Quit" specialAction="QUIT" shortcut="Ctrl+Q" />
+                        </layout>
+                    </gui>
+                    <registry>
+                        <menuItem sid="openMeshAct" start="yes" />
+                        <menuItem sid="quitAct" start="yes" />
                     </registry>
                 </service>
 
@@ -111,42 +151,32 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     Each <view> declared into the <layout> tag, must have its associated <view> into the <registry> tag.
                     A minimum window height and a width are given to the two non-central views.
                 -->
-                <service uid="myDefaultView" type="::gui::view::SDefaultView">
+                <service uid="containerView" type="::gui::view::SDefaultView" >
                     <gui>
-                        <layout type="::fwGui::CardinalLayoutManager">
-                            <view caption="Rendering 1" align="center" />
-                            <view caption="Rendering 2" align="right" minWidth="400" minHeight="100" />
-                            <view caption="Rendering 3" align="right" minWidth="400" minHeight="100" />
+                        <layout type="::fwGui::CardinalLayoutManager" >
+                            <view align="center" />
+                            <view caption="Move cameras 1,2" align="right" minWidth="600" minHeight="100" />
+                            <view caption="Move camera 3" align="right" minWidth="600" minHeight="100" />
                         </layout>
                     </gui>
                     <registry>
-                        <view sid="myRendering1" start="yes" />
-                        <view sid="myRendering2" start="yes" />
-                        <view sid="myRendering3" start="yes" />
+                        <view sid="rendering1Srv" start="yes" />
+                        <view sid="rendering2Srv" start="yes" />
+                        <view sid="rendering3Srv" start="yes" />
                     </registry>
                 </service>
 
-                <service uid="myMenuFile" type="::gui::aspect::SDefaultMenu">
-                    <gui>
-                        <layout>
-                            <menuItem name="Open file" shortcut="Ctrl+O" />
-                            <separator />
-                            <menuItem name="Quit" specialAction="QUIT" shortcut="Ctrl+Q" />
-                        </layout>
-                    </gui>
-                    <registry>
-                        <menuItem sid="actionOpenFile" start="yes" />
-                        <menuItem sid="actionQuit" start="yes" />
-                    </registry>
+                <!-- ******************************* Actions ****************************************** -->
+
+                <service uid="openMeshAct" type="::gui::action::SStarter" >
+                    <start uid="meshReaderSrv" />
                 </service>
 
-                <service uid="actionOpenFile" type="::gui::action::SStarter">
-                    <start uid="myReaderPathFile" />
-                </service>
+                <service uid="quitAct" type="::gui::action::SQuit" />
 
-                <service uid="actionQuit" type="::gui::action::SQuit" />
+                <!-- ******************************* Services ***************************************** -->
 
-                <service uid="myReaderPathFile" type="::uiIO::editor::SIOSelector">
+                <service uid="meshReaderSrv" type="::uiIO::editor::SIOSelector" >
                     <inout key="data" uid="mesh" />
                     <type mode="reader" /><!-- mode is optional (by default it is "reader") -->
                 </service>
@@ -156,15 +186,19 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     We have three rendering service representing a 3D scene displaying the loaded mesh. The scene are
                     shown in the windows defines in 'view' service.
                 -->
-                <service uid="myRendering1" type="::vtkSimpleMesh::SRenderer" autoConnect="yes" >
-                    <in key="mesh" uid="mesh" />
+                <service uid="rendering1Srv" type="::visuBasic::SMesh" >
+                    <in key="mesh" uid="mesh" autoConnect="yes" />
                 </service>
-                <service uid="myRendering2" type="::vtkSimpleMesh::SRenderer" autoConnect="yes" >
-                    <in key="mesh" uid="mesh" />
+
+                <service uid="rendering2Srv" type="::visuBasic::SMesh" >
+                    <in key="mesh" uid="mesh" autoConnect="yes" />
                 </service>
-                <service uid="myRendering3" type="::vtkSimpleMesh::SRenderer" autoConnect="yes" >
-                    <in key="mesh" uid="mesh" />
+
+                <service uid="rendering3Srv" type="::visuBasic::SMesh" >
+                    <in key="mesh" uid="mesh" autoConnect="yes" />
                 </service>
+
+                <!-- ******************************* Connections ***************************************** -->
 
                 <!--
                     Each 3D scene owns a 3D camera that can be moved by clicking in the scene.
@@ -172,180 +206,175 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     focal, view up).
                     - To update the camera without clicking, you could call the slot 'updateCamPosition'
 
-                    Here, we connect each rendering service signal 'camUpdated' to the others service slot
-                    'updateCamPosition', so the cameras are synchronized in each scene.
+                    Here, we connect some rendering services signal 'camUpdated' to the others service slot
+                    'updateCamPosition', so the cameras are synchronized between scenes.
                 -->
                 <connect>
-                    <signal>myRendering1/camUpdated</signal>
-                    <slot>myRendering2/updateCamPosition</slot>
-                    <slot>myRendering3/updateCamPosition</slot>
+                    <signal>rendering1Srv/camUpdated</signal>
+                    <slot>rendering2Srv/updateCamPosition</slot>
+                    <slot>rendering3Srv/updateCamPosition</slot>
                 </connect>
 
                 <connect>
-                    <signal>myRendering2/camUpdated</signal>
-                    <slot>myRendering1/updateCamPosition</slot>
-                    <slot>myRendering3/updateCamPosition</slot>
+                    <signal>rendering2Srv/camUpdated</signal>
+                    <slot>rendering1Srv/updateCamPosition</slot>
                 </connect>
 
-                <connect>
-                    <signal>myRendering3/camUpdated</signal>
-                    <slot>myRendering2/updateCamPosition</slot>
-                    <slot>myRendering1/updateCamPosition</slot>
-                </connect>
+                <!-- ******************************* Start services ***************************************** -->
 
-                <start uid="myFrame" />
+                <start uid="mainFrame" />
 
             </config>
         </extension>
 
     </plugin>
 
-
 You can also group the signals and all the slots together.
 
 .. code-block:: xml
 
     <connect>
-        <signal>myRenderingTuto1/camUpdated</signal>
-        <signal>myRenderingTuto2/camUpdated</signal>
-        <signal>myRenderingTuto3/camUpdated</signal>
+        <signal>rendering1Srv/camUpdated</signal>
+        <signal>rendering2Srv/camUpdated</signal>
+        <signal>rendering3Srv/camUpdated</signal>
 
-        <slot>myRenderingTuto1/updateCamPosition</slot>
-        <slot>myRenderingTuto2/updateCamPosition</slot>
-        <slot>myRenderingTuto3/updateCamPosition</slot>
-    </proxy>
+        <slot>rendering1Srv/updateCamPosition</slot>
+        <slot>rendering2Srv/updateCamPosition</slot>
+        <slot>rendering3Srv/updateCamPosition</slot>
+    </connect>
 
 .. tip::
     You can remove a connection to see that a camera in the scene is no longer synchronized.
 
-
+=========================
 Signal and slot creation
 =========================
 
+---------------
 *SRenderer.hpp*
----------------------
+---------------
 
 .. code-block:: cpp
 
-    class VTKSIMPLEMESH_CLASS_API SRenderer : public fwRender::IRender
+    // {...}
+
+    class VISUBASIC_CLASS_API SMesh : public ::fwGui::IGuiContainerSrv
     {
+
     public:
-        // .....
 
-        typedef ::boost::shared_array< double > SharedArray;
+        // {...}
 
-        typedef ::fwCom::Signal< void (SharedArray, SharedArray, SharedArray) > CamUpdatedSignalType;
+        VISUBASIC_API static const ::fwCom::Slots::SlotKeyType s_UPDATE_CAM_POSITION_SLOT;
 
-        // .....
+        VISUBASIC_API static const ::fwCom::Signals::SignalKeyType s_CAM_UPDATED_SIG;
 
-        /// This method is called when the VTK camera position is modified.
-        /// It notifies the new camera position.
-        void notifyCamPositionUpdated();
+        typedef ::fwCom::Signal< void (::fwData::TransformationMatrix3D::sptr) > CamUpdatedSignalType;
 
-    protected:
-        // ...
-
-        /**
-         * @brief Returns proposals to connect service slots to associated object signals,
-         * this method is used for obj/srv auto connection
-         *
-         * Connect mesh::s_MODIFIED_SIG to this::s_INIT_PIPELINE_SLOT
-         * Connect mesh::s_VERTEX_MODIFIED_SIG to this::s_UPDATE_PIPELINE_SLOT
-         */
-        VTKSIMPLEMESH_API virtual KeyConnectionsMap getAutoConnections() const override;
+        // {...}
 
     private:
 
-        /// Slot: receives new camera information (position, focal, viewUp).
-        /// Updates camera with new information.
-        void updateCamPosition(SharedArray positionValue,
-                               SharedArray focalValue,
-                               SharedArray viewUpValue);
+        // {...}
 
-        // ....
+        /**
+         * @brief Proposals to connect service slots to associated object signals.
+         * @return A map of each proposed connection.
+         * @note This is actually useless since the sub-service already listens to the data,
+         * but this prevents a warning in fwServices from being raised.
+         *
+         * Connect ::fwData::Mesh::s_MODIFIED_SIG to s_UPDATE_SLOT
+         */
+        VISUBASIC_API KeyConnectionsMap getAutoConnections() const override;
 
-        /// Signal emitted when camera position is updated.
+        // {...}
+
+    private:
+
+        /// SLOT: receives new camera transform and update the camera.
+        void updateCamPosition(::fwData::TransformationMatrix3D::sptr _transform);
+
+        /// SLOT: receives new camera transform from the camera service and trigger the signal.
+        void updateCamTransform();
+
+        // {...}
+
+        /// Contains the signal emitted when camera position is updated.
         CamUpdatedSignalType::sptr m_sigCamUpdated;
-    }
 
+        // {...}
+
+    };
+
+---------------
 *SRenderer.cpp*
----------------------
+---------------
 
 .. code-block:: cpp
 
-    SRenderer::RendererService() noexcept
-    {
-        m_sigCamUpdated = newSignal<CamUpdatedSignalType>("camUpdated");
+    const ::fwCom::Slots::SlotKeyType SMesh::s_UPDATE_CAM_POSITION_SLOT  = "updateCamPosition";
+    static const ::fwCom::Slots::SlotKeyType s_UPDATE_CAM_TRANSFORM_SLOT = "updateCamTransform";
 
-        newSlot("updateCamPosition", &SRenderer::updateCamPosition, this);
+    const ::fwCom::Signals::SignalKeyType SMesh::s_CAM_UPDATED_SIG = "camUpdated";
+
+    // {...}
+
+    //------------------------------------------------------------------------------
+
+    SMesh::SMesh() noexcept
+    {
+        newSlot(s_UPDATE_CAM_POSITION_SLOT, &SMesh::updateCamPosition, this);
+        newSlot(s_UPDATE_CAM_TRANSFORM_SLOT, &SMesh::updateCamTransform, this);
+
+        m_sigCamUpdated = newSignal<CamUpdatedSignalType>(s_CAM_UPDATED_SIG);
     }
 
-    //-----------------------------------------------------------------------------
+    // {...}
 
-    void SRenderer::updateCamPosition(SharedArray positionValue,
-                                      SharedArray focalValue,
-                                      SharedArray viewUpValue)
+    ::fwServices::IService::KeyConnectionsMap SMesh::getAutoConnections() const
     {
-        vtkCamera* camera = m_render->GetActiveCamera();
-
-        // Update the vtk camera
-        camera->SetPosition(positionValue.get());
-        camera->SetFocalPoint(focalValue.get());
-        camera->SetViewUp(viewUpValue.get());
-        camera->SetClippingRange(0.1, 1000000);
-
-        // Render the scene
-        m_interactorManager->getInteractor()->Render();
-    }
-
-
-    //-----------------------------------------------------------------------------
-
-    void SRenderer::notifyCamPositionUpdated()
-    {
-        vtkCamera* camera = m_render->GetActiveCamera();
-
-        SharedArray position = SharedArray(new double[3]);
-        SharedArray focal    = SharedArray(new double[3]);
-        SharedArray viewUp   = SharedArray(new double[3]);
-
-        std::copy(camera->GetPosition(), camera->GetPosition()+3, position.get());
-        std::copy(camera->GetFocalPoint(), camera->GetFocalPoint()+3, focal.get());
-        std::copy(camera->GetViewUp(), camera->GetViewUp()+3, viewUp.get());
-
-        {
-            // The Blocker blocks the connection between the "camUpdated" signal and the
-            // "updateCamPosition" slot for this instance of service, in order to prevent
-            // infinite recursion.
-            // The block is released at the end of the scope.
-            ::fwCom::Connection::Blocker block(
-                                m_sigCamUpdated->getConnection(m_this->slot("updateCamPosition")));
-
-            // Asynchronous emit of "camUpdated" signal
-            m_sigCamUpdated->asyncEmit (position, focal, viewUp);
-        }
-    }
-
-    //-----------------------------------------------------------------------------
-
-    ::fwServices::IService::KeyConnectionsMap SRenderer::getAutoConnections() const
-    {
+        // This is actually useless since the sub-service already listens to the data,
+        // but this prevents a warning in fwServices from being raised.
         KeyConnectionsMap connections;
-        connections.push( s_MESH_KEY, ::fwData::Object::s_MODIFIED_SIG, s_INIT_PIPELINE_SLOT );
-        connections.push( s_MESH_KEY, ::fwData::Mesh::s_VERTEX_MODIFIED_SIG, s_UPDATE_PIPELINE_SLOT );
+        connections.push(s_MESH_INPUT, ::fwData::Object::s_MODIFIED_SIG, s_UPDATE_SLOT);
+
         return connections;
     }
 
-    //-----------------------------------------------------------------------------
+    // {...}
 
-    // ......
+    void SMesh::updateCamPosition(::fwData::TransformationMatrix3D::sptr _transform)
+    {
+        m_cameraTransform->shallowCopy(_transform);
+        m_cameraSrv->update().wait();
+    }
 
+    //------------------------------------------------------------------------------
 
+    void SMesh::updateCamTransform()
+    {
+        {
+            ::fwCom::Connection::Blocker block(m_sigCamUpdated->getConnection(this->slot(s_UPDATE_CAM_TRANSFORM_SLOT)));
+            m_sigCamUpdated->asyncEmit(m_cameraTransform);
+        }
+    }
+
+===
 Run
-=========
+===
 
 To run the application, you must call the following line into the install or build directory:
 
-.. code::
+.. tabs::
 
-    bin/tuto04signalslot
+   .. group-tab:: Linux
+
+        .. code::
+
+            bin/tuto04signalslot
+
+   .. group-tab:: Windows
+
+        .. code::
+
+            bin/tuto04signalslot.bat
