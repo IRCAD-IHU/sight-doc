@@ -5,7 +5,7 @@ Introduction
 .. toctree::
     :maxdepth: 2
 
-    src/sight-applications.rst
-    src/sight-features.rst
-    src/sight-samples.rst
+    src/applications.rst
+    src/features.rst
+    src/samples.rst
 

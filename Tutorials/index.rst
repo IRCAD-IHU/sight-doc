@@ -7,12 +7,11 @@ Tutorials
 
    src/Tuto01Basic
    src/Tuto02DataServiceBasic
-   src/Tuto02DataServiceBasicCtrl
    src/Tuto03DataService
    src/Tuto04SignalSlot
    src/Tuto05Mesher
    src/Tuto06Filter
-   src/Tuto08GenericScene
-   src/Tuto10MatrixTransformInGS
-   src/TutoSimpleAR
+   src/Tuto07GenericScene
+   src/Tuto09MatrixTransformInGS
+   src/Tuto17SimpleAR
    src/TutoQml

@@ -1,4 +1,4 @@
-.. _tuto01:
+.. _TutorialsTuto01basic:
 
 ***************************************
 [*Tuto01Basic*] Create an application
@@ -7,20 +7,13 @@
 The first tutorial represents a basic application that launches a simple empty frame. It introduces the concept of XML
 application configuration and CMake generation.
 
-
 .. figure:: ../media/tuto01Basic.png
-    :scale: 50
+    :scale: 25
     :align: center
 
-
-Prerequisites
---------------
-
-You should have properly installed your sight environment (see :ref:`Installation`).
-
-
+=========
 Structure
-----------
+=========
 
 Sight is organized around four elements: the ``application``, the ``module``, the ``library`` and the ``utility``.
 
@@ -37,44 +30,50 @@ A sight application is organized around three main files :
  * Properties.cmake
  * plugin.xml
 
+--------------
 CMakeLists.txt
-~~~~~~~~~~~~~~~
+--------------
 
 The CMakeLists.txt is parsed by CMake_. For an application, it should contain the following lines :
 
 .. code-block:: cmake
 
     fwLoadProperties()
-    generic_install()
 
 - ``fwLoadProperties()`` allows to load Properties.cmake file and thus to build the application
-- ``generic_install()`` allows to generate an installer for the application
 
 .. _CMake: https://cmake.org
 
+----------------
 Properties.cmake
-~~~~~~~~~~~~~~~~~
+----------------
 
-This file describes the project information and requirements (see :ref:`Properties.cmake`) :
+This file describes the project information and requirements (see :ref:`HowTosCMakeProperties.cmake`) :
 
 .. code-block:: cmake
 
-    set( NAME Tuto01Basic )
-    set( VERSION 0.1 )
-    set( TYPE APP )
-    set( DEPENDENCIES  )
-    set( REQUIREMENTS
-        dataReg # to load the data registry
-        servicesReg # to load the service registry
-        gui # to load gui
-        guiQt # to load qt implementation of gui
-        fwlauncher # executable to run the application
-        appXml # to parse the application configuration
+    set( NAME Tuto01Basic )     # Name of the application
+    set( VERSION 0.2 )          # Version of the application
+    set( TYPE APP )             # Type APP represent "Application"
+    set( DEPENDENCIES  )        # For an application we have no dependencies (libraries to link)
+    set( REQUIREMENTS           # The modules used by this application
+        fwlauncher              # Needed to build the launcher
+        appXml                  # XML configurations
+        guiQt                   # Start the module, load qt implementation of gui
+
+        servicesReg             # fwService
+
+        # UI declaration/Actions
+        gui
     )
 
-    # Set application configuration to 'tutoBasicConfig'
-    moduleParam(appXml PARAM_LIST config PARAM_VALUES tutoBasicConfig)
-
+    moduleParam(
+            appXml
+        PARAM_LIST
+            config
+        PARAM_VALUES
+            Tuto01Basic_AppCfg
+    ) # Main application's configuration to launch
 
 This file contains the minimal requirements to launch an application with a Qt user interface.
 
@@ -86,8 +85,9 @@ This file contains the minimal requirements to launch an application with a Qt u
 The ``moduleParam`` line defines the parameters to set for a module, here it defines the configuration to launch by the
 appXML module, i.e. the application configuration.
 
+----------
 plugin.xml
-~~~~~~~~~~~
+----------
 
 This file is located in the ``rc/`` directory of the application. It contains the application configuration.
 
@@ -95,34 +95,38 @@ This file is located in the ``rc/`` directory of the application. It contains th
 
     <!-- Application name and version (the version is automatically replaced by CMake
          using the version defined in the Properties.cmake) -->
-    <plugin id="Tuto01Basic" version="@PROJECT_VERSION@">
+    <plugin id="Tuto01Basic" version="@PROJECT_VERSION@" >
 
         <!-- The modules in requirements are automatically started when this
              Application is launched. -->
-        <requirement id="dataReg" />
         <requirement id="servicesReg" />
+        <requirement id="guiQt" />
 
         <!-- Defines the App-config -->
-        <extension implements="::fwServices::registry::AppConfig">
-            <id>tutoBasicConfig</id><!-- identifier of the configuration -->
+        <extension implements="::fwServices::registry::AppConfig" >
+            <id>Tuto01Basic_AppCfg</id><!-- identifier of the configuration -->
             <config>
 
-                <!-- Frame service -->
-                <service uid="myFrame" type="::gui::frame::SDefaultFrame">
+                <!-- ******************************* UI declaration *********************************** -->
+
+                <service uid="myFrame" type="::gui::frame::SDefaultFrame" >
                     <gui>
                         <frame>
-                            <name>tutoBasicApplicationName</name>
-                            <icon>Tuto01Basic-0.1/tuto.ico</icon>
+                            <name>Tuto01Basic</name>
+                            <icon>Tuto01Basic-@PROJECT_VERSION@/tuto.ico</icon>
                             <minSize width="800" height="600" />
                         </frame>
                     </gui>
                 </service>
 
-                <start uid="myFrame" /><!-- start the frame service -->
+                <!-- ******************************* Start services ***************************************** -->
+
+                <start uid="myFrame" />
 
             </config>
         </extension>
     </plugin>
+
 
 ``<requirement>`` lists the modules that should be loaded before launching the application:
 the module to register data or i/o services (see Requirements_).
@@ -138,11 +142,22 @@ The ``::fwServices::registry::AppConfig`` extension defines the configuration of
 
 .. _Requirements: https://sight.pages.ircad.fr/sight/group__requirement.html
 
+===
 Run
-----
+===
 
 To run the application, you must call the following line into the install or build directory:
 
-.. code::
+.. tabs::
 
-    bin/tuto01basic
+   .. group-tab:: Linux
+
+        .. code::
+
+            bin/tuto01basic
+
+   .. group-tab:: Windows
+
+        .. code::
+
+            bin/tuto01basic.bat

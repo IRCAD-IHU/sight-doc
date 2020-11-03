@@ -1,4 +1,4 @@
-.. _tuto06:
+.. _TutorialsTuto06Filter:
 
 ********************************************
 [*Tuto06Filter*] Apply a filter on an image
@@ -9,75 +9,97 @@ The tutorial also implements a flip filter, that won't be described in this tuto
 The code for this second filter is available in the repository.
 
 .. figure:: ../media/tuto06Filter.png
-    :scale: 80
+    :scale: 25
     :align: center
 
-
+=============
 Prerequisites
-===============
+=============
 
 Before reading this tutorial, you should have seen:
 
- * :ref:`tuto05`
- * :ref:`BufferObjects`
+ * :ref:`TutorialsTuto05Mesher`
+ * :ref:`SADBufferObjects`
 
-
+=========
 Structure
-=============
+=========
 
-
+----------------
 Properties.cmake
-------------------
+----------------
 
 This file describes the project information and requirements:
 
 .. code-block:: cmake
 
     set( NAME Tuto06Filter )
-    set( VERSION 0.1 )
+    set( VERSION 0.2 )
     set( TYPE APP )
     set( DEPENDENCIES  )
     set( REQUIREMENTS
-        dataReg
-        servicesReg
+        fwlauncher              # Needed to build the launcher
+        appXml                  # XML configurations
+
+        guiQt                   # Start the module, load qt implementation of gui
+
+        # Objects declaration
+        fwData
+        servicesReg             # fwService
+
+        # UI declaration/Actions
         gui
-        guiQt
+        style
+
+        # Reader
         ioVTK
+
+        # Services
         uiIO
-        visuVTKQt
-        vtkSimpleNegato
-        opImageFilter # module containing the action to performs a threshold
-        fwlauncher
-        appXml
+        visuBasic
+        opImageFilter           # Module containing the action to performs a threshold
     )
 
-    moduleParam(appXml PARAM_LIST config PARAM_VALUES FilterConfig)
+    moduleParam(guiQt
+        PARAM_LIST
+            resource
+            stylesheet
+        PARAM_VALUES
+            style-0.1/flatdark.rcc
+            style-0.1/flatdark.qss
+    ) # Allow dark theme via guiQt
 
+    moduleParam(
+            appXml
+        PARAM_LIST
+            config
+        PARAM_VALUES
+            Tuto06Filter_AppCfg
+    ) # Main application's configuration to launch
 
 .. note::
 
     The Properties.cmake file of the application is used by CMake to compile the application but also to generate the
     ``profile.xml``: the file used to launch the application.
 
-
+----------
 plugin.xml
-------------
+----------
 
 This file is in the ``rc/`` directory of the application. It defines the services to run.
 
 .. code-block:: xml
 
-    <plugin id="Tuto06Filter" version="@PROJECT_VERSION@">
+    <plugin id="Tuto06Filter" version="@PROJECT_VERSION@" >
 
-        <requirement id="dataReg" />
         <requirement id="servicesReg" />
-        <requirement id="visuVTKQt" />
+        <requirement id="guiQt" />
 
-        <extension implements="::fwServices::registry::AppConfig">
-            <id>FilterConfig</id>
+        <extension implements="::fwServices::registry::AppConfig" >
+            <id>Tuto06Filter_AppCfg</id>
             <config>
 
-                <!-- ************************************ data ************************************ -->
+                <!-- ******************************* Objects declaration ****************************** -->
 
                 <!-- This is the source image for the filtering. -->
                 <object uid="myImage1" type="::fwData::Image" />
@@ -85,25 +107,25 @@ This file is in the ``rc/`` directory of the application. It defines the service
                      beginning, but will be created by a service. -->
                 <object uid="myImage2" type="::fwData::Image" src="deferred" />
 
-                <!-- ************************************* GUI ************************************ -->
+                <!-- ******************************* UI declaration *********************************** -->
 
                 <!-- Windows & Main Menu -->
-                <service uid="myFrame" type="::gui::frame::SDefaultFrame">
+                <service uid="mainFrame" type="::gui::frame::SDefaultFrame" >
                     <gui>
                         <frame>
-                            <name>Filter</name>
-                            <icon>Tuto06Filter-0.1/tuto.ico</icon>
-                            <minSize width="720" height="600" />
+                            <name>Tuto06Filter</name>
+                            <icon>Tuto06Filter-@PROJECT_VERSION@/tuto.ico</icon>
+                            <minSize width="1280" height="720" />
                         </frame>
                         <menuBar />
                     </gui>
                     <registry>
-                        <menuBar sid="myMenuBar" start="yes" />
-                        <view sid="myDefaultView" start="yes" />
+                        <menuBar sid="menuBarView" start="yes" />
+                        <view sid="containerView" start="yes" />
                     </registry>
                 </service>
 
-                <service uid="myMenuBar" type="::gui::aspect::SDefaultMenuBar">
+                <service uid="menuBarView" type="::gui::aspect::SDefaultMenuBar" >
                     <gui>
                         <layout>
                             <menu name="File" />
@@ -111,89 +133,87 @@ This file is in the ``rc/`` directory of the application. It defines the service
                         </layout>
                     </gui>
                     <registry>
-                        <menu sid="menuFile" start="yes" />
-                        <menu sid="menuFilter" start="yes" />
+                        <menu sid="menuFileView" start="yes" />
+                        <menu sid="menuFilterView" start="yes" />
                     </registry>
                 </service>
 
-                <service uid="myDefaultView" type="::gui::view::SDefaultView">
+                <!-- Menus -->
+                <service uid="menuFileView" type="::gui::aspect::SDefaultMenu" >
                     <gui>
-                        <layout type="::fwGui::LineLayoutManager">
+                        <layout>
+                            <menuItem name="Open image" shortcut="Ctrl+O" />
+                            <separator />
+                            <menuItem name="Quit" specialAction="QUIT" shortcut="Ctrl+Q" />
+                        </layout>
+                    </gui>
+                    <registry>
+                        <menuItem sid="openImageAct" start="yes" />
+                        <menuItem sid="quitAct" start="yes" />
+                    </registry>
+                </service>
+
+                <service uid="menuFilterView" type="::gui::aspect::SDefaultMenu" >
+                    <gui>
+                        <layout>
+                            <menuItem name="Compute image filter" />
+                            <menuItem name="Toggle vertical image flipping" />
+                        </layout>
+                    </gui>
+                    <registry>
+                        <menuItem sid="imageFilterAct" start="yes" />
+                        <menuItem sid="imageFlipperAct" start="yes" />
+                    </registry>
+                </service>
+
+                <service uid="containerView" type="::gui::view::SDefaultView" >
+                    <gui>
+                        <layout type="::fwGui::LineLayoutManager" >
                             <orientation value="horizontal" />
                             <view proportion="1" />
                             <view proportion="1" />
                         </layout>
                     </gui>
                     <registry>
-                        <view sid="renderingImage1" start="yes" />
+                        <view sid="image1Srv" start="yes" />
                         <!-- As the output image is deferred, the service cannot be started at the beginning. -->
-                        <view sid="renderingImage2" start="no" />
+                        <view sid="image2Srv" start="no" />
                     </registry>
                 </service>
 
-                <!-- Menus -->
-                <service uid="menuFile" type="::gui::aspect::SDefaultMenu">
-                    <gui>
-                        <layout>
-                            <menuItem name="Open image file" shortcut="Ctrl+O" />
-                            <separator />
-                            <menuItem name="Quit" specialAction="QUIT" shortcut="Ctrl+Q" />
-                        </layout>
-                    </gui>
-                    <registry>
-                        <menuItem sid="actionOpenImageFile" start="yes" />
-                        <menuItem sid="actionQuit" start="yes" />
-                    </registry>
-                </service>
-
-                <service uid="menuFilter" type="::gui::aspect::SDefaultMenu">
-                    <gui>
-                        <layout>
-                            <menuItem name="Compute Image Filter" />
-                            <menuItem name="Toggle vertical image flipping" />
-                        </layout>
-                    </gui>
-                    <registry>
-                        <menuItem sid="actionImageFilter" start="yes" />
-                        <menuItem sid="actionImageFlipper" start="yes" />
-                    </registry>
-                </service>
-
-                <!-- ******************************** actions ************************************* -->
+                <!-- ******************************* Actions ****************************************** -->
 
                 <!-- Action to quit the application -->
-                <service uid="actionQuit" type="::gui::action::SQuit" />
+                <service uid="quitAct" type="::gui::action::SQuit" />
 
                 <!-- Action to open image file: call update on image reader service -->
-                <service uid="actionOpenImageFile" type="::gui::action::SSlotCaller" >
+                <service uid="openImageAct" type="::gui::action::SSlotCaller" >
                     <slots>
-                        <slot>imageReader/update</slot>
+                        <slot>imageReaderSrv/update</slot>
                     </slots>
                 </service>
 
-                <!-- Action to apply threshold filter: call update on threshold filter service -->
-                <service uid="actionImageFilter" type="::gui::action::SSlotCaller" >
+                <!-- Action apply threshold filter: call update on threshold filter service -->
+                <service uid="imageFilterAct" type="::gui::action::SSlotCaller" >
                     <slots>
-                        <slot>imageFilter/update</slot>
+                        <slot>imageFilterSrv/update</slot>
                     </slots>
                 </service>
 
-                <!-- Action to apply flip filter: call 'flipAxisY' slot on flip service -->
-                <service uid="actionImageFlipper" type="::gui::action::SSlotCaller">
+                <!-- Action apply flip filter: call 'flipAxisY' slot on flip service -->
+                <service uid="imageFlipperAct" type="::gui::action::SSlotCaller" >
                     <slots>
-                        <slot>imageFlipper/flipAxisY</slot>
+                        <slot>imageFlipperSrv/flipAxisY</slot>
                     </slots>
                 </service>
 
-                <!-- ************************************ reader ********************************** -->
+                <!-- ******************************* Services ***************************************** -->
 
                 <!-- Reader of the input image -->
-                <service uid="imageReader" type="::uiIO::editor::SIOSelector">
+                <service uid="imageReaderSrv" type="::uiIO::editor::SIOSelector" >
                     <inout key="data" uid="myImage1" />
                     <type mode="reader" />
                 </service>
-
-                <!-- ************************************ operators ******************************* -->
 
                 <!--
                     Threshold filter:
@@ -201,7 +221,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     output image is 'myImage2'.
                     The two images are declared above.
                  -->
-                <service uid="imageFilter" type="::opImageFilter::SThreshold">
+                <service uid="imageFilterSrv" type="::opImageFilter::SThreshold" >
                     <in key="source" uid="myImage1" />
                     <out key="target" uid="myImage2" />
                     <config>
@@ -215,44 +235,42 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     output image is 'myImage2'.
                     The two images are declared above.
                  -->
-                <service uid="imageFlipper" type="::opImageFilter::SFlip">
+                <service uid="imageFlipperSrv" type="::opImageFilter::SFlip" >
                     <in key="source" uid="myImage1" />
                     <out key="target" uid="myImage2" />
                 </service>
-
-
-                <!-- ************************************ renderers ******************************* -->
 
                 <!--
                     Renderer of the 1st Image:
                     This is the source image for the filtering.
                 -->
-                <service uid="renderingImage1" type="::vtkSimpleNegato::SRenderer" autoConnect="yes" >
-                    <in key="image" uid="myImage1" />
+                <service uid="image1Srv" type="::visuBasic::SImage" >
+                    <in key="image" uid="myImage1" autoConnect="yes" />
                 </service>
 
                 <!--
                     Rendered for the 2nd Image:
                     This is the output image for the filtering.
                 -->
-                <service uid="renderingImage2" type="::vtkSimpleNegato::SRenderer" autoConnect="yes" >
-                    <in key="image" uid="myImage2" />
+                <service uid="image2Srv" type="::visuBasic::SImage" >
+                    <in key="image" uid="myImage2" autoConnect="yes" />
                 </service>
 
-                <!-- ************************************* starts ********************************* -->
+                <!-- ******************************* Start services ***************************************** -->
 
-                <start uid="myFrame" />
-                <start uid="imageReader" />
-                <start uid="imageFilter" />
-                <start uid="imageFlipper" />
+                <start uid="mainFrame" />
+                <start uid="imageReaderSrv" />
+                <start uid="imageFilterSrv" />
+                <start uid="imageFlipperSrv" />
+
                 <!-- start the service using a deferred image -->
-                <start uid="renderingImage2" />
+                <start uid="image2Srv" />
 
             </config>
         </extension>
     </plugin>
 
-
+---------------
 Filter service
 ---------------
 
@@ -390,12 +408,22 @@ method ``operator(parameters)``.
     enable the filter to work 1, 2 and 3 dimension images. Furthermore, the main code is implemented in the
     imageFilterOp library, which is then called from the SFlip service.
 
-
+===
 Run
-=========
+===
 
 To run the application, launch the following command in the install or build directory:
 
-.. code::
+.. tabs::
 
-    bin/tuto06filter
+   .. group-tab:: Linux
+
+        .. code::
+
+            bin/tuto06filter
+
+   .. group-tab:: Windows
+
+        .. code::
+
+            bin/tuto06filter.bat
