@@ -51,7 +51,7 @@ them:
 
 - ``SLM_WARN(const std::stringstream&)``: when something potentially harmful happens.
 - ``SLM_ERROR(const std::stringstream&)``: when something unexpected occurs.
-- ``SLM_FATAL(const std::stringstream&)``: when an uncoverable errors occurs. This exits the program or triggers a
+- ``SLM_FATAL(const std::stringstream&)``: when an unrecoverable errors occurs. This exits the program or triggers a
   breakpoint if a debugger is running.
 
 In addition with these three macros, *Sight* provides alternatives allowing to specify a condition to be tested:
@@ -60,7 +60,7 @@ In addition with these three macros, *Sight* provides alternatives allowing to s
 - ``SLM_ERROR_IF(const std::stringstream&, CONDITION)``
 - ``SLM_FATAL_IF(const std::stringstream&, CONDITION)``
 
-Keep in mind reporting errors this way is for developpers. To handle a real error and inform the user, please use real
+Keep in mind reporting errors this way is for developers. To handle a real error and inform the user, please use real
 user errors, usually using GUI features as shown in the section below.
 
 Trace code
@@ -103,7 +103,7 @@ line, using options of ``fwlauncher``:
     --log-fatal                 Set loglevel to fatal
 
 Last, when looking for a specific output, it is strongly recommended to use a log explorer such as
-`glogg <https://glogg.bonnefon.org/>`_. Altenatively, remember you can quickly filter the standard output in this way:
+`glogg <https://glogg.bonnefon.org/>`_. Alternatively, remember you can quickly filter the standard output in this way:
 
 .. code-block:: sh
 
@@ -162,7 +162,7 @@ where the last parameter can be one of:
     } Icons;
 
 Last, for less intrusive notifications and a more modern approach to give user feedback, we also provide support for
-notifications.This mechanism can be used in two ways. The first way is to use a library function, directly from your
+notifications. This mechanism can be used in two ways. The first way is to use a library function, directly from your
 C++ code:
 
 .. code-block:: cpp
@@ -170,7 +170,7 @@ C++ code:
     void NotificationDialog::showNotificationDialog( const std::string&,
                                                      INotificationDialog::Type, INotificationDialog::Position )
 
-    // Exemple
+    // Example
     ::dial::NotificationDialog::showNotificationDialog("Notification Test !", m_type,
                                                         ::dial::NotificationDialog::Position::TOP_LEFT );
 
