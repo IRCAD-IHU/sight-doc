@@ -64,7 +64,7 @@ A module could contain several configurations, they are in the ``plugin.xml`` fi
 
     <plugin id="dataManagerConfig" version="@PROJECT_VERSION@" >
 
-        <requirement id="dataReg" />
+        <requirement id="preferences" />
         <requirement id="servicesReg" />
 
         <!-- ... extensions ... -->
