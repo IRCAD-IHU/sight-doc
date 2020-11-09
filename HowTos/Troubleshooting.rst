@@ -5,8 +5,6 @@ How to fix my bug?
 My data is not found
 -----------------------
 #. Is the data properly written in your XML configuration? Don't forget the ``::``.
-#. Is the xxDataReg module in your application/activity requirement?
-   Where xxDataReg is the module that register the library containing your data (dataReg, arDataReg, ...).
 
 .. _HowTosTroubleshootingServiceNotFound:
 
@@ -29,7 +27,6 @@ It must be written in ``<build_dir>/share/myModule_0.2/plugin.xml``
 
     <plugin id="myModule" class="::myModule::Plugin" version="0.2" >
         <library name="myModule" />
-        <requirement id="dataReg"/>
         <requirement id="servicesReg"/>
 
         <extension implements="::fwServices::registry::ServiceFactory">
