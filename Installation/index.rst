@@ -1,3 +1,5 @@
+.. _Installation:
+
 Installation
 ============
 
@@ -283,13 +285,12 @@ The following programs may be helpful for your developments:
 
         * `QT Creator <https://download.qt.io/official_releases/qtcreator/>`_:
             QT Creator is a multi-OS Integrated Development Environment (IDE) for computer programming.
-            You can find a setup tutorial here :ref:`qtcreatorsetup`.
 
    .. group-tab:: Windows
 
         * `QT Creator <https://download.qt.io/official_releases/qtcreator/>`_:
             QT Creator is a multi-OS Integrated Development Environment (IDE) for computer programming.
-            You can find a setup tutorial here :ref:`qtcreatorsetup`.
+            You can find a setup tutorial here :ref:`HowTosQtCreatorSetup`.
         * `Notepad++ <http://notepad-plus-plus.org/>`_:
             Notepad++ is a free source code editor, which is designed with syntax highlighting functionality.
         * `ConsoleZ <https://github.com/cbucher/console/wiki/Downloads>`_:

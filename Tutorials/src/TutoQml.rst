@@ -1,22 +1,24 @@
-.. _tutoqml:
+.. _TutorialsTutoqml:
 
-********************************************
+******************************************
 [*TutoQml*] Create an application with Qml
-********************************************
+******************************************
 
 This page explain how to create an application using qml.
 
+=============
 Launch the UI
-===============
+=============
 
-The application is declare in a module of type `APP` (see :ref:`ModuleCreation<moduleCreation>`).
+The application is declare in a module of type `APP` (see :ref:`ModuleCreation<HowTosModuleCreation>`).
 The base of the application is located in the `Plugin` class.
 
 To launch an qml interface, write your qml document in the *rc/* directory of your App. And then launch it from the
 `Plugin::initialize()` method.
 
+-------
 Example
-------------
+-------
 
 In our example, we will create an application named `TutoQml`. We will use the Qt example (https://doc.qt.io/qt-5.11/qmlfirststeps.html).
 Create the file `ui.qml`:
@@ -80,9 +82,9 @@ Then in the ``Plugin.cpp``, implement the `initialize()` method like:
         engine->loadMainComponent(path);
     }
 
-
+==================
 Manage servicesReg
-===================
+==================
 
 To manage your services in your application, you can use a `::fwServices::AppManager`. This class helps to create, start
 and stop the services according to their associated data. It also allows to manage the connections.
@@ -90,8 +92,9 @@ and stop the services according to their associated data. It also allows to mana
 The easiest way is to add a class in your App that inherits from the AppManager and inherits from QObject to be
 instantiated in Qml.
 
+-------
 Example
------------
+-------
 
 Add the class `TutoQml::AppManager`.
 
@@ -326,16 +329,17 @@ We instantiate the AppManager in the qml ui and call the different slots in the 
         }
     }
 
-
+=========
 VTK scene
-============
+=========
 
 Now, we will explain how to display our objects with a VTK scene (::fwRenderVTK::SRender) into a qml interface. We
 render the scene into an off-screen frame buffer and then render it into a Qml widget. We use the
 ``::fwVTKQml::FrameBufferItem`` to render the scene.
 
+-------
 Example
----------------
+-------
 
 Add the `FrameBufferItem` in the qml interface:
 
@@ -475,9 +479,9 @@ Add a FrameBuffer property to set it in qml
         }
     }
 
-
+==================
 Use editors in Qml
-=====================
+==================
 
 To make the connection between qml and our cpp data, we created the `::fwQml::IQmlEditor` service type. This class should
 be inherited (like the `::fwGui::editor::IEditor`) and be associated to a qml file.
@@ -595,9 +599,9 @@ In the AppManager, we implement the slot `onServiceCreated(const QVariant& obj, 
         }
     }
 
-
+-------
 Example
-------------
+-------
 
 In our example, we will use the ``uiReconstructionQml`` module containing two qml files (``organMaterialEditorqml`` and
 ``representationEditor.qml``) in the *rc/* directory and the classes ``SOrganMaterialEditor`` and ``SRepresentationEditor``.

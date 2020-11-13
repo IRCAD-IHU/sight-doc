@@ -28,14 +28,14 @@ rst-lint:
   stage: lint
   script:
     - pip install doc8 Pygments
-    - doc8 --max-line-length 120
+    - doc8 --max-line-length 160
 
 markdown-lint:
   image: node:alpine
   stage: lint
   script:
     - npm install -g markdownlint-cli
-    - echo {\"MD013\":{\"line_length\":120}} > .markdownlint.json
+    - echo {\"MD013\":{\"line_length\":150}} > .markdownlint.json
     - markdownlint --config .markdownlint.json .
 
 build-doc:
